@@ -1,0 +1,339 @@
+/* Font Imports ---------------------------------------- */
+
+@font-face {
+	font-family: "Strong Heart Script";
+	font-weight: 400;
+	font-style: normal;
+	src:
+		url("/assets/fonts/StrongHeartScript.woff2") format("woff2"),
+		url("/assets/fonts/StrongHeartScript.woff") format("woff");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "General Sans";
+	font-weight: 200 700;
+	font-style: normal;
+	src:
+		url("/assets/fonts/GeneralSans-Variable.woff2") format("woff2"),
+		url("/assets/fonts/GeneralSans-Variable.woff") format("woff");
+	font-display: swap;
+}
+
+/* Reset ----------------------------------------------- */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+* {
+	margin: 0;
+}
+
+body {
+	line-height: 1.2;
+	-webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+	display: block;
+	max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+	font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	overflow-wrap: break-word;
+}
+
+p {
+	text-wrap: pretty;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	text-wrap: balance;
+}
+
+button {
+	cursor: pointer;
+}
+
+/* Variables ------------------------------------------- */
+
+:root {
+	/* Fonts */
+	--font-heading: "Strong Heart Script", cursive, serif;
+	--font-body:
+		"General Sans", -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, Adwaita Sans, Cantarell, Ubuntu, roboto, noto,
+		helvetica, arial, sans-serif;
+
+	/* Font sizes */
+	--font-body-s: 12px;
+	--font-body-m: 16px;
+	--font-body-l: 20px;
+
+	--font-heading-s: 20px;
+	--font-heading-m: 24px;
+	--font-heading-l: 36px;
+
+	/* Colors (replace with brand palette) */
+	--color-background-white: #faf3eb;
+	--color-background-green: #babe9f;
+	--color-background-tan: #ebc797;
+
+	--color-white: #fff;
+	--color-black: #000;
+	--color-grey: #383838;
+
+	--color-primary: #414833;
+	--color-primary-light: #64704e;
+	--color-primary-transparent: #41483380;
+
+	--color-secondary: #936639;
+
+	/* Spacing */
+	--padding-inline: 1rem;
+	--padding-block: 2rem;
+
+	--spacing-xs: 0.25rem;
+	--spacing-s: 0.5rem;
+	--spacing-m: 1rem;
+	--spacing-l: 2rem;
+	--spacing-xl: 4rem;
+
+	/* Utils */
+	--border-width: 3px;
+	--border-radius: 20px;
+	--shadow: 0 4px 6px #41418333;
+}
+
+@media screen and (min-width: 768px) {
+	:root {
+		--padding-inline: 2rem;
+	}
+}
+
+@media screen and (min-width: 1280px) {
+	:root {
+		--font-body-s: 16px;
+		--font-body-m: 20px;
+		--font-body-l: 24px;
+
+		--font-heading-s: 24px;
+		--font-heading-m: 36px;
+		--font-heading-l: 64px;
+
+		--padding-inline: 4rem;
+		--padding-block: 4rem;
+	}
+}
+
+@media screen and (min-width: 1440px) {
+	:root {
+		--padding-inline: 6rem;
+	}
+}
+
+@media screen and (min-width: 1600px) {
+	:root {
+		--padding-inline: 8rem;
+	}
+}
+
+/* Global Styles --------------------------------------- */
+
+:root {
+	color-scheme: light;
+}
+
+html {
+	overflow-x: hidden;
+	max-width: 100vw;
+	background-color: var(--color-background-white);
+}
+
+* {
+	scrollbar-color: var(--color-primary) var(--color-background-white);
+}
+
+img,
+button {
+	user-select: none;
+}
+
+*:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
+	font-family: var(--font-body);
+}
+
+*::selection {
+	color: var(--color-white);
+	background-color: var(--color-primary);
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+a:visited {
+	color: inherit;
+}
+
+section,
+footer {
+	padding-inline: var(--padding-inline);
+	padding-block: var(--padding-block);
+}
+
+/* Utilities ------------------------------------------- */
+
+/* Icons (material-icons) */
+span.material-icons {
+	color: var(--color-primary);
+	font-size: 24px;
+}
+
+@media screen and (min-width: 1024px) {
+	span.material-icons {
+		font-size: 32px;
+	}
+}
+
+/* Headings */
+.decorative-heading {
+	font-family: var(--font-heading);
+	font-size: var(--font-heading-l);
+	line-height: 1;
+}
+
+.long-heading {
+	font-family: var(--font-body);
+	font-size: var(--font-heading-m);
+	text-wrap: unset;
+}
+
+.decorative-heading,
+.long-heading {
+	font-weight: 700;
+	color: var(--color-primary);
+}
+
+/* Script font ships a single weight; avoid faux bold */
+.decorative-heading {
+	font-weight: 400;
+}
+
+.icon-heading {
+	display: flex;
+	gap: var(--spacing-s);
+}
+
+.icon-heading p {
+	font-size: var(--font-heading-s);
+	font-weight: 600;
+	color: var(--color-primary);
+}
+
+/* Text */
+.text-light {
+	color: var(--color-grey);
+	font-weight: 300;
+}
+
+.text-semi-bold {
+	color: var(--color-primary);
+	font-weight: 600;
+}
+
+/* Background Colors */
+.bg-green {
+	background-color: var(--color-background-green);
+}
+
+.bg-tan {
+	background-color: var(--color-background-tan);
+}
+
+/* Heros */
+section.hero {
+	position: relative;
+	display: flex;
+	align-items: flex-end;
+	height: 85vh;
+	height: calc(var(--vh) * 85);
+	margin-top: 4.5rem;
+}
+
+div.hero-text {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-s);
+	max-width: 90%;
+}
+
+div.hero-text h1 {
+	color: var(--color-white);
+	font-size: var(--font-body-m);
+	border: 2px solid var(--color-white);
+	padding: 0.25rem 0.75rem 0.4rem 0.75rem;
+	width: fit-content;
+	font-weight: 600;
+	border-radius: var(--border-radius);
+	margin-bottom: var(--spacing-s);
+}
+
+div.hero-text h2 {
+	color: var(--color-white);
+	font-size: var(--font-heading-l);
+	text-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+}
+
+div.hero-text p.subheading {
+	color: var(--color-white);
+	font-size: var(--font-body-l);
+	font-weight: 300;
+	margin-bottom: var(--spacing-s);
+}
+
+@media screen and (min-width: 1024px) {
+	div.hero-text {
+		max-width: 60%;
+	}
+}
+
+/* Above fold animations (pair with SpanifyText + use:isIntersecting) */
+.heading-fade-in span {
+	opacity: 0;
+	filter: blur(2px);
+	transition:
+		opacity 0.5s ease,
+		filter 0.5s ease;
+}
+
+.heading-fade-in.show span {
+	opacity: 1;
+	filter: blur(0);
+}

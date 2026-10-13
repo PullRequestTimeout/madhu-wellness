@@ -1,0 +1,41 @@
+/* Scroll Animations (pair with use:isIntersecting) */
+.scroll-fade-up {
+	opacity: 0;
+	transform: translateY(2rem);
+	transition:
+		opacity 0.5s ease,
+		transform 0.5s ease;
+}
+
+.scroll-fade-up.show {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* Children fade up one after another */
+.group-stagger-fade > * {
+	opacity: 0;
+	transform: translateY(2rem);
+	transition:
+		opacity 0.5s ease,
+		transform 0.5s ease;
+}
+
+.group-stagger-fade.show > * {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* 50ms per child; extend the list if a group has more than 12 children */
+.group-stagger-fade.show > *:nth-child(1) { transition-delay: 0.05s; }
+.group-stagger-fade.show > *:nth-child(2) { transition-delay: 0.1s; }
+.group-stagger-fade.show > *:nth-child(3) { transition-delay: 0.15s; }
+.group-stagger-fade.show > *:nth-child(4) { transition-delay: 0.2s; }
+.group-stagger-fade.show > *:nth-child(5) { transition-delay: 0.25s; }
+.group-stagger-fade.show > *:nth-child(6) { transition-delay: 0.3s; }
+.group-stagger-fade.show > *:nth-child(7) { transition-delay: 0.35s; }
+.group-stagger-fade.show > *:nth-child(8) { transition-delay: 0.4s; }
+.group-stagger-fade.show > *:nth-child(9) { transition-delay: 0.45s; }
+.group-stagger-fade.show > *:nth-child(10) { transition-delay: 0.5s; }
+.group-stagger-fade.show > *:nth-child(11) { transition-delay: 0.55s; }
+.group-stagger-fade.show > *:nth-child(12) { transition-delay: 0.6s; }

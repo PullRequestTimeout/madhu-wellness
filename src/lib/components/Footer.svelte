@@ -48,9 +48,14 @@
 		display: flex;
 		flex-direction: column;
 		gap: var(--spacing-l);
-		padding-block: 96px;
 		color: var(--color-white);
 		font-size: var(--font-body-m);
+	}
+
+	@media screen and (min-width: 768px) {
+		footer {
+			padding-block: 96px;
+		}
 	}
 
 	div.footer-body {

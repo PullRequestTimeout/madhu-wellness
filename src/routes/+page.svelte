@@ -151,21 +151,23 @@
 							growth. A special community with a rich past and a bright future. I’ll never fall out of love with this place.
 						</p>
 					</blockquote>
-					<figcaption>— Joe</figcaption>
+					<figcaption>— <span class="testimonial-author">Joe</span></figcaption>
 				</figure>
 			</div>
 		</div>
 	</section>
 
 	<!-- Placeholder: the design has an empty "VIDEO" frame here. It widens in over a flipped copy of the offerings texture -->
-	<section class="video" use:enterProgress>
+	<section class="video" use:enterProgress={{ end: 0.3 }}>
 		<div class="video-frame"><p>VIDEO</p></div>
 	</section>
 
 	<section class="newsletter">
 		<div class="newsletter-text">
 			<p class="eyebrow" aria-hidden="true">Newsletter</p>
-			<h2>Keep in touch with us.</h2>
+			<h2 class="heading-fade-in" use:isIntersecting>
+				<SpanifyText text="Keep in touch with us." />
+			</h2>
 			<p class="body-large">Stay up to date with upcoming events, new practitioners, and what’s happening in our community.</p>
 		</div>
 		<!-- TODO: connect to a newsletter provider -->
@@ -218,13 +220,13 @@
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
-		gap: var(--spacing-l);
+		gap: var(--spacing-m);
 		width: 100%;
 		max-width: 887px;
 	}
 
 	p.tagline {
-		color: var(--color-cream);
+		color: var(--color-white);
 		font-size: 40px;
 		line-height: 0.95;
 	}
@@ -256,7 +258,10 @@
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
-		gap: var(--spacing-l);
+		/* Tighter when the buttons wrap onto two rows */
+		gap: var(--spacing-m) var(--spacing-l);
+		/* Tops up the content's spacing-m gap to spacing-l, setting the buttons apart from the text */
+		margin-top: calc(var(--spacing-l) - var(--spacing-m));
 	}
 
 	div.hero-badge {
@@ -307,8 +312,7 @@
 		position: relative;
 		display: flex;
 		flex-direction: column;
-		gap: var(--spacing-xl);
-		padding-block: 64px;
+		gap: var(--spacing-l);
 		color: var(--color-text);
 	}
 
@@ -322,11 +326,12 @@
 		pointer-events: none;
 	}
 
-	/* Stretched rather than tiled, so its top edge doesn't repeat as a seam down the (tall, pinned) section
-	   and it runs right down to the video */
+	/* Stretched down rather than tiled, so its top edge doesn't repeat as a seam down the (tall, pinned) section
+	   and it runs right down to the video. Across, it keeps at least its own 1024px width and the box crops the
+	   rest, so narrow screens don't squash the grain */
 	section.offerings::before {
 		background-image: url(/assets/images/texture-offerings.png);
-		background-size: 100% 100%;
+		background-size: max(100%, 1024px) 100%;
 		background-repeat: no-repeat;
 		opacity: 0.5;
 	}
@@ -334,7 +339,7 @@
 	div.offerings-intro {
 		position: relative;
 		display: grid;
-		gap: var(--spacing-l);
+		gap: var(--spacing-m);
 	}
 
 	div.heading-wrap {
@@ -350,7 +355,7 @@
 	div.offering-cards {
 		position: relative;
 		display: grid;
-		gap: var(--spacing-l);
+		gap: var(--spacing-m);
 	}
 
 	a.offering-card {
@@ -461,6 +466,13 @@
 		color: var(--color-brown);
 		font-family: var(--font-heading);
 		font-size: 32px;
+		line-height: 1;
+	}
+
+	/* The name is set twice the size of the dash before it */
+	span.testimonial-author {
+		font-family: var(--font-heading); /* Restated, as the global body-font rule matches every non-heading element */
+		font-size: 2em;
 	}
 
 	/* Video placeholder. Opaque and stacked above the offerings, so the lowered cards slide under it once they unpin */
@@ -510,7 +522,6 @@
 		display: flex;
 		flex-direction: column;
 		gap: var(--spacing-l);
-		padding-block: 64px;
 		background-color: var(--color-background-peach);
 		color: var(--color-text);
 	}
@@ -577,9 +588,26 @@
 		}
 	}
 
-	@media screen and (min-width: 768px) {
+	/* Off the usual breakpoints: two 320px-tall cards fit side by side well before 768px */
+	@media screen and (min-width: 640px) {
 		div.offering-cards {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media screen and (min-width: 768px) {
+		section.offerings {
+			gap: var(--spacing-xl);
+		}
+
+		section.offerings,
+		section.newsletter {
+			padding-block: var(--spacing-xl);
+		}
+
+		/* The desktop card spread's --card-width maths assumes this gap */
+		div.offering-cards {
+			gap: var(--spacing-l);
 		}
 
 		div.offerings-intro {

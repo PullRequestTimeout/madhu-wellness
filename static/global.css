@@ -130,7 +130,7 @@ button {
 
 	/* Spacing */
 	--padding-inline: 1rem;
-	--padding-block: 2rem;
+	--padding-block: var(--spacing-l);
 
 	--spacing-xs: 0.25rem;
 	--spacing-s: 0.5rem;
@@ -453,4 +453,12 @@ div.hero-text p.subheading {
 .heading-fade-in.show span {
 	opacity: 1;
 	filter: blur(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.heading-fade-in span {
+		opacity: 1;
+		filter: none;
+		transition: none;
+	}
 }

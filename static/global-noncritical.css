@@ -39,3 +39,11 @@
 .group-stagger-fade.show > *:nth-child(10) { transition-delay: 0.5s; }
 .group-stagger-fade.show > *:nth-child(11) { transition-delay: 0.55s; }
 .group-stagger-fade.show > *:nth-child(12) { transition-delay: 0.6s; }
+
+@media (prefers-reduced-motion: reduce) {
+	.group-stagger-fade > * {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+}

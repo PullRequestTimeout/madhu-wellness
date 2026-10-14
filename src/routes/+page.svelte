@@ -567,15 +567,6 @@
 		text-decoration: underline;
 	}
 
-	.visually-hidden {
-		position: absolute;
-		width: 1px;
-		height: 1px;
-		overflow: hidden;
-		clip-path: inset(50%);
-		white-space: nowrap;
-	}
-
 	@media (hover: hover) {
 		a.offering-card:hover img.card-image {
 			transform: scale(1.04);

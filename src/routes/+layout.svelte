@@ -2,6 +2,7 @@
 	import "material-icons/iconfont/filled.css";
 	import Nav from "$lib/components/Nav.svelte";
 	import Footer from "$lib/components/Footer.svelte";
+	import ContactPanel from "$lib/components/ContactPanel.svelte";
 	import { onNavigate } from "$app/navigation";
 
 	let { children } = $props();
@@ -25,3 +26,4 @@
 {@render children()}
 <Footer />
 <!-- Global modals / CTAs shared by every page go here -->
+<ContactPanel />

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { navLinks } from "$lib/data/navLinks";
+	import { openContact } from "$lib/utils/globalStates.svelte";
 
 	const year = new Date().getFullYear();
 </script>
@@ -7,7 +8,7 @@
 <footer class="bg-brown">
 	<div class="footer-body">
 		<a href="/" aria-label="Home">
-			<img class="site-logo" src="/assets/svgs/logo-white-footer.svg" alt="Madhu Wellness Collective logo" width="210" height="95" />
+			<img class="site-logo" src="/assets/svgs/logo-white.svg" alt="Madhu Wellness Collective logo" width="120" height="54" />
 		</a>
 
 		<div class="footer-links">
@@ -18,7 +19,8 @@
 				{/each}
 			</div>
 			<div class="footer-link-column">
-				<a href="mailto:hello@madhucollective.ca">Contact</a>
+				<!-- Opens the contact form, like the nav's Contact -->
+				<button class="footer-contact" aria-haspopup="dialog" onclick={openContact}>Contact</button>
 				<a href="https://maps.google.com/?q=Rossland,+BC" target="_blank" rel="noopener noreferrer">Location</a>
 				<a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a>
 				<a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">Facebook</a>
@@ -36,11 +38,12 @@
 		</div>
 	</div>
 
-	<div class="footer-credit">
+	<a class="footer-credit" href="https://pixelmountain.ca/" target="_blank" rel="noopener noreferrer">
 		<span>A</span>
 		<img src="/assets/images/pixelmountain-white.png" alt="PixelMountain" width="300" height="52" />
 		<span>CREATION</span>
-	</div>
+		<span class="visually-hidden">(opens in a new tab)</span>
+	</a>
 </footer>
 
 <style>
@@ -52,41 +55,51 @@
 		font-size: var(--font-body-m);
 	}
 
-	@media screen and (min-width: 768px) {
-		footer {
-			padding-block: 96px;
-		}
-	}
-
 	div.footer-body {
 		display: flex;
 		flex-direction: column;
 		gap: var(--spacing-l);
 	}
 
+	/* Nav-sized until the desktop layout; the one SVG scales to either */
 	img.site-logo {
-		width: 210px;
+		width: 120px;
 		height: auto;
 	}
 
+	/* The columns never shrink below their longest link; on the narrowest phones the second one wraps underneath */
 	div.footer-links {
 		display: flex;
-		gap: var(--spacing-xl);
+		flex-wrap: wrap;
+		gap: var(--spacing-m) var(--spacing-l);
 	}
 
 	div.footer-link-column {
 		display: flex;
 		flex-direction: column;
+		flex-shrink: 0;
 		align-items: flex-start;
 		gap: var(--spacing-m);
 	}
 
+	/* One line each, however long */
 	div.footer-link-column a,
+	div.footer-link-column button.footer-contact,
 	div.footer-policies a {
 		position: relative;
+		white-space: nowrap;
+	}
+
+	/* Contact is a button but looks like the links around it */
+	button.footer-contact {
+		padding: 0;
+		border: 0;
+		background: none;
+		color: inherit;
 	}
 
 	div.footer-link-column a::after,
+	div.footer-link-column button.footer-contact::after,
 	div.footer-policies a::after {
 		content: "";
 		position: absolute;
@@ -98,8 +111,9 @@
 		transition: width 0.3s ease;
 	}
 
+	/* At least the design's column width, but free to grow so long links don't wrap */
 	div.footer-link-column:first-child {
-		width: 162px;
+		min-width: 162px;
 	}
 
 	footer hr {
@@ -119,23 +133,32 @@
 		gap: var(--spacing-l);
 	}
 
-	div.footer-credit {
+	/* Centred and only as wide as its content, so the link's target is the credit itself */
+	a.footer-credit {
 		display: flex;
+		align-self: center;
 		align-items: center;
-		justify-content: center;
+		max-width: 100%;
 		gap: var(--spacing-m);
 		font-style: italic;
 	}
 
-	div.footer-credit img {
+	/* min-width: 0 lets it shrink below 200px, so the credit fits on the narrowest phones */
+	a.footer-credit img {
 		width: 200px;
+		min-width: 0;
 		height: auto;
 	}
 
 	@media (hover: hover) {
 		div.footer-link-column a:hover::after,
+		div.footer-link-column button.footer-contact:hover::after,
 		div.footer-policies a:hover::after {
 			width: 100%;
+		}
+
+		a.footer-credit:hover {
+			opacity: 0.8;
 		}
 	}
 
@@ -147,8 +170,18 @@
 			justify-content: space-between;
 		}
 
-		div.footer-credit img {
+		div.footer-links {
+			column-gap: var(--spacing-xl);
+		}
+
+		a.footer-credit img {
 			width: 300px;
+		}
+	}
+
+	@media screen and (min-width: 1024px) {
+		img.site-logo {
+			width: 210px;
 		}
 	}
 </style>

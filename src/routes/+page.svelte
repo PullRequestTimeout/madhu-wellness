@@ -32,6 +32,9 @@
 	const badgeWords = ["Connect", "Move", "Breathe"];
 	let activeWord = $state(0);
 
+	// Below 1024px the card rows spread just far enough to clear the quote, whose height depends on the screen width
+	let quoteHeight = $state(0);
+
 	$effect(() => {
 		const circumference = 2 * Math.PI * 66;
 		const wide = window.matchMedia("(min-width: 1024px)");
@@ -130,8 +133,8 @@
 				We are a diverse community of practitioners, teachers and facilitators offering space to move, heal, learn and connect.
 			</p>
 		</div>
-		<!-- From 1024px the stage pins mid-screen while the track scrolls past, and the cards spread apart to uncover the quote stacked beneath them -->
-		<div class="offerings-track" use:scrollProgress>
+		<!-- The stage pins mid-screen while the track scrolls past, and the cards (a row from 1024px, a 2×2 grid below) spread apart to uncover the quote stacked beneath them -->
+		<div class="offerings-track" use:scrollProgress style:--quote-height="{quoteHeight}px">
 			<div class="offerings-stage">
 				<div class="offering-cards group-stagger-fade" use:isIntersecting>
 					{#each offerings as offering}
@@ -144,7 +147,7 @@
 						</a>
 					{/each}
 				</div>
-				<figure class="testimonial">
+				<figure class="testimonial" bind:clientHeight={quoteHeight}>
 					<blockquote>
 						<p>
 							An amazing space with such welcoming people. There are a variety of offerings from healing modalities and yoga to workshops for inner
@@ -408,7 +411,7 @@
 		transition: transform 0.25s ease-out;
 	}
 
-	/* Testimonial. Below 1024px (or with reduced motion) it simply follows the cards */
+	/* Testimonial. With reduced motion it simply follows the cards */
 	div.offerings-stage {
 		position: relative;
 		display: grid;
@@ -670,12 +673,12 @@
 		}
 	}
 
-	/* Cards spread to reveal the testimonial. The row of cards pins mid-screen for 60% of a viewport's scrolling,
-	   and --progress (0-1, from scrollProgress) drives two overlapping phases: the cards slide up and down out of
-	   the quote's way over the first 75%, and the quote fades up from 35% to 75%, landing with the cards. Scrolling back up rewinds it. */
-	@media screen and (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+	/* Cards spread to reveal the testimonial. The cards pin mid-screen for 60% of a viewport's scrolling,
+	   and --progress (0-1, from scrollProgress) drives two overlapping phases: the cards slide out of the
+	   quote's way over the first 75%, and the quote fades up from 35% to 75%, landing with the cards. Scrolling back up rewinds it.
+	   Shared here; the card layout and where each card goes are set per screen size below. */
+	@media screen and (prefers-reduced-motion: no-preference) {
 		div.offerings-track {
-			--card-height: 320px;
 			--spread: clamp(0, var(--progress, 0) / 0.75, 1);
 			/* Ease-in-out cubic, so the cards ease out of the row and ease into place. calc() can't branch, so the
 			   spread is split at its midpoint: --ease-in runs 0-0.5 (then holds), --ease-out runs 0-1 over the second half,
@@ -686,15 +689,12 @@
 				4 * var(--ease-in) * var(--ease-in) * var(--ease-in) + (1 - (1 - var(--ease-out)) * (1 - var(--ease-out)) * (1 - var(--ease-out))) / 2
 			);
 			--reveal: clamp(0, (var(--progress, 0) - 0.35) / 0.4, 1);
-			height: calc(var(--card-height) + var(--vh, 1vh) * 60);
+			height: calc(var(--cards-height) + var(--vh, 1vh) * 60);
 		}
 
-		/* A size container, so the quote can size itself from the cards' width in cqw */
 		div.offerings-stage {
-			--card-width: calc((100cqw - 3 * var(--spacing-l)) / 4);
 			position: sticky;
-			top: calc(var(--vh, 1vh) * 50 - var(--card-height) / 2);
-			container-type: inline-size;
+			top: calc(var(--vh, 1vh) * 50 - var(--cards-height) / 2);
 		}
 
 		/* The cards sit on top of the quote */
@@ -707,22 +707,111 @@
 			z-index: 1;
 		}
 
-		/* No wider than the middle two columns, so the outer cards never cover it */
 		figure.testimonial {
 			align-self: center;
-			max-width: min(600px, 2 * var(--card-width) + var(--spacing-l));
 			opacity: var(--reveal);
 			transform: translateY(calc((1 - var(--reveal)) * 2rem)) scale(calc(0.96 + var(--reveal) * 0.04));
 		}
 
-		/* translate rather than transform, so it doesn't fight the group-stagger-fade entrance. Each card keeps its
-		   column and moves by its own --y (in viewport heights, since it's pinned mid-screen): the inner pair go
-		   furthest, past the quote and partly off-screen, and the outer pair a little either side of it */
+		/* translate rather than transform, so it doesn't fight the group-stagger-fade entrance */
 		a.offering-card {
-			translate: 0 calc(var(--y) * var(--ease));
-			will-change: translate;
+			translate: calc(var(--x, 0px) * var(--ease)) calc(var(--y) * var(--ease));
+			will-change: translate, scale;
+		}
+	}
+
+	/* Below 1024px: a pinned 2×2 grid whose rows part vertically just far enough to clear the quote, while each card
+	   shrinks to --end-scale and drifts towards its own side. Scaling is about the card's centre, so each edge pulls in
+	   by half of what the card loses: the drift adds that back (plus any side padding beyond 1rem) so the outer edges
+	   finish 1rem from the screen, and the rows travel that much less to leave the same 1rem gap around the quote */
+	@media screen and (max-width: 1023.98px) and (prefers-reduced-motion: no-preference) {
+		section.offerings {
+			overflow-x: clip; /* Clips anything past the edges without breaking the sticky stage, as hidden would */
 		}
 
+		div.offerings-track {
+			--card-height: clamp(180px, var(--vh, 1vh) * 26, 260px);
+			--cards-height: calc(2 * var(--card-height) + var(--spacing-m));
+			--end-scale: 0.85;
+			--shrink: calc(var(--card-height) * (1 - var(--end-scale)) / 2);
+			--row-shift: calc(var(--quote-height, 0px) / 2 + var(--spacing-m) / 2 - var(--shrink));
+			/* Room for the lowered bottom row, so the video below doesn't cover it while it's still pinned */
+			margin-bottom: calc(var(--row-shift) - var(--shrink) + var(--spacing-m)); /* + the bottom-left card's extra drop */
+		}
+
+		/* Centred in the space below the fixed header rather than the whole screen, so the raised top row stays clear of it */
+		div.offerings-stage {
+			top: calc(var(--header-height) + (var(--vh, 1vh) * 100 - var(--header-height) - var(--cards-height)) / 2);
+		}
+
+		a.offering-card {
+			scale: calc(1 - (1 - var(--end-scale)) * var(--ease));
+		}
+
+		div.offering-cards {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: var(--spacing-m);
+		}
+
+		a.offering-card {
+			min-height: var(--card-height);
+		}
+
+		/* Half-width cards: the desktop 20px labels crowd the arrow */
+		span.card-label {
+			font-size: var(--font-body-m);
+		}
+
+		/* translate's % is of the card's own (unscaled) width, so (1 - scale) × 50% is what each side pulls in */
+		a.offering-card {
+			--drift: calc(var(--padding-inline) - var(--spacing-m) + (1 - var(--end-scale)) * 50%);
+		}
+
+		a.offering-card:nth-child(odd) {
+			--x: calc(var(--drift) * -1);
+		}
+
+		a.offering-card:nth-child(even) {
+			--x: var(--drift);
+		}
+
+		a.offering-card:nth-child(-n + 2) {
+			--y: calc(var(--row-shift) * -1);
+		}
+
+		a.offering-card:nth-child(n + 3) {
+			--y: var(--row-shift);
+		}
+
+		/* Staggered like the desktop spread: the top-right card rises 1rem further and the bottom-left drops 1rem further */
+		a.offering-card:nth-child(2) {
+			--y: calc(var(--row-shift) * -1 - var(--spacing-m));
+		}
+
+		a.offering-card:nth-child(3) {
+			--y: calc(var(--row-shift) + var(--spacing-m));
+		}
+	}
+
+	@media screen and (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+		div.offerings-track {
+			--card-height: 320px;
+			--cards-height: var(--card-height);
+		}
+
+		/* A size container, so the quote can size itself from the cards' width in cqw */
+		div.offerings-stage {
+			--card-width: calc((100cqw - 3 * var(--spacing-l)) / 4);
+			container-type: inline-size;
+		}
+
+		/* No wider than the middle two columns, so the outer cards never cover it */
+		figure.testimonial {
+			max-width: min(600px, 2 * var(--card-width) + var(--spacing-l));
+		}
+
+		/* Each card keeps its column and moves by its own --y (in viewport heights, since it's pinned mid-screen):
+		   the inner pair go furthest, past the quote and partly off-screen, and the outer pair a little either side of it */
 		a.offering-card:nth-child(1) {
 			--y: calc(var(--vh, 1vh) * -27);
 		}

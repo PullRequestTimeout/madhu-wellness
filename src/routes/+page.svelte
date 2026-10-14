@@ -542,12 +542,14 @@
 		max-width: 538px;
 	}
 
+	/* Stacked, it's capped at the text's width so the email field doesn't stretch across the screen */
 	form.newsletter-form {
 		position: relative;
 		display: flex;
 		flex-direction: column;
 		align-items: flex-end;
 		gap: var(--spacing-s);
+		max-width: 538px;
 	}
 
 	form.newsletter-form input {
@@ -573,7 +575,7 @@
 	}
 
 	p.fine-print {
-		font-size: 10px;
+		font-size: 12px;
 		letter-spacing: 0.05em;
 	}
 
@@ -617,6 +619,22 @@
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 			gap: var(--spacing-xl);
 		}
+
+		/* Side by side from here, so the stacked email field never stretches across a wide screen */
+		section.newsletter {
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		div.newsletter-text {
+			flex: 1 1 auto;
+		}
+
+		form.newsletter-form {
+			flex: 0 0 auto;
+			align-items: stretch;
+		}
 	}
 
 	@media screen and (min-width: 1024px) {
@@ -634,16 +652,6 @@
 
 		div.offering-cards {
 			grid-template-columns: repeat(4, minmax(0, 1fr));
-		}
-
-		section.newsletter {
-			flex-direction: row;
-			align-items: center;
-			justify-content: space-between;
-		}
-
-		form.newsletter-form {
-			align-items: stretch;
 		}
 	}
 

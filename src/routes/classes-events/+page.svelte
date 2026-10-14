@@ -9,16 +9,9 @@
 	description="Browse weekly classes, workshops and community events at Madhu Wellness Collective."
 />
 
-<svelte:head>
-	<style>
-		section.hero {
-			background: var(--color-primary) url(/assets/images/hero-classes-events.jpg) center/cover no-repeat;
-		}
-	</style>
-</svelte:head>
-
 <main>
 	<section class="hero">
+		<img class="hero-image" src="/assets/images/hero-classes-events.jpg" alt="" />
 		<div class="hero-text">
 			<h1>Classes & Events</h1>
 			<h2 class="decorative-heading">Move, learn, gather</h2>

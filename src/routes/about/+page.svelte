@@ -6,16 +6,9 @@
 
 <SeoHead title="About Us | Madhu Wellness Collective" description="Meet the people and the story behind Madhu Wellness Collective." />
 
-<svelte:head>
-	<style>
-		section.hero {
-			background: var(--color-primary) url(/assets/images/hero-about.jpg) center/cover no-repeat;
-		}
-	</style>
-</svelte:head>
-
 <main>
 	<section class="hero">
+		<img class="hero-image" src="/assets/images/hero-about.jpg" alt="" />
 		<div class="hero-text">
 			<h1>About Us</h1>
 			<h2 class="decorative-heading">Rooted in community</h2>

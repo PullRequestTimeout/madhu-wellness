@@ -110,16 +110,9 @@
 	section.hero {
 		height: calc(var(--vh, 1vh) * 100);
 		min-height: 560px;
-		overflow: hidden;
 	}
 
 	img.hero-image {
-		position: absolute;
-		inset: 0;
-		width: 100%;
-		height: 100%;
-		max-width: none;
-		object-fit: cover;
 		object-position: bottom;
 	}
 

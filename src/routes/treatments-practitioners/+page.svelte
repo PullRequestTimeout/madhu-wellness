@@ -9,16 +9,9 @@
 	description="Explore holistic treatments and meet the practitioners of Madhu Wellness Collective."
 />
 
-<svelte:head>
-	<style>
-		section.hero {
-			background: var(--color-primary) url(/assets/images/hero-treatments.jpg) center/cover no-repeat;
-		}
-	</style>
-</svelte:head>
-
 <main>
 	<section class="hero">
+		<img class="hero-image" src="/assets/images/hero-treatments.jpg" alt="" />
 		<div class="hero-text">
 			<h1>Treatments & Practitioners</h1>
 			<h2 class="decorative-heading">Care, one on one</h2>

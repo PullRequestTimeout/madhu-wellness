@@ -158,7 +158,7 @@
 			background-color 0.3s ease;
 	}
 
-	header :global(a.primary div.circle span.material-icons) {
+	header :global(a.primary div.circle span.arrow) {
 		transition: color 0.3s ease;
 	}
 
@@ -229,7 +229,7 @@
 		header.large-screens nav > button.nav-contact::after,
 		header :global(a.primary:not(:hover)),
 		header :global(a.primary div.circle),
-		header :global(a.primary div.circle span.material-icons) {
+		header :global(a.primary div.circle span.arrow) {
 			transition: none;
 		}
 	}

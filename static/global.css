@@ -247,18 +247,6 @@ footer {
 
 /* Utilities ------------------------------------------- */
 
-/* Icons (material-icons) */
-span.material-icons {
-	color: var(--color-primary);
-	font-size: 24px;
-}
-
-@media screen and (min-width: 1024px) {
-	span.material-icons {
-		font-size: 32px;
-	}
-}
-
 /* Headings */
 .decorative-heading {
 	font-family: var(--font-heading);

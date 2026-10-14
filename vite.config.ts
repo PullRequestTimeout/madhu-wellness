@@ -1,6 +1,7 @@
 import adapter from "@sveltejs/adapter-netlify";
 import { sveltekit } from "@sveltejs/kit/vite";
 import { defineConfig } from "vite";
+import { sveltePhosphorOptimize } from "phosphor-svelte/vite";
 
 export default defineConfig({
 	plugins: [
@@ -10,6 +11,8 @@ export default defineConfig({
 				runes: ({ filename }) => (filename.split(/[/\\]/).includes("node_modules") ? undefined : true)
 			},
 			adapter: adapter({ edge: false, split: false })
-		})
+		}),
+		// Rewrites named phosphor-svelte imports to per-icon ones, so dev doesn't compile every icon
+		sveltePhosphorOptimize()
 	]
 });

@@ -3,6 +3,7 @@
 	import { fade, fly } from "svelte/transition";
 	import { cubicOut } from "svelte/easing";
 	import { afterNavigate } from "$app/navigation";
+	import XIcon from "phosphor-svelte/lib/XIcon";
 	import PrimaryButton from "$lib/components/PrimaryButton.svelte";
 	import { isIntersecting } from "$lib/utils/isIntersecting";
 	import { uiStore, closeContact } from "$lib/utils/globalStates.svelte";
@@ -165,7 +166,7 @@
 		<div class="contact-sheet" transition:fly={flyParams()} onoutroend={onClosed}>
 			<button class="contact-close" aria-label="Close contact form" onclick={closeContact}>
 				<span class="contact-close-blur" aria-hidden="true"></span>
-				<span class="material-icons" aria-hidden="true">close</span>
+				<XIcon aria-hidden="true" />
 			</button>
 
 			<div class="contact-panel">
@@ -377,6 +378,9 @@
 		border: 0;
 		border-radius: 50%;
 		background: none;
+		/* The icon is 1em in currentColor */
+		color: var(--color-primary);
+		font-size: 24px;
 	}
 
 	/* Radial blur behind the icon, so content scrolling underneath softens instead of clashing with it.
@@ -614,6 +618,12 @@
 		div.contact-message,
 		div.contact-actions {
 			grid-column: 1 / -1;
+		}
+	}
+
+	@media screen and (min-width: 1024px) {
+		button.contact-close {
+			font-size: 32px;
 		}
 	}
 

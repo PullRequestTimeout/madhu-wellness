@@ -1,4 +1,6 @@
 <script lang="ts">
+	import ArrowRightIcon from "phosphor-svelte/lib/ArrowRightIcon";
+
 	type PrimaryButtonProps = {
 		href?: string;
 		text?: string;
@@ -18,7 +20,7 @@
 {#snippet content()}
 	{#if primary}
 		<div class="circle" aria-hidden="true">
-			<span class="material-icons">arrow_forward</span>
+			<span class="arrow"><ArrowRightIcon weight="bold" aria-hidden="true" /></span>
 		</div>
 	{/if}
 	<span class="label">{text}</span>
@@ -86,13 +88,16 @@
 		transition: clip-path 0.2s ease-out;
 	}
 
-	div.circle span.material-icons {
+	/* The icon is 1em in currentColor, so its size and colour are set here */
+	div.circle span.arrow {
 		position: absolute;
 		top: 50%;
 		right: 8px;
 		translate: 0 -50%;
+		display: block;
 		color: var(--color-primary);
 		font-size: 16px;
+		line-height: 0;
 	}
 
 	a.primary.light div.circle,
@@ -100,8 +105,8 @@
 		background-color: var(--color-primary);
 	}
 
-	a.primary.light div.circle span.material-icons,
-	button.primary.light div.circle span.material-icons {
+	a.primary.light div.circle span.arrow,
+	button.primary.light div.circle span.arrow {
 		color: var(--color-white);
 	}
 

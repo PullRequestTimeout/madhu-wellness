@@ -26,6 +26,8 @@ After making UI changes (any `.svelte`, `.css` or `.html` file), run the `ui-ux-
 
 ## Conventions worth knowing up front
 
+- Icons come from `phosphor-svelte`. Import each one from its own path, for example `import XIcon from "phosphor-svelte/lib/XIcon"`. Icons are `1em` in `currentColor`, so size and colour them with `font-size` and `color` on a wrapper. Decorative icons need `aria-hidden="true"`, because Phosphor renders `role="img"`.
+
 - Selectors are qualified with the element type and use kebab-case classes with a section prefix, for example `section.offerings`, `div.offering-cards`, `a.offering-card`. Don't use BEM.
 - Use tokens, never hard-coded values. Colours come from `--color-*`, which is the brown/peach/tan/cream palette with `--color-text` as dark brown. Spacing comes from `--spacing-xs…xl`, and sizes from `--font-body-*` and `--font-heading-*`. Responsive changes redefine tokens in `global.css` media queries.
 - Breakpoints are mobile-first `min-width` queries at 768, 1024 (desktop nav), 1280, 1440 and 1600px. An off-scale breakpoint (such as the offering cards' 640px) is fine when the content needs it, with a comment saying why.

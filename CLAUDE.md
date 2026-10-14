@@ -13,6 +13,8 @@ npm run build    # production build via adapter-netlify
 
 There are no tests. Check visual and animation work in a browser. The Playwright MCP server is configured in `.mcp.json` for that.
 
+After making UI changes (any `.svelte`, `.css` or `.html` file), run the `ui-ux-reviewer` subagent on the uncommitted changes without waiting to be asked. Fix what it finds, or tell the user about any findings you've left unfixed.
+
 ## Where things live
 
 - `SVELTEKIT_STARTER.md` is the full conventions spec this project was built from. It covers naming, page anatomy, CSS rules and tokens. Follow it.

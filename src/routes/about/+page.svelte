@@ -9,7 +9,7 @@
 <svelte:head>
 	<style>
 		section.hero {
-			background: var(--color-primary-light) url(/assets/images/hero-about.jpg) center/cover no-repeat;
+			background: var(--color-primary) url(/assets/images/hero-about.jpg) center/cover no-repeat;
 		}
 	</style>
 </svelte:head>

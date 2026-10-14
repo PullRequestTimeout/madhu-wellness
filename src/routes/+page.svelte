@@ -11,7 +11,7 @@
 <svelte:head>
 	<style>
 		section.hero {
-			background: var(--color-primary-light) url(/assets/images/hero-home.jpg) center/cover no-repeat;
+			background: var(--color-primary) url(/assets/images/hero-home.jpg) center/cover no-repeat;
 		}
 	</style>
 </svelte:head>
@@ -23,8 +23,8 @@
 			<h2 class="decorative-heading">A sweeter way to feel well</h2>
 			<p class="subheading">Classes, events and holistic treatments with practitioners you can trust.</p>
 			<div class="hero-buttons">
-				<PrimaryButton href="/classes-events" text="Explore classes" />
-				<PrimaryButton href="/treatments-practitioners" text="Book a treatment" primary={false} />
+				<PrimaryButton href="/classes-events" text="Explore classes" light />
+				<PrimaryButton href="/treatments-practitioners" text="Book a treatment" primary={false} light />
 			</div>
 		</div>
 	</section>
@@ -79,7 +79,8 @@
 	div.hero-buttons {
 		display: flex;
 		flex-wrap: wrap;
-		gap: var(--spacing-m);
+		align-items: center;
+		gap: var(--spacing-l);
 	}
 
 	section.welcome {

@@ -4,127 +4,146 @@
 	const year = new Date().getFullYear();
 </script>
 
-<footer class="bg-green">
+<footer class="bg-brown">
 	<div class="footer-body">
-		<div class="footer-heading">
-			<a href="/" aria-label="Home">
-				<img class="site-logo" src="/assets/svgs/logo.svg" alt="Madhu Wellness Collective logo" />
-			</a>
-			<p class="text-light">Classes, events and holistic treatments, all under one roof.</p>
-		</div>
+		<a href="/" aria-label="Home">
+			<img class="site-logo" src="/assets/svgs/logo-white-footer.svg" alt="Madhu Wellness Collective logo" width="210" height="95" />
+		</a>
 
-		<div class="footer-quick-links">
-			<p class="footer-subheading">Quick Links</p>
-			<a href="/">Home</a>
-			{#each navLinks as link}
-				<a href={link.href}>{link.text}</a>
-			{/each}
+		<div class="footer-links">
+			<div class="footer-link-column">
+				<a href="/">Home</a>
+				{#each navLinks as link}
+					<a href={link.href}>{link.text}</a>
+				{/each}
+			</div>
+			<div class="footer-link-column">
+				<a href="mailto:hello@madhucollective.ca">Contact</a>
+				<a href="https://maps.google.com/?q=Rossland,+BC" target="_blank" rel="noopener noreferrer">Location</a>
+				<a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a>
+				<a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">Facebook</a>
+			</div>
 		</div>
+	</div>
 
-		<div class="footer-contact">
-			<p class="footer-subheading">Contact</p>
-			<p><span class="material-icons">email</span><a href="mailto:hello@madhucollective.ca">hello@madhucollective.ca</a></p>
-			<p><span class="material-icons">phone</span><a href="tel:+10000000000">(000) 000-0000</a></p>
-			<p><span class="material-icons">location_on</span><span>Address coming soon</span></p>
-		</div>
+	<hr />
 
-		<div class="footer-policy">
-			<p class="footer-subheading">Policies</p>
+	<div class="footer-bottom">
+		<p>&copy; {year} Madhu Wellness Collective</p>
+		<div class="footer-policies">
+			<a href="/privacy#cookies">Cookies</a>
 			<a href="/privacy">Privacy Policy</a>
 		</div>
 	</div>
 
-	<div class="footer-bottom">
-		<div class="footer-socials">
-			<a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a>
-			<a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">Facebook</a>
-		</div>
-		<hr />
-		<div class="footer-copyright">
-			<p class="text-light">&copy; {year} Madhu Wellness Collective. All rights reserved.</p>
-		</div>
+	<div class="footer-credit">
+		<span>A</span>
+		<img src="/assets/images/pixelmountain-white.png" alt="PixelMountain" width="300" height="52" />
+		<span>CREATION</span>
 	</div>
 </footer>
 
 <style>
 	footer {
-		display: grid;
+		display: flex;
+		flex-direction: column;
 		gap: var(--spacing-l);
-		color: var(--color-primary);
+		padding-block: 96px;
+		color: var(--color-white);
 		font-size: var(--font-body-m);
 	}
 
 	div.footer-body {
-		display: grid;
-		grid-template-columns: 1fr;
+		display: flex;
+		flex-direction: column;
 		gap: var(--spacing-l);
 	}
 
-	div.footer-heading {
-		display: grid;
+	img.site-logo {
+		width: 210px;
+		height: auto;
+	}
+
+	div.footer-links {
+		display: flex;
+		gap: var(--spacing-xl);
+	}
+
+	div.footer-link-column {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
 		gap: var(--spacing-m);
 	}
 
-	img.site-logo {
-		height: 4rem;
-		width: auto;
+	div.footer-link-column a,
+	div.footer-policies a {
+		position: relative;
 	}
 
-	div.footer-quick-links,
-	div.footer-contact,
-	div.footer-policy {
-		display: flex;
-		flex-direction: column;
-		gap: var(--spacing-s);
+	div.footer-link-column a::after,
+	div.footer-policies a::after {
+		content: "";
+		position: absolute;
+		left: 0;
+		bottom: calc(var(--spacing-xs) * -1);
+		width: 0;
+		height: var(--border-width);
+		background-color: var(--color-white);
+		transition: width 0.3s ease;
 	}
 
-	p.footer-subheading {
-		font-size: var(--font-heading-s);
-		font-weight: 600;
+	div.footer-link-column:first-child {
+		width: 162px;
 	}
 
-	div.footer-contact p {
-		display: flex;
-		align-items: center;
-		gap: var(--spacing-s);
+	footer hr {
+		width: 100%;
+		border: 0;
+		border-top: 1px solid var(--color-white);
 	}
 
 	div.footer-bottom {
-		display: grid;
-		gap: var(--spacing-m);
-	}
-
-	div.footer-socials {
 		display: flex;
+		flex-direction: column;
 		gap: var(--spacing-m);
-		font-weight: 600;
 	}
 
-	div.footer-bottom hr {
-		border: 0;
-		border-top: 1px solid var(--color-primary-transparent);
+	div.footer-policies {
+		display: flex;
+		gap: var(--spacing-l);
 	}
 
-	div.footer-copyright p {
-		font-size: var(--font-body-s);
+	div.footer-credit {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: var(--spacing-m);
+		font-style: italic;
+	}
+
+	div.footer-credit img {
+		width: 200px;
+		height: auto;
 	}
 
 	@media (hover: hover) {
-		div.footer-body a:hover,
-		div.footer-socials a:hover {
-			text-decoration: underline;
+		div.footer-link-column a:hover::after,
+		div.footer-policies a:hover::after {
+			width: 100%;
 		}
 	}
 
 	@media screen and (min-width: 768px) {
-		div.footer-body {
-			grid-template-columns: repeat(2, 1fr);
+		div.footer-body,
+		div.footer-bottom {
+			flex-direction: row;
+			align-items: flex-start;
+			justify-content: space-between;
 		}
-	}
 
-	@media screen and (min-width: 1024px) {
-		div.footer-body {
-			grid-template-columns: 2fr repeat(3, 1fr);
+		div.footer-credit img {
+			width: 300px;
 		}
 	}
 </style>

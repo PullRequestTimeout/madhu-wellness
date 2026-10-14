@@ -134,6 +134,8 @@
 		stroke: var(--color-white);
 		stroke-width: 6;
 		stroke-linecap: round;
+		/* Rotate around the icon's centre (50, 50), not each line's own box */
+		transform-box: view-box;
 		transform-origin: 50% 50%;
 		transition:
 			transform 0.3s ease,
@@ -141,7 +143,8 @@
 	}
 
 	svg.hamburgericon.active path.top {
-		transform: translateY(20%) rotate(45deg);
+		/* Listed right to left: move to the centre line first, then rotate, so both strokes cross at the centre */
+		transform: rotate(45deg) translateY(20px);
 	}
 
 	svg.hamburgericon.active path.middle {
@@ -149,7 +152,13 @@
 	}
 
 	svg.hamburgericon.active path.bottom {
-		transform: translateY(-20%) rotate(-45deg);
+		transform: rotate(-45deg) translateY(-20px);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		svg.hamburgericon path.line {
+			transition: none;
+		}
 	}
 
 	header.small-screens nav {

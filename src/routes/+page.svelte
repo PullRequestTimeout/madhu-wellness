@@ -3,6 +3,7 @@
 	import PrimaryButton from "$lib/components/PrimaryButton.svelte";
 	import SpanifyText from "$lib/components/SpanifyText.svelte";
 	import { isIntersecting } from "$lib/utils/isIntersecting";
+	import { scrollProgress } from "$lib/utils/scrollProgress";
 
 	// Split around the <em> words, each part carrying on the letter stagger from the last
 	const tagline = [
@@ -120,22 +121,38 @@
 		<div class="offerings-intro">
 			<div class="heading-wrap">
 				<p class="eyebrow" aria-hidden="true">Our Offerings</p>
-				<h2>A place to care for yourself and connect with others.</h2>
+				<h2 class="heading-fade-in" use:isIntersecting>
+					<SpanifyText text="A place to care for yourself and connect with others." />
+				</h2>
 			</div>
 			<p class="body-large">
 				We are a diverse community of practitioners, teachers and facilitators offering space to move, heal, learn and connect.
 			</p>
 		</div>
-		<div class="offering-cards">
-			{#each offerings as offering}
-				<a class="offering-card" href={offering.href}>
-					<img class="card-image" src={offering.img} alt="" loading="lazy" />
-					<span class="card-label">
-						{offering.text}
-						<img class="card-arrow" src="/assets/svgs/arrow-right.svg" alt="" width="24" height="24" />
-					</span>
-				</a>
-			{/each}
+		<!-- From 1024px the stage pins mid-screen while the track scrolls past, and the cards spread apart to uncover the quote stacked beneath them -->
+		<div class="offerings-track" use:scrollProgress>
+			<div class="offerings-stage">
+				<div class="offering-cards group-stagger-fade" use:isIntersecting>
+					{#each offerings as offering}
+						<a class="offering-card" href={offering.href}>
+							<img class="card-image" src={offering.img} alt="" loading="lazy" />
+							<span class="card-label">
+								{offering.text}
+								<img class="card-arrow" src="/assets/svgs/arrow-right.svg" alt="" width="24" height="24" />
+							</span>
+						</a>
+					{/each}
+				</div>
+				<figure class="testimonial">
+					<blockquote>
+						<p>
+							An amazing space with such welcoming people. There are a variety of offerings from healing modalities and yoga to workshops for inner
+							growth. A special community with a rich past and a bright future. I’ll never fall out of love with this place.
+						</p>
+					</blockquote>
+					<figcaption>— Joe</figcaption>
+				</figure>
+			</div>
 		</div>
 	</section>
 
@@ -304,8 +321,12 @@
 		pointer-events: none;
 	}
 
+	/* Stretched rather than tiled, so its top edge doesn't repeat as a seam down the (tall, pinned) section
+	   and it runs right down to the video */
 	section.offerings::before {
 		background-image: url(/assets/images/texture-offerings.png);
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
 		opacity: 0.5;
 	}
 
@@ -372,6 +393,66 @@
 
 	img.card-arrow {
 		transition: transform 0.25s ease-out;
+	}
+
+	/* Testimonial. Below 1024px (or with reduced motion) it simply follows the cards */
+	div.offerings-stage {
+		position: relative;
+		display: grid;
+		gap: var(--spacing-xl);
+	}
+
+	figure.testimonial {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--spacing-l);
+		max-width: 800px;
+		margin-inline: auto;
+		text-align: center;
+	}
+
+	blockquote {
+		--mark-size: 64px;
+		position: relative;
+		padding-inline: calc(var(--mark-size) * 0.6);
+	}
+
+	blockquote p {
+		font-size: var(--font-body-m);
+		line-height: 1.6;
+		letter-spacing: 0.02em;
+	}
+
+	/* The marks' ink sits high in their line box, so the opening one is nudged up level with
+	   the first line and the closing one down level with the last */
+	blockquote::before,
+	blockquote::after {
+		position: absolute;
+		color: var(--color-brown);
+		font-size: var(--mark-size);
+		font-weight: 700;
+		line-height: 1;
+	}
+
+	blockquote::before {
+		content: "“";
+		top: 0;
+		left: 0;
+		transform: translateY(-15%);
+	}
+
+	blockquote::after {
+		content: "”";
+		right: 0;
+		bottom: 0;
+		transform: translateY(35%);
+	}
+
+	figcaption {
+		color: var(--color-brown);
+		font-family: var(--font-heading);
+		font-size: 32px;
 	}
 
 	/* Video placeholder */
@@ -526,9 +607,89 @@
 			font-size: 32px;
 		}
 
+		blockquote {
+			--mark-size: 96px;
+		}
+
 		section.offerings,
 		section.newsletter {
 			padding-block: 96px;
+		}
+	}
+
+	/* Cards spread to reveal the testimonial. The row of cards pins mid-screen for 60% of a viewport's scrolling,
+	   and --progress (0-1, from scrollProgress) drives two overlapping phases: the cards slide up and down out of
+	   the quote's way over the first 75%, and the quote fades up from 35% to 75%, landing with the cards. Scrolling back up rewinds it. */
+	@media screen and (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+		div.offerings-track {
+			--card-height: 320px;
+			--spread: clamp(0, var(--progress, 0) / 0.75, 1);
+			/* Ease-in-out cubic, so the cards ease out of the row and ease into place. calc() can't branch, so the
+			   spread is split at its midpoint: --ease-in runs 0-0.5 (then holds), --ease-out runs 0-1 over the second half,
+			   and their curves sum to 4x³ for the first half and 1 - (2 - 2x)³ / 2 for the second */
+			--ease-in: clamp(0, var(--spread), 0.5);
+			--ease-out: clamp(0, var(--spread) * 2 - 1, 1);
+			--ease: calc(
+				4 * var(--ease-in) * var(--ease-in) * var(--ease-in) + (1 - (1 - var(--ease-out)) * (1 - var(--ease-out)) * (1 - var(--ease-out))) / 2
+			);
+			--reveal: clamp(0, (var(--progress, 0) - 0.35) / 0.4, 1);
+			height: calc(var(--card-height) + var(--vh, 1vh) * 60);
+		}
+
+		/* A size container, so the quote can size itself from the cards' width in cqw */
+		div.offerings-stage {
+			--card-width: calc((100cqw - 3 * var(--spacing-l)) / 4);
+			position: sticky;
+			top: calc(var(--vh, 1vh) * 50 - var(--card-height) / 2);
+			container-type: inline-size;
+		}
+
+		/* The cards sit on top of the quote */
+		div.offering-cards,
+		figure.testimonial {
+			grid-area: 1 / 1;
+		}
+
+		div.offering-cards {
+			z-index: 1;
+		}
+
+		/* No wider than the middle two columns, so the outer cards never cover it */
+		figure.testimonial {
+			align-self: center;
+			max-width: min(600px, 2 * var(--card-width) + var(--spacing-l));
+			opacity: var(--reveal);
+			transform: translateY(calc((1 - var(--reveal)) * 2rem)) scale(calc(0.96 + var(--reveal) * 0.04));
+		}
+
+		/* translate rather than transform, so it doesn't fight the group-stagger-fade entrance. Each card keeps its
+		   column and moves by its own --y (in viewport heights, since it's pinned mid-screen): the inner pair go
+		   furthest, past the quote and partly off-screen, and the outer pair a little either side of it */
+		a.offering-card {
+			translate: 0 calc(var(--y) * var(--ease));
+			will-change: translate;
+		}
+
+		a.offering-card:nth-child(1) {
+			--y: calc(var(--vh, 1vh) * -27);
+		}
+
+		a.offering-card:nth-child(2) {
+			--y: calc(var(--vh, 1vh) * 44);
+		}
+
+		a.offering-card:nth-child(3) {
+			--y: calc(var(--vh, 1vh) * -49);
+		}
+
+		a.offering-card:nth-child(4) {
+			--y: calc(var(--vh, 1vh) * 11);
+		}
+
+		/* The lowered cards hang below the offerings once they unpin, so the video slides up over them */
+		section.video {
+			position: relative;
+			z-index: 1;
 		}
 	}
 

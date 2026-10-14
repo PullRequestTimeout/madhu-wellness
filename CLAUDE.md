@@ -28,8 +28,19 @@ After making UI changes (any `.svelte`, `.css` or `.html` file), run the `ui-ux-
 
 - Selectors are qualified with the element type and use kebab-case classes with a section prefix, for example `section.offerings`, `div.offering-cards`, `a.offering-card`. Don't use BEM.
 - Use tokens, never hard-coded values. Colours come from `--color-*`, which is the brown/peach/tan/cream palette with `--color-text` as dark brown. Spacing comes from `--spacing-xs…xl`, and sizes from `--font-body-*` and `--font-heading-*`. Responsive changes redefine tokens in `global.css` media queries.
-- Breakpoints are mobile-first `min-width` queries at 768, 1024 (desktop nav), 1280, 1440 and 1600px.
-- Global CSS gives every `<section>` `padding-inline: var(--padding-inline)` and `padding-block: var(--padding-block)`. A full-bleed section must explicitly set `padding: 0`.
+- Breakpoints are mobile-first `min-width` queries at 768, 1024 (desktop nav), 1280, 1440 and 1600px. An off-scale breakpoint (such as the offering cards' 640px) is fine when the content needs it, with a comment saying why.
+- Global CSS gives every `<section>` and the `<footer>` `padding-inline: var(--padding-inline)` and `padding-block: var(--padding-block)`. A full-bleed section must explicitly set `padding: 0`.
+
+## Spacing
+
+- To change section padding at a breakpoint, redefine `--padding-block` or `--padding-inline` in `global.css`. Don't hard-code `padding-block` on individual sections. On mobile, `--padding-block` is `--spacing-l`.
+- Mobile gaps step down one size from desktop:
+  - Use `--spacing-m` between closely related items: a heading and its paragraph, the cards in a group, and stacked buttons.
+  - Use `--spacing-l` between groups, such as an intro and the cards below it, or text and the buttons under it.
+  - Keep the larger desktop gaps from 768px.
+- When one flex or grid container needs two different gaps, give the container the smaller gap. Top up the one exception with `margin-top: calc(larger - smaller)` and a comment. The hero buttons do this.
+- Content that animates or scales toward the screen edge on mobile still finishes `--spacing-m` (1rem) from the edge.
+- Logos are single SVG files sized with CSS. The nav and footer logos are 120px wide, and the footer logo grows to 210px from 1024px. Don't add size variants of an SVG.
 - Use `var(--vh)` for viewport heights. `app.html` sets it to 1% of `innerHeight`. Example: `calc(var(--vh, 1vh) * 50)`.
 - Wrap hover effects in `@media (hover: hover)`. Give every motion effect a `prefers-reduced-motion` fallback.
 

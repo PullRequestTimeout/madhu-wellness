@@ -159,7 +159,7 @@
 
 {#if uiStore.contactOpen}
 	<dialog class="contact" bind:this={dialog} use:modal aria-labelledby="contact-heading" oncancel={onCancel}>
-		<div class="contact-backdrop" aria-hidden="true" onclick={closeContact} transition:fade={{ duration: duration() }}></div>
+		<div class="contact-backdrop modal-backdrop" aria-hidden="true" onclick={closeContact} transition:fade={{ duration: duration() }}></div>
 
 		<!-- The sheet flies as one piece; the close button sits outside the scrolling panel so it stays in reach -->
 		<div class="contact-sheet" transition:fly={flyParams()} onoutroend={onClosed}>
@@ -336,8 +336,6 @@
 	div.contact-backdrop {
 		position: absolute;
 		inset: 0;
-		background-color: var(--color-overlay-brown);
-		backdrop-filter: blur(2.5px);
 	}
 
 	div.contact-sheet {

@@ -346,6 +346,12 @@ span.material-icons {
 	white-space: nowrap;
 }
 
+/* Tinted, slightly blurred layer behind modals and the open mobile menu (position it where it's used) */
+.modal-backdrop {
+	background-color: var(--color-overlay-brown);
+	backdrop-filter: blur(2.5px);
+}
+
 /* Background Colors */
 .bg-brown {
 	background-color: var(--color-background-brown);

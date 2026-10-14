@@ -178,6 +178,11 @@ button {
 	color-scheme: light;
 }
 
+html,
+body {
+	overscroll-behavior: none;
+}
+
 html {
 	overflow-x: hidden;
 	max-width: 100vw;

@@ -12,34 +12,24 @@
 
 	let { href, text = "Button", primary = true, light = false, type = "button", onAction }: PrimaryButtonProps = $props();
 
-	let buttonEl: HTMLAnchorElement | HTMLButtonElement | undefined = $state();
-	let mousePos = $state({ x: 0, y: 0 });
-
 	const variant = $derived(`${primary ? "primary" : "secondary"}${light ? " light" : ""}`);
-	const arrowSrc = $derived(light ? "/assets/svgs/arrow-circle-dark.svg" : "/assets/svgs/arrow-circle-light.svg");
-
-	// Ripple originates from where the cursor entered
-	function getMousePos(event: MouseEvent) {
-		if (!buttonEl) return;
-		const rect = buttonEl.getBoundingClientRect();
-		mousePos = { x: event.clientX - rect.left, y: event.clientY - rect.top };
-	}
 </script>
 
 {#snippet content()}
-	<span>{text}</span>
 	{#if primary}
-		<img class="arrow" src={arrowSrc} alt="" width="16" height="16" />
-		<div class="ripple" style="--top: {mousePos.y}px; --left: {mousePos.x}px;"></div>
+		<div class="circle" aria-hidden="true">
+			<span class="material-icons">arrow_forward</span>
+		</div>
 	{/if}
+	<span class="label">{text}</span>
 {/snippet}
 
 {#if href}
-	<a bind:this={buttonEl} {href} class={variant} onmouseenter={getMousePos} onclick={(e) => onAction?.(e)}>
+	<a {href} class={variant} onclick={(e) => onAction?.(e)}>
 		{@render content()}
 	</a>
 {:else}
-	<button bind:this={buttonEl} {type} class={variant} onmouseenter={getMousePos} onclick={(e) => onAction?.(e)}>
+	<button {type} class={variant} onclick={(e) => onAction?.(e)}>
 		{@render content()}
 	</button>
 {/if}
@@ -63,11 +53,16 @@
 	/* Pill CTA */
 	a.primary,
 	button.primary {
-		padding: 8px 8px 8px 16px;
+		/* Right padding leaves room for the 16px arrow circle and an 8px gap */
+		padding: 8px 32px 8px 16px;
 		border-radius: var(--border-radius-pill);
 		background-color: var(--color-primary);
 		color: var(--color-white);
 		overflow: hidden;
+		/* Background swaps instantly when the hover ends (see the hover rule) */
+		transition:
+			color 0.2s ease-out,
+			background-color 0s;
 	}
 
 	a.primary.light,
@@ -76,36 +71,38 @@
 		color: var(--color-primary);
 	}
 
-	a span,
-	button span,
-	img.arrow {
+	span.label {
 		position: relative;
 		z-index: 1;
 	}
 
-	img.arrow {
-		flex-shrink: 0;
-		transition: transform 0.25s ease-out;
-	}
-
-	div.ripple {
+	/* Arrow circle: covers the pill but is clipped to a 16px circle at the right, growing to fill it on hover */
+	div.circle {
 		position: absolute;
-		top: var(--top);
-		left: var(--left);
-		transform: translate(-50%, -50%);
-		width: 0;
-		height: 0;
-		border-radius: 50%;
+		inset: 0;
 		pointer-events: none;
-		background-color: var(--color-brown-mid);
-		transition:
-			width 0.4s ease-out,
-			height 0.4s ease-out;
+		background-color: var(--color-white);
+		clip-path: circle(8px at calc(100% - 16px) 50%);
+		transition: clip-path 0.2s ease-out;
 	}
 
-	a.primary.light div.ripple,
-	button.primary.light div.ripple {
-		background-color: var(--color-cream);
+	div.circle span.material-icons {
+		position: absolute;
+		top: 50%;
+		right: 8px;
+		translate: 0 -50%;
+		color: var(--color-primary);
+		font-size: 16px;
+	}
+
+	a.primary.light div.circle,
+	button.primary.light div.circle {
+		background-color: var(--color-primary);
+	}
+
+	a.primary.light div.circle span.material-icons,
+	button.primary.light div.circle span.material-icons {
+		color: var(--color-white);
 	}
 
 	/* Text link */
@@ -126,15 +123,27 @@
 	}
 
 	@media (hover: hover) {
-		a.primary:hover div.ripple,
-		button.primary:hover div.ripple {
-			width: 30rem;
-			height: 30rem;
+		a.primary:hover div.circle,
+		button.primary:hover div.circle {
+			clip-path: circle(150% at calc(100% - 16px) 50%);
 		}
 
-		a.primary:hover img.arrow,
-		button.primary:hover img.arrow {
-			transform: translateX(2px);
+		/* Text takes the icon colour so it stays readable on the fill.
+		   Once the circle has grown, the pill takes the circle colour so no
+		   anti-aliased edge of the old background shows around the border. */
+		a.primary:hover,
+		button.primary:hover {
+			color: var(--color-primary);
+			background-color: var(--color-white);
+			transition:
+				color 0.2s ease-out,
+				background-color 0.05s ease-out 0.2s;
+		}
+
+		a.primary.light:hover,
+		button.primary.light:hover {
+			color: var(--color-white);
+			background-color: var(--color-primary);
 		}
 
 		a.secondary:hover,

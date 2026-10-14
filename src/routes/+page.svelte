@@ -4,6 +4,7 @@
 	import SpanifyText from "$lib/components/SpanifyText.svelte";
 	import { isIntersecting } from "$lib/utils/isIntersecting";
 	import { scrollProgress } from "$lib/utils/scrollProgress";
+	import { enterProgress } from "$lib/utils/enterProgress";
 
 	// Split around the <em> words, each part carrying on the letter stagger from the last
 	const tagline = [
@@ -156,9 +157,9 @@
 		</div>
 	</section>
 
-	<!-- Placeholder: the design has an empty "VIDEO" frame here -->
-	<section class="video">
-		<p>VIDEO</p>
+	<!-- Placeholder: the design has an empty "VIDEO" frame here. It widens in over a flipped copy of the offerings texture -->
+	<section class="video" use:enterProgress>
+		<div class="video-frame"><p>VIDEO</p></div>
 	</section>
 
 	<section class="newsletter">
@@ -455,14 +456,45 @@
 		font-size: 32px;
 	}
 
-	/* Video placeholder */
+	/* Video placeholder. Opaque and stacked above the offerings, so the lowered cards slide under it once they unpin */
 	section.video {
+		position: relative;
+		z-index: 1;
 		display: grid;
-		place-items: center;
+		justify-items: center;
 		height: 632px;
 		max-height: 70vh;
+		padding: 0;
+		background-color: var(--color-background-peach);
+	}
+
+	/* The offerings texture flipped top to bottom, so it carries on seamlessly from the section above while the frame is still transparent */
+	section.video::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background-image: url(/assets/images/texture-offerings.png);
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
+		opacity: 0.5;
+		transform: scaleY(-1);
+		pointer-events: none;
+	}
+
+	/* Widens from 80% to full bleed as the section scrolls in (--enter from enterProgress) */
+	div.video-frame {
+		position: relative;
+		display: grid;
+		place-items: center;
+		width: calc(80% + 20% * var(--enter, 1));
 		background-color: #d9d9d9;
 		font-size: 96px;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		div.video-frame {
+			width: 100%;
+		}
 	}
 
 	/* Newsletter */
@@ -684,12 +716,6 @@
 
 		a.offering-card:nth-child(4) {
 			--y: calc(var(--vh, 1vh) * 11);
-		}
-
-		/* The lowered cards hang below the offerings once they unpin, so the video slides up over them */
-		section.video {
-			position: relative;
-			z-index: 1;
 		}
 	}
 

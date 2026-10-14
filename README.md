@@ -1,42 +1,27 @@
-# sv
+# Madhu Wellness Collective
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Marketing site for [madhucollective.ca](https://madhucollective.ca). Built with SvelteKit (Svelte 5 runes) and TypeScript, styled with plain CSS, deployed on Netlify.
 
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
+## Development
 
 ```sh
-# create a new project
-npx sv create my-app
+npm install
+npm run dev       # start the dev server
+npm run check     # type-check
+npm run format    # format with Prettier
+npm run build     # production build (Netlify adapter)
 ```
 
-To recreate this project with the same configuration:
+## Project layout
 
-```sh
-# recreate this project
-npx sv@0.16.6 create --template minimal --types ts --add prettier --install npm .
-```
+- `src/routes/`: pages (home, about, classes-events, treatments-practitioners, privacy)
+- `src/lib/components/`: shared components (Nav, Footer, SeoHead, PrimaryButton, SpanifyText)
+- `src/lib/data/`: site content and nav links
+- `static/global.css`: design tokens and critical styles; `static/global-noncritical.css` holds scroll animations
+- `static/assets/`: fonts, images, logo and favicons
 
-## Developing
+Colours, font sizes and spacing come from the CSS variables in `global.css`, not from values written into components. See `SVELTEKIT_STARTER.md` for the full conventions.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Deployment
 
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+Netlify builds with `npm run build` and publishes `build/`. `_redirects` proxies the Plausible analytics script.

@@ -1,4 +1,19 @@
 {
+	"permissions": {
+		"allow": [
+			"mcp__playwright__browser_navigate",
+			"mcp__playwright__browser_snapshot",
+			"mcp__playwright__browser_take_screenshot",
+			"mcp__playwright__browser_resize",
+			"mcp__playwright__browser_press_key",
+			"mcp__playwright__browser_hover",
+			"mcp__playwright__browser_evaluate",
+			"mcp__playwright__browser_emulate_media",
+			"mcp__playwright__browser_console_messages",
+			"mcp__playwright__browser_wait_for",
+			"mcp__playwright__browser_close"
+		]
+	},
 	"hooks": {
 		"Stop": [
 			{
@@ -8,6 +23,19 @@
 						"command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/ux-review-gate.mjs\"",
 						"timeout": 30,
 						"statusMessage": "Checking for unreviewed UI changes"
+					}
+				]
+			}
+		],
+		"SubagentStop": [
+			{
+				"matcher": "ui-ux-reviewer",
+				"hooks": [
+					{
+						"type": "command",
+						"command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/ux-review-gate.mjs\" --mark",
+						"timeout": 30,
+						"statusMessage": "Recording UI review"
 					}
 				]
 			}

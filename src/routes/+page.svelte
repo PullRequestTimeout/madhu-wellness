@@ -16,7 +16,7 @@
 	<section class="hero">
 		<img class="hero-image" src="/assets/images/hero-home.png" alt="" width="1024" height="683" />
 		<div class="hero-content">
-			<p class="script-overlay" aria-hidden="true">Madhu Collective</p>
+			<p class="eyebrow light" aria-hidden="true">Madhu Collective</p>
 			<h1>A welcoming space for <em>movement</em>, <em>healing</em> and <em>community</em>.</h1>
 			<p class="subheading">Find your flow in downtown Rossland.</p>
 			<div class="hero-buttons">
@@ -35,7 +35,7 @@
 	<section class="offerings">
 		<div class="offerings-intro">
 			<div class="heading-wrap">
-				<p class="script-overlay" aria-hidden="true">Our Offerings</p>
+				<p class="eyebrow" aria-hidden="true">Our Offerings</p>
 				<h2>A place to care for yourself and connect with others.</h2>
 			</div>
 			<p class="body-large">
@@ -61,8 +61,8 @@
 	</section>
 
 	<section class="newsletter">
-		<p class="script-overlay" aria-hidden="true">Newsletter</p>
 		<div class="newsletter-text">
+			<p class="eyebrow" aria-hidden="true">Newsletter</p>
 			<h2>Keep in touch with us.</h2>
 			<p class="body-large">Stay up to date with upcoming events, new practitioners, and what’s happening in our community.</p>
 		</div>
@@ -79,20 +79,6 @@
 </main>
 
 <style>
-	/* Decorative script text behind headings */
-	p.script-overlay {
-		position: absolute;
-		font-family: var(--font-heading);
-		font-size: 72px;
-		letter-spacing: 0.05em;
-		line-height: 1;
-		white-space: nowrap;
-		pointer-events: none;
-		user-select: none;
-		transform: rotate(-5deg);
-		transform-origin: left bottom;
-	}
-
 	h1,
 	h2 {
 		position: relative;
@@ -132,12 +118,6 @@
 		gap: var(--spacing-l);
 		width: 100%;
 		max-width: 887px;
-	}
-
-	div.hero-content p.script-overlay {
-		left: -0.25em;
-		top: -0.6em;
-		color: var(--color-script-cream);
 	}
 
 	div.hero-content h1 {
@@ -206,16 +186,6 @@
 
 	div.heading-wrap {
 		position: relative;
-	}
-
-	div.heading-wrap p.script-overlay,
-	section.newsletter p.script-overlay {
-		color: var(--color-script-brown);
-	}
-
-	div.heading-wrap p.script-overlay {
-		left: -0.2em;
-		top: -0.7em;
 	}
 
 	section.offerings h2,
@@ -297,12 +267,6 @@
 	section.newsletter::before {
 		background-image: url(/assets/images/texture-newsletter.png);
 		opacity: 0.79;
-	}
-
-	section.newsletter p.script-overlay {
-		left: 14px;
-		top: 0;
-		transform: rotate(-7deg);
 	}
 
 	div.newsletter-text {
@@ -412,10 +376,6 @@
 	}
 
 	@media screen and (min-width: 1280px) {
-		p.script-overlay {
-			font-size: 128px;
-		}
-
 		div.hero-content h1 {
 			font-size: 64px;
 			line-height: 1.05;

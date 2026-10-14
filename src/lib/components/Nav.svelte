@@ -5,6 +5,7 @@
 	import PrimaryButton from "$lib/components/PrimaryButton.svelte";
 	import { clickOutside } from "$lib/utils/clickOutside";
 	import { navLinks } from "$lib/data/navLinks";
+	import { openContact } from "$lib/utils/globalStates.svelte";
 
 	let showMobileMenu = $state(false);
 	let scrollY = $state(0);
@@ -46,7 +47,20 @@
 				</a>
 				<hr in:fade={{ delay: (i + 1) * 100 }} />
 			{/each}
-			<div class="nav-cta" in:fade={{ delay: (navLinks.length + 1) * 100 }}>
+			<!-- Opens the contact form instead of navigating -->
+			<button
+				class="nav-contact"
+				aria-haspopup="dialog"
+				onclick={() => {
+					showMobileMenu = false;
+					openContact();
+				}}
+				in:fade={{ delay: (navLinks.length + 1) * 100 }}
+			>
+				Contact
+			</button>
+			<hr in:fade={{ delay: (navLinks.length + 1) * 100 }} />
+			<div class="nav-cta" in:fade={{ delay: (navLinks.length + 2) * 100 }}>
 				<PrimaryButton href="/classes-events" text="Book Now" light onAction={() => (showMobileMenu = false)} />
 			</div>
 		</nav>
@@ -61,6 +75,7 @@
 		{#each navLinks as link}
 			<a href={link.href} class={page.url.pathname === link.href ? "active" : ""}>{link.text}</a>
 		{/each}
+		<button class="nav-contact" aria-haspopup="dialog" onclick={openContact}>Contact</button>
 	</nav>
 	<PrimaryButton href="/classes-events" text="Book Now" light />
 </header>
@@ -144,7 +159,16 @@
 		padding-block: var(--spacing-m) var(--spacing-l);
 	}
 
-	header.small-screens nav a {
+	/* Contact is a button but looks like the links around it */
+	button.nav-contact {
+		background: none;
+		border: 0;
+		padding: 0;
+		text-align: left;
+	}
+
+	header.small-screens nav a,
+	header.small-screens nav button.nav-contact {
 		font-size: var(--font-body-l);
 		font-weight: 500;
 		letter-spacing: 0.8px;
@@ -179,7 +203,8 @@
 			gap: 24px;
 		}
 
-		header.large-screens nav > a {
+		header.large-screens nav > a,
+		header.large-screens nav > button.nav-contact {
 			position: relative;
 			font-size: 16px;
 			font-weight: 500;
@@ -187,7 +212,8 @@
 			color: var(--color-white);
 		}
 
-		header.large-screens nav > a::after {
+		header.large-screens nav > a::after,
+		header.large-screens nav > button.nav-contact::after {
 			content: "";
 			position: absolute;
 			left: 0;
@@ -201,7 +227,8 @@
 
 	@media screen and (min-width: 1024px) and (hover: hover) {
 		header.large-screens nav > a.active::after,
-		header.large-screens nav > a:hover::after {
+		header.large-screens nav > a:hover::after,
+		header.large-screens nav > button.nav-contact:hover::after {
 			width: 100%;
 		}
 	}

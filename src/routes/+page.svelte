@@ -364,6 +364,13 @@
 		overflow: hidden;
 	}
 
+	/* Keep the global focus halo alongside the card's own shadow */
+	a.offering-card:focus-visible {
+		box-shadow:
+			0 0 0 var(--border-width) var(--color-focus-halo),
+			var(--shadow);
+	}
+
 	img.card-image {
 		position: absolute;
 		inset: 0;
@@ -543,11 +550,6 @@
 
 	form.newsletter-form input::placeholder {
 		color: var(--color-placeholder);
-	}
-
-	form.newsletter-form input:focus-visible {
-		outline: var(--border-width) solid var(--color-primary);
-		outline-offset: 2px;
 	}
 
 	div.newsletter-actions {

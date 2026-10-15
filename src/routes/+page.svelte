@@ -127,7 +127,7 @@
 		<div class="offerings-intro">
 			<div class="heading-wrap">
 				<p class="eyebrow" aria-hidden="true">Our Offerings</p>
-				<h2 class="heading-fade-in" use:isIntersecting>
+				<h2 class="section-heading heading-fade-in" use:isIntersecting>
 					<SpanifyText text="A place to care for yourself and connect with others." />
 				</h2>
 			</div>
@@ -171,18 +171,12 @@
 </main>
 
 <style>
-	/* Sit above the eyebrows */
-	h2,
+	/* Sits above the hero's eyebrow */
 	p.tagline {
 		position: relative;
 		font-family: var(--font-body);
 		font-weight: 600;
 		text-wrap: wrap;
-	}
-
-	.body-large {
-		font-size: 20px;
-		letter-spacing: 0.05em;
 	}
 
 	/* Hero */
@@ -327,15 +321,6 @@
 		position: relative;
 		display: grid;
 		gap: var(--spacing-m);
-	}
-
-	div.heading-wrap {
-		position: relative;
-	}
-
-	section.offerings h2 {
-		font-size: 28px;
-		line-height: 1.05;
 	}
 
 	div.offering-cards {
@@ -559,13 +544,8 @@
 			line-height: 1.05;
 		}
 
-		div.hero-content p.subheading,
-		.body-large {
+		div.hero-content p.subheading {
 			font-size: 24px;
-		}
-
-		section.offerings h2 {
-			font-size: 32px;
 		}
 
 		blockquote {

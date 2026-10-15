@@ -8,10 +8,10 @@
 <section class="newsletter">
 	<div class="newsletter-text">
 		<p class="eyebrow" aria-hidden="true">Newsletter</p>
-		<h2 class="heading-fade-in" use:isIntersecting>
+		<h2 class="section-heading heading-fade-in" use:isIntersecting>
 			<SpanifyText text="Keep in touch with us." />
 		</h2>
-		<p class="newsletter-body">Stay up to date with upcoming events, new practitioners, and what’s happening in our community.</p>
+		<p class="body-large">Stay up to date with upcoming events, new practitioners, and what’s happening in our community.</p>
 	</div>
 	<!-- TODO: connect to a newsletter provider -->
 	<form class="newsletter-form" onsubmit={(e) => e.preventDefault()}>
@@ -51,21 +51,6 @@
 		flex-direction: column;
 		gap: var(--spacing-m);
 		max-width: 538px;
-	}
-
-	/* Sits above the eyebrow */
-	h2 {
-		position: relative;
-		font-family: var(--font-body);
-		font-size: 28px;
-		font-weight: 600;
-		line-height: 1.05;
-		text-wrap: wrap;
-	}
-
-	p.newsletter-body {
-		font-size: 20px;
-		letter-spacing: 0.05em;
 	}
 
 	/* Stacked, it's capped at the text's width so the email field doesn't stretch across the screen */
@@ -124,16 +109,6 @@
 		form.newsletter-form {
 			flex: 0 0 auto;
 			align-items: stretch;
-		}
-	}
-
-	@media screen and (min-width: 1280px) {
-		h2 {
-			font-size: 32px;
-		}
-
-		p.newsletter-body {
-			font-size: 24px;
 		}
 	}
 </style>

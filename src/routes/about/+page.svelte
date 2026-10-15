@@ -39,7 +39,7 @@
 		<div class="values-intro">
 			<div class="heading-wrap">
 				<p class="eyebrow" aria-hidden="true">Our Values</p>
-				<h2 class="heading-fade-in" use:isIntersecting>
+				<h2 class="section-heading heading-fade-in" use:isIntersecting>
 					<SpanifyText text="A shared vision for wellbeing and community" />
 				</h2>
 			</div>
@@ -64,7 +64,7 @@
 		<div class="space-intro">
 			<div class="heading-wrap">
 				<p class="eyebrow" aria-hidden="true">The Space</p>
-				<h2 class="heading-fade-in" use:isIntersecting>
+				<h2 class="section-heading heading-fade-in" use:isIntersecting>
 					<SpanifyText text="A place for movement, healing and connection" />
 				</h2>
 			</div>
@@ -100,7 +100,7 @@
 		<div class="people-intro">
 			<div class="heading-wrap">
 				<p class="eyebrow" aria-hidden="true">Our People</p>
-				<h2 class="heading-fade-in" use:isIntersecting>
+				<h2 class="section-heading heading-fade-in" use:isIntersecting>
 					<SpanifyText text="Different practices, a shared commitment to care" />
 				</h2>
 			</div>
@@ -134,7 +134,7 @@
 			<div class="rental-text">
 				<div class="heading-wrap">
 					<p class="eyebrow light" aria-hidden="true">Space Rental</p>
-					<h2>A space for your next gathering</h2>
+					<h2 class="section-heading">A space for your next gathering</h2>
 				</div>
 				<p class="body-large">
 					Our community continues to evolve, building on the many practitioners and practices that have found a home here over the years.
@@ -149,25 +149,6 @@
 
 <style>
 	/* Shared */
-	div.heading-wrap {
-		position: relative;
-	}
-
-	/* Sit above the eyebrows */
-	h2 {
-		position: relative;
-		font-family: var(--font-body);
-		font-size: 28px;
-		font-weight: 600;
-		line-height: 1.05;
-		text-wrap: wrap;
-	}
-
-	.body-large {
-		font-size: 20px;
-		letter-spacing: 0.05em;
-	}
-
 	h3 {
 		color: var(--color-text);
 		font-family: var(--font-body);
@@ -469,15 +450,7 @@
 	}
 
 	@media screen and (min-width: 1280px) {
-		h2 {
-			font-size: 32px;
-		}
-
 		h3 {
-			font-size: 24px;
-		}
-
-		.body-large {
 			font-size: 24px;
 		}
 	}

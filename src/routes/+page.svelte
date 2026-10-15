@@ -43,7 +43,8 @@
 		let wordAngles: number[] = [];
 
 		const fit = () => {
-			if (!badgeText || !wide.matches) return;
+			// Nothing to measure while the badge is hidden (it's dropped entirely under reduced motion)
+			if (!badgeText || !wide.matches || !badgeText.getNumberOfChars()) return;
 			badgeText.style.letterSpacing = "0";
 			const spacing = (circumference - badgeText.getComputedTextLength()) / badgeText.getNumberOfChars();
 			badgeText.style.letterSpacing = `${spacing}px`;

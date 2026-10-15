@@ -38,6 +38,9 @@
 			img: "/assets/images/event-films.jpg"
 		}
 	];
+
+	// Paired into rows, so a hovered card only ever takes width from the card beside it
+	const eventRows = [events.slice(0, 2), events.slice(2, 4)];
 </script>
 
 <SeoHead
@@ -78,22 +81,28 @@
 			</div>
 			<p class="body-large">There’s always something new to experience at Madhu.</p>
 		</div>
-		<!-- From 1024px on hover screens, the grid's tracks grow towards the hovered (or focused) card, which opens to show its details -->
-		<div class="event-cards group-stagger-fade" use:isIntersecting>
-			{#each events as event, i}
-				<!-- Named by its title and described by its text, rather than reading out the whole card -->
-				<a class="event-card" href={event.href} aria-labelledby="event-{i}-title" aria-describedby="event-{i}-text">
-					<img class="event-image" src={event.img} alt="" loading="lazy" />
-					<div class="event-text">
-						<h3 class="event-title" id="event-{i}-title">{event.title}</h3>
-						<div class="event-details">
-							<div class="event-details-inner">
-								<p id="event-{i}-text">{event.text}</p>
-								<span class="event-cta">{event.cta} <span class="event-arrow"><ArrowRightIcon aria-hidden="true" /></span></span>
+		<!-- Two rows of two. From 1024px on hover screens, the hovered (or focused) card widens within its own row,
+		     taking width from its neighbour, and opens to show its details -->
+		<div class="event-cards">
+			{#each eventRows as row, r}
+				<div class="event-row group-stagger-fade" use:isIntersecting>
+					{#each row as event, c}
+						{@const id = `event-${r * 2 + c}`}
+						<!-- Named by its title and described by its text, rather than reading out the whole card -->
+						<a class="event-card" href={event.href} aria-labelledby="{id}-title" aria-describedby="{id}-text">
+							<img class="event-image" src={event.img} alt="" loading="lazy" />
+							<div class="event-text">
+								<h3 class="event-title" id="{id}-title">{event.title}</h3>
+								<div class="event-details">
+									<div class="event-details-inner">
+										<p id="{id}-text">{event.text}</p>
+										<span class="event-cta">{event.cta} <span class="event-arrow"><ArrowRightIcon aria-hidden="true" /></span></span>
+									</div>
+								</div>
 							</div>
-						</div>
-					</div>
-				</a>
+						</a>
+					{/each}
+				</div>
 			{/each}
 		</div>
 	</section>
@@ -148,7 +157,8 @@
 		max-width: 538px;
 	}
 
-	div.event-cards {
+	div.event-cards,
+	div.event-row {
 		display: grid;
 		gap: var(--spacing-m);
 	}
@@ -157,12 +167,14 @@
 		position: relative;
 		display: flex;
 		align-items: flex-end;
-		/* A floor rather than a fixed ratio, so long text or zoomed type grows the card instead of being clipped */
-		min-height: 440px;
+		/* Landscape, but on phones (where the details always show) it grows to fit them rather than clipping:
+		   clip (unlike hidden) rounds the corners without stopping an aspect-ratio box growing to its content */
+		aspect-ratio: 3 / 2;
+		min-width: 0; /* So that growth only ever adds height; the ratio would otherwise widen the card too */
 		padding: var(--spacing-l);
 		border-radius: 10px;
 		box-shadow: var(--shadow);
-		overflow: hidden;
+		overflow: clip;
 		color: var(--color-white);
 	}
 
@@ -182,10 +194,12 @@
 	}
 
 	/* Brown rises from the bottom behind the title, and an even tint darkens the whole card while its details show */
+	/* Raised above the photo, which as a later positioned sibling would otherwise paint over ::before */
 	a.event-card::before,
 	a.event-card::after {
 		content: "";
 		position: absolute;
+		z-index: 1;
 		inset: 0;
 		pointer-events: none;
 	}
@@ -194,8 +208,8 @@
 		background: linear-gradient(
 			to top,
 			color-mix(in srgb, var(--color-brown) 90%, transparent) 0%,
-			color-mix(in srgb, var(--color-brown) 40%, transparent) 35%,
-			color-mix(in srgb, var(--color-brown) 0%, transparent) 60%
+			color-mix(in srgb, var(--color-brown) 60%, transparent) 40%,
+			color-mix(in srgb, var(--color-brown) 0%, transparent) 85%
 		);
 	}
 
@@ -205,7 +219,7 @@
 
 	div.event-text {
 		position: relative;
-		z-index: 1;
+		z-index: 2;
 		display: flex;
 		flex-direction: column;
 		max-width: 560px;
@@ -256,25 +270,23 @@
 	}
 
 	@media screen and (min-width: 768px) {
-		div.event-cards {
+		div.event-cards,
+		div.event-row {
 			gap: var(--spacing-l);
-		}
-
-		a.event-card {
-			min-height: 480px;
 		}
 	}
 
-	/* 2×2, square overall like the 1312×1312 design */
+	/* Each row splits into two landscape cards (about 600×385 at 1440px), and the row's height stays fixed while
+	   the cards trade width */
 	@media screen and (min-width: 1024px) {
-		div.event-cards {
+		div.event-row {
 			grid-template-columns: 1fr 1fr;
-			grid-template-rows: 1fr 1fr;
-			aspect-ratio: 1;
+			aspect-ratio: 16 / 5;
 		}
 
-		/* The grid sets the size from here; overflow: hidden lets the tracks shrink below the content */
+		/* The row sets the size from here, and a narrowing card may shrink below its content */
 		a.event-card {
+			aspect-ratio: auto;
 			min-height: 0;
 		}
 	}
@@ -289,57 +301,36 @@
 		}
 	}
 
-	/* The expand (Relume's Layout 423, in two dimensions). The active card's column and row grow to 1.3fr while the
-	   others give way to 0.7fr, so the grid's outer size never changes; its tint fades in and its details open below
-	   the title. Hover screens only, so touch users always see the details, and keyboard focus does the same */
+	/* The expand (Relume's Layout 423). The active card widens to 1.3fr as its neighbour gives way to 0.7fr, so the
+	   row's size never changes and the other row stays put; its tint fades in and its details open below the title.
+	   Hover screens only, so touch users always see the details, and keyboard focus does the same */
 	@media screen and (min-width: 1024px) and (hover: hover) and (prefers-reduced-motion: no-preference) {
-		div.event-cards {
-			transition:
-				grid-template-columns 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-				grid-template-rows 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+		div.event-row {
+			transition: grid-template-columns 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 		}
 
-		/* Each card sets both axes at once, hover first and keyboard focus after, so when a parked pointer and focus
-		   disagree, focus takes the whole grid rather than the two mixing axes. (Avoids :not(:has()), which Chrome
-		   doesn't re-check on hover) */
-		div.event-cards:has(> a.event-card:nth-child(1):hover) {
+		/* Hover first and keyboard focus after, so focus wins when a parked pointer and focus disagree within a row.
+		   (Avoids :not(:has()), which Chrome doesn't re-check on hover) */
+		div.event-row:has(> a.event-card:first-child:hover) {
 			grid-template-columns: 1.3fr 0.7fr;
-			grid-template-rows: 1.3fr 0.7fr;
 		}
 
-		div.event-cards:has(> a.event-card:nth-child(2):hover) {
+		div.event-row:has(> a.event-card:last-child:hover) {
 			grid-template-columns: 0.7fr 1.3fr;
-			grid-template-rows: 1.3fr 0.7fr;
 		}
 
-		div.event-cards:has(> a.event-card:nth-child(3):hover) {
+		div.event-row:has(> a.event-card:first-child:focus-visible) {
 			grid-template-columns: 1.3fr 0.7fr;
-			grid-template-rows: 0.7fr 1.3fr;
 		}
 
-		div.event-cards:has(> a.event-card:nth-child(4):hover) {
+		div.event-row:has(> a.event-card:last-child:focus-visible) {
 			grid-template-columns: 0.7fr 1.3fr;
-			grid-template-rows: 0.7fr 1.3fr;
 		}
 
-		div.event-cards:has(> a.event-card:nth-child(1):focus-visible) {
-			grid-template-columns: 1.3fr 0.7fr;
-			grid-template-rows: 1.3fr 0.7fr;
-		}
-
-		div.event-cards:has(> a.event-card:nth-child(2):focus-visible) {
-			grid-template-columns: 0.7fr 1.3fr;
-			grid-template-rows: 1.3fr 0.7fr;
-		}
-
-		div.event-cards:has(> a.event-card:nth-child(3):focus-visible) {
-			grid-template-columns: 1.3fr 0.7fr;
-			grid-template-rows: 0.7fr 1.3fr;
-		}
-
-		div.event-cards:has(> a.event-card:nth-child(4):focus-visible) {
-			grid-template-columns: 0.7fr 1.3fr;
-			grid-template-rows: 0.7fr 1.3fr;
+		/* While a card in one row has focus, the other row ignores hover (its hovered card stays closed, below).
+		   Focus changes are re-checked reliably, unlike hover, so :not(:has()) is safe here */
+		div.event-cards:has(a.event-card:focus-visible) div.event-row:not(:has(a.event-card:focus-visible)) {
+			grid-template-columns: 1fr 1fr;
 		}
 
 		a.event-card::after {
@@ -372,16 +363,16 @@
 		}
 
 		/* While another card has keyboard focus, a merely hovered card stays closed */
-		div.event-cards:has(> a.event-card:focus-visible) > a.event-card:hover:not(:focus-visible)::after {
+		div.event-cards:has(a.event-card:focus-visible) a.event-card:hover:not(:focus-visible)::after {
 			opacity: 0;
 		}
 
-		div.event-cards:has(> a.event-card:focus-visible) > a.event-card:hover:not(:focus-visible) div.event-details {
+		div.event-cards:has(a.event-card:focus-visible) a.event-card:hover:not(:focus-visible) div.event-details {
 			grid-template-rows: 0fr;
 			opacity: 0;
 		}
 
-		div.event-cards:has(> a.event-card:focus-visible) > a.event-card:hover:not(:focus-visible) span.event-arrow {
+		div.event-cards:has(a.event-card:focus-visible) a.event-card:hover:not(:focus-visible) span.event-arrow {
 			translate: 0 0;
 		}
 	}

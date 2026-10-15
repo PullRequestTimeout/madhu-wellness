@@ -112,6 +112,7 @@ button {
 	--color-overlay-brown: #68381e99;
 	--color-script-brown: #6f451833;
 	--color-script-cream: #ffedd833;
+	--color-script-cream-faint: #ffedd82b; /* Behind the inner-page hero titles, which are set larger */
 	--color-placeholder: #60380880;
 
 	/* Semantic colors */

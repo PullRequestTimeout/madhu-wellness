@@ -1,4 +1,5 @@
-<!-- Header for the inner pages: a full-bleed photo with the page title set large in its bottom-left corner -->
+<!-- Header for the inner pages: a full-bleed photo with the page title set large in its bottom-left corner,
+     over a faint script copy of the title in lower case -->
 <script lang="ts">
 	import SpanifyText from "$lib/components/SpanifyText.svelte";
 	import { isIntersecting } from "$lib/utils/isIntersecting";
@@ -8,9 +9,12 @@
 
 <section class="hero page-hero">
 	<img class="hero-image" src={image} alt="" />
-	<h1 class="heading-fade-in" use:isIntersecting>
-		<SpanifyText text={title} />
-	</h1>
+	<div class="page-hero-title">
+		<p class="eyebrow light" aria-hidden="true">{title.toLowerCase()}</p>
+		<h1 class="heading-fade-in" use:isIntersecting>
+			<SpanifyText text={title} />
+		</h1>
+	</div>
 </section>
 
 <style>
@@ -28,9 +32,22 @@
 		background-color: var(--color-overlay-hero);
 	}
 
-	h1 {
+	div.page-hero-title {
 		position: relative;
 		z-index: 1;
+	}
+
+	/* Sized from the title rather than the usual eyebrow scale (about 115px on phones, 205px from 1280px),
+	   fainter, and sitting lower so it runs behind it */
+	p.eyebrow {
+		top: -0.2em;
+		color: var(--color-script-cream-faint);
+		font-size: calc(var(--font-heading-l) * 3.2);
+	}
+
+	/* Sits above the script */
+	h1 {
+		position: relative;
 		color: var(--color-white);
 		font-family: var(--font-body);
 		font-size: var(--font-heading-l);

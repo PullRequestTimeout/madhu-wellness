@@ -384,13 +384,6 @@
 	}
 
 	@media screen and (min-width: 768px) {
-		section.values,
-		section.space,
-		section.people,
-		section.rental {
-			padding-block: var(--spacing-xl);
-		}
-
 		div.people-intro {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 			gap: var(--spacing-xl);
@@ -486,13 +479,6 @@
 
 		.body-large {
 			font-size: 24px;
-		}
-
-		section.values,
-		section.space,
-		section.people,
-		section.rental {
-			padding-block: 96px;
 		}
 	}
 

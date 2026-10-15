@@ -523,10 +523,6 @@
 			gap: var(--spacing-xl);
 		}
 
-		section.offerings {
-			padding-block: var(--spacing-xl);
-		}
-
 		/* The desktop card spread's --card-width maths assumes this gap */
 		div.offering-cards {
 			gap: var(--spacing-l);
@@ -573,10 +569,6 @@
 
 		blockquote {
 			--mark-size: 96px;
-		}
-
-		section.offerings {
-			padding-block: 96px;
 		}
 	}
 

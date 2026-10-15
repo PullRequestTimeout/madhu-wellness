@@ -115,7 +115,6 @@
 			flex-direction: row;
 			align-items: center;
 			justify-content: space-between;
-			padding-block: var(--spacing-xl);
 		}
 
 		div.newsletter-text {
@@ -135,10 +134,6 @@
 
 		p.newsletter-body {
 			font-size: 24px;
-		}
-
-		section.newsletter {
-			padding-block: 96px;
 		}
 	}
 </style>

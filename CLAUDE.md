@@ -35,7 +35,7 @@ After making UI changes (any `.svelte`, `.css` or `.html` file), run the `ui-ux-
 
 ## Spacing
 
-- To change section padding at a breakpoint, redefine `--padding-block` or `--padding-inline` in `global.css`. Don't hard-code `padding-block` on individual sections. On mobile, `--padding-block` is `--spacing-l`.
+- To change section padding at a breakpoint, redefine `--padding-block` or `--padding-inline` in `global.css`. Don't hard-code `padding-block` on individual sections, even where existing code once did. `--padding-block` is `--spacing-l` on mobile, `--spacing-xl` from 768px and 6rem (the design's 96px) from 1280px.
 - Mobile gaps step down one size from desktop:
   - Use `--spacing-m` between closely related items: a heading and its paragraph, the cards in a group, and stacked buttons.
   - Use `--spacing-l` between groups, such as an intro and the cards below it, or text and the buttons under it.

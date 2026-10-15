@@ -205,7 +205,7 @@
 		content: "";
 		position: absolute;
 		inset: 0;
-		background-image: url(/assets/images/texture-newsletter.png);
+		background-image: url(/assets/images/texture-newsletter.webp);
 		background-size: 1024px 1024px;
 		opacity: 0.79;
 		pointer-events: none;

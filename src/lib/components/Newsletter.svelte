@@ -38,7 +38,7 @@
 		content: "";
 		position: absolute;
 		inset: 0;
-		background-image: url(/assets/images/texture-newsletter.png);
+		background-image: url(/assets/images/texture-newsletter.webp);
 		background-size: 1024px 1024px;
 		background-position: top left;
 		opacity: 0.79;

@@ -359,7 +359,7 @@
 		color: var(--color-text);
 		/* Texture at 50% over peach, done as a half-peach wash so it scrolls with the panel */
 		background-color: var(--color-background-peach);
-		background-image: linear-gradient(color-mix(in srgb, var(--color-background-peach) 50%, transparent)), url(/assets/images/texture-offerings.png);
+		background-image: linear-gradient(color-mix(in srgb, var(--color-background-peach) 50%, transparent)), url(/assets/images/texture-offerings.webp);
 		background-size: cover;
 		background-attachment: local;
 	}

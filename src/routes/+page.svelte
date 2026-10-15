@@ -82,7 +82,7 @@
 	const offerings = [
 		{ text: "Yoga Classes", href: "/classes-events", img: "/assets/images/card-yoga.jpg" },
 		{ text: "Restorative Treatments", href: "/treatments-practitioners", img: "/assets/images/card-treatments.jpg" },
-		{ text: "Practitioners", href: "/treatments-practitioners", img: "/assets/images/card-practitioners.png" },
+		{ text: "Practitioners", href: "/treatments-practitioners", img: "/assets/images/card-practitioners.webp" },
 		{ text: "Events Schedule", href: "/classes-events", img: "/assets/images/card-events.jpg" }
 	];
 </script>
@@ -91,7 +91,7 @@
 
 <main>
 	<section class="hero">
-		<img class="hero-image" src="/assets/images/hero-home.png" alt="" width="1024" height="683" />
+		<img class="hero-image" src="/assets/images/hero-home.webp" alt="" width="1024" height="683" />
 		<div class="hero-content" style="--letter-fade: {letterFadeMs}ms; --reveal-delay: {heroRevealDelayMs}ms">
 			<hgroup>
 				<h1 class="eyebrow light">Madhu Collective</h1>
@@ -316,7 +316,7 @@
 	   and it runs right down to the video. Across, it keeps at least its own 1024px width and the box crops the
 	   rest, so narrow screens don't squash the grain */
 	section.offerings::before {
-		background-image: url(/assets/images/texture-offerings.png);
+		background-image: url(/assets/images/texture-offerings.webp);
 		background-size: max(100%, 1024px) 100%;
 		background-repeat: no-repeat;
 		opacity: 0.5;
@@ -477,7 +477,7 @@
 		content: "";
 		position: absolute;
 		inset: 0;
-		background-image: url(/assets/images/texture-offerings.png);
+		background-image: url(/assets/images/texture-offerings.webp);
 		background-size: 100% 100%;
 		background-repeat: no-repeat;
 		opacity: 0.5;

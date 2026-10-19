@@ -182,13 +182,17 @@
 	}
 
 	/* Values */
+	/* Stretched down rather than tiled, so its top edge doesn't repeat as a seam down the tall stacked cards on
+	   phones. It's drawn at twice the section's height and the box crops the bottom half, so the texture's darkest
+	   part never sits behind the card text. Across, it keeps at least its own 1024px width and the box crops the rest */
 	section.values::before {
 		content: "";
 		position: absolute;
 		inset: 0;
 		background-image: url(/assets/images/texture-newsletter.webp);
-		background-size: 1024px 1024px;
-		opacity: 0.79;
+		background-size: max(100%, 1024px) 200%;
+		background-repeat: no-repeat;
+		opacity: 0.5;
 		pointer-events: none;
 	}
 

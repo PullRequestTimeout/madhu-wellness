@@ -23,6 +23,7 @@ After making UI changes (any `.svelte`, `.css` or `.html` file), run the `ui-ux-
 - `static/global-noncritical.css` holds the scroll animations and is linked at the end of `<body>`.
 - `src/lib/utils/` holds the Svelte actions and the shared runes state.
 - `design/figma/` is a local-only (gitignored) offline copy of the Figma design. Its `README.md` indexes what's there. Read it before calling the Figma MCP, because the Starter plan has a low call limit. Save any new Figma responses there too.
+- The SVAR MCP server (`svar-mcp` in `.mcp.json`) is the source of truth for `@svar-ui/svelte-calendar` APIs. Query it before writing or changing calendar code.
 
 ## Conventions worth knowing up front
 

@@ -7,6 +7,10 @@
     "playwright": {
       "command": "npx",
       "args": ["@playwright/mcp@latest"]
+    },
+    "svar-mcp": {
+      "type": "http",
+      "url": "https://docs.svar.dev/mcp"
     }
   }
 }

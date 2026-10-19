@@ -1,0 +1,35 @@
+rules_version = '2';
+
+// The real protection for the site's data: client-side admin checks are UX only.
+// Deploy from the repo with `firebase deploy --only firestore:rules`; don't edit the rules in the console.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAdmin() {
+      // TODO: replace with the admin UID(s) from Authentication > Users. Keep in sync with PUBLIC_ADMIN_UIDS.
+      return request.auth != null && request.auth.uid in ['VR7cdrc0dsZgOlxnoyMEkTqJZ2x1'];
+    }
+
+    // The shape an admin may write to a calendar event
+    function validEvent() {
+      let d = request.resource.data;
+      return d.keys().hasOnly(['text', 'start', 'end', 'allDay', 'details', 'link', 'category', 'updatedAt'])
+        && d.text is string && d.text.size() > 0 && d.text.size() <= 120
+        && d.start is timestamp && d.end is timestamp && d.end >= d.start
+        && d.allDay is bool
+        && (!('details' in d) || (d.details is string && d.details.size() <= 2000))
+        && (!('link' in d) || (d.link is string && d.link.size() <= 500 && d.link.matches('^https://.+')))
+        && (!('category' in d) || d.category in ['class', 'workshop', 'training', 'community'])
+        && (!('updatedAt' in d) || d.updatedAt is timestamp);
+    }
+
+    // Calendar events: public-read/admin-write
+    match /events/{id} {
+      allow read: if true;
+      allow create, update: if isAdmin() && validEvent();
+      allow delete: if isAdmin();
+    }
+
+    // Anything not matched above is denied by default.
+  }
+}

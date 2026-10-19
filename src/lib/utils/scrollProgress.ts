@@ -1,10 +1,15 @@
 // Scroll-linked progress action for pinned (scrubbed) animations.
 // Usage: <div class="track" use:scrollProgress><div class="stage">…</div></div>, where the stage is position: sticky
 // and the track is taller than it. Sets --progress on the track: 0 when the stage pins, 1 when it unpins.
-// Scrolling back up runs it in reverse.
+// Scrolling back up runs it in reverse. Pass { onProgress } to also hear each new value, e.g. to pick a discrete step.
 
-export function scrollProgress(node: HTMLElement) {
+type ScrollProgressOptions = {
+	onProgress?: (progress: number) => void;
+};
+
+export function scrollProgress(node: HTMLElement, options: ScrollProgressOptions = {}) {
 	let frame = 0;
+	let onProgress = options.onProgress;
 
 	const update = () => {
 		frame = 0;
@@ -16,6 +21,7 @@ export function scrollProgress(node: HTMLElement) {
 		const scrolled = pinTop - node.getBoundingClientRect().top;
 		const progress = distance > 0 ? Math.min(Math.max(scrolled / distance, 0), 1) : 0;
 		node.style.setProperty("--progress", progress.toFixed(4));
+		onProgress?.(progress);
 	};
 
 	const schedule = () => {
@@ -43,6 +49,9 @@ export function scrollProgress(node: HTMLElement) {
 	update();
 
 	return {
+		update(next: ScrollProgressOptions = {}) {
+			onProgress = next.onProgress;
+		},
 		destroy() {
 			observer.disconnect();
 			stop();

@@ -56,7 +56,42 @@ After making UI changes (any `.svelte`, `.css` or `.html` file), run the `ui-ux-
 - Scrubbed motion uses the individual `translate` property, not `transform`. That way it doesn't fight the transitioned `transform` used by `group-stagger-fade` on the same elements.
 - Because `calc()` can't branch, easing curves are built piecewise from `clamp()` segments. See the `--ease` definition in `src/routes/+page.svelte`.
 
+## Shared UI feedback
+
+- **Toasts:** `toast.success / error / info(message)` from `$lib/utils/toast.svelte`, rendered by `<Toaster />` in the root layout. Use them for the result of async actions such as login, logout and saves. Don't raise one while a modal is open; show the error inline instead, or toast after the modal closes.
+- **Confirmations:** `if (await confirmDialog({ title, message?, confirmText?, cancelText?, danger? }))` from `$lib/utils/confirm.svelte`. It's rendered by `<ConfirmDialog />` in the layout. Never use `window.confirm()`. Use `danger: true` for destructive actions.
+- **Modals:** use the native `<dialog>` with the `modal` action from `$lib/utils/modal.ts`. ContactPanel, AdminLoginPanel and ConfirmDialog all do. Anything modal-like that isn't a `<dialog>`, such as SVAR's editor, calls `lockScroll()` directly. It's reference-counted, so stacked modals don't fight.
+- No ancestor of a `position: fixed` overlay may keep a `transform`, because it traps the overlay. That's why the calendar's `.scroll-fade-up.show` ends on `transform: none`.
+
+## Admin auth (Firebase)
+
+- Firebase email/password auth is for admins only. Sign-up is disabled in the console, and admins are an allowlist of UIDs.
+  - The allowlist lives in `PUBLIC_ADMIN_UIDS` in `.env` and Netlify, and in `isAdmin()` in `firestore.rules`. Keep the two in sync.
+  - Deploy rules with `firebase deploy --only firestore:rules`. The project is `madhu-wellness-collective`.
+- Stay on the `firebase` 12.x SDK. 13.x needs Node 24, and this machine has Node 22.
+- `src/lib/firebase/` holds the config, lazy `loadAuth()` / `loadDb()` dynamic imports and `adminWrite()`. `src/lib/auth/` holds `authStore` (`ready`, `isAdmin`), the actions and `LogoutButton`.
+- Firebase is never loaded for ordinary visitors. A localStorage hint (`madhu-admin-session`) tells the layout to restore a returning admin's session.
+- Admins log in through the footer's "Admin" link (it becomes "Log out" when signed in), or through `?admin` on any URL. The Firestore rules are the real protection; hiding the UI is cosmetic.
+
+## Calendar (SVAR)
+
+- `@svar-ui/svelte-calendar` (MIT) shows a month view on `/classes-events`. Events live in the Firestore `events` collection (`src/lib/calendar/events.ts`). Anyone can read them; only admins can write, and the rules validate the event's shape.
+- `EventCalendar.svelte` renders an SSR placeholder, then lazy-imports `CalendarView.svelte`, which holds all the SVAR wiring. Admins get an "Edit mode" switch above it, and the calendar is read-only until it's on.
+- Query `svar-mcp` before changing calendar code. Only its `Search` tool with `mode: "sparse"` works; Inference and dense search return a 429 on SVAR's side. The package source in `node_modules/@svar-ui/` is the fallback.
+- SVAR quirks the code works around (don't undo these without checking):
+  - **Snapshot resets.** A new `events` array re-inits the store and snaps back to the `date` prop. Set `date` from `api.getState().currentDate` before replacing events.
+  - **Editor autosave.** `autoSave` writes on every keystroke, so the Editor runs with `autoSave={false}` and a custom bottom bar (Delete, Duplicate, Cancel, Save). Closing it mid-save throws, so the close is deferred.
+  - **Month-view creation.** Month view has no click-to-create; `onGridClick` adds an all-day event. Clicking a day number tries to open Day view, so the `navigate-to` intercept blocks it.
+  - **All-day end dates.** An all-day event's `end` is the exclusive next midnight. `EventDatesField` shows and edits the inclusive "Last day". Do date arithmetic in calendar days, not milliseconds, because of DST.
+  - **Theme and icons.** Willow's `fonts={false}` also drops the `wxi` icon font, and the upstream prev/next buttons have no labels. The toolbar therefore uses custom `CalendarNavButtons` and `CalendarAddButton`.
+  - **Category field.** It's a native `<select>` (`CategorySelect`), because SVAR's RichSelect is unlabelled.
+  - **Payload typing.** Action payloads are typed as unions, so use the typed `intercept` / `on` helpers in CalendarView.
+  - **Theme variables.** They go on `:global(:root .wx-willow-theme)`. Popup and modal z-index is 1050, above the nav's 1000.
+- The studio is Canadian. Editor date pickers use day/month/year (`%d/%m/%Y`), and the display text in `format.ts` uses the `en-CA` locale. Weeks start on Sunday.
+- The event popup isn't keyboard-reachable, so the accessible list of the month's events below the grid must stay.
+
 ## Git
 
-- Work happens on feature branches (currently `figma-restyle`), and `master` is the main branch.
+- Work happens on feature branches (currently `calendar`), and `master` is the main branch.
+- This is a Windows checkout with `core.autocrlf` on, and `npm run format` rewrites every file's line endings. Run `npx prettier --write` on only the files you changed.
 - Start every commit subject with a gitmoji emoji, for example `💫` for animation, `♻️` for refactors and `🔧` for config.

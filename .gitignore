@@ -30,3 +30,6 @@ vite.config.ts.timestamp-*
 
 # Offline Figma reference (local only, see CLAUDE.md)
 /design/figma/
+
+# Local spec for agents, not committed
+/AUTH.md

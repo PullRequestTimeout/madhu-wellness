@@ -1,8 +1,21 @@
 <script lang="ts">
 	import { navLinks } from "$lib/data/navLinks";
-	import { openContact } from "$lib/utils/globalStates.svelte";
+	import { openContact, openLogin, announce } from "$lib/utils/globalStates.svelte";
+	import { authStore } from "$lib/auth/auth.svelte";
+	import { logout } from "$lib/auth/actions";
+	import { firebaseConfigured } from "$lib/firebase/config";
 
 	const year = new Date().getFullYear();
+	const isAdmin = $derived(authStore.ready && authStore.isAdmin);
+	let loggingOut = $state(false);
+
+	async function handleLogout() {
+		if (loggingOut) return;
+		loggingOut = true;
+		const result = await logout();
+		loggingOut = false;
+		announce(result.ok ? "Logged out." : result.message);
+	}
 </script>
 
 <footer class="bg-brown">
@@ -35,6 +48,16 @@
 		<div class="footer-policies">
 			<a href="/privacy#cookies">Cookies</a>
 			<a href="/privacy">Privacy Policy</a>
+			<!-- Discreet way in for the studio's admins. Hiding it is cosmetic: the Firestore rules protect the data.
+			     One button that becomes Log out, rather than two swapped in and out, so keyboard focus survives signing in or out -->
+			{#if firebaseConfigured}
+				<button
+					class="footer-admin"
+					aria-haspopup={isAdmin ? undefined : "dialog"}
+					aria-disabled={loggingOut}
+					onclick={isAdmin ? handleLogout : openLogin}>{isAdmin ? "Log out" : "Admin"}</button
+				>
+			{/if}
 		</div>
 	</div>
 
@@ -85,22 +108,31 @@
 	/* One line each, however long */
 	div.footer-link-column a,
 	div.footer-link-column button.footer-contact,
-	div.footer-policies a {
+	div.footer-policies a,
+	div.footer-policies button.footer-admin {
 		position: relative;
 		white-space: nowrap;
 	}
 
-	/* Contact is a button but looks like the links around it */
-	button.footer-contact {
+	/* Contact and Admin are buttons but look like the links around them */
+	button.footer-contact,
+	div.footer-policies button.footer-admin {
 		padding: 0;
 		border: 0;
 		background: none;
 		color: inherit;
 	}
 
+	/* While logging out */
+	button.footer-admin[aria-disabled="true"] {
+		opacity: 0.6;
+		cursor: progress;
+	}
+
 	div.footer-link-column a::after,
 	div.footer-link-column button.footer-contact::after,
-	div.footer-policies a::after {
+	div.footer-policies a::after,
+	div.footer-policies button.footer-admin::after {
 		content: "";
 		position: absolute;
 		left: 0;
@@ -128,9 +160,11 @@
 		gap: var(--spacing-m);
 	}
 
+	/* Wraps rather than overflowing the narrowest phones now that Admin sits here too */
 	div.footer-policies {
 		display: flex;
-		gap: var(--spacing-l);
+		flex-wrap: wrap;
+		gap: var(--spacing-m) var(--spacing-l);
 	}
 
 	/* Centred and only as wide as its content, so the link's target is the credit itself */
@@ -153,7 +187,8 @@
 	@media (hover: hover) {
 		div.footer-link-column a:hover::after,
 		div.footer-link-column button.footer-contact:hover::after,
-		div.footer-policies a:hover::after {
+		div.footer-policies a:hover::after,
+		div.footer-policies button.footer-admin:hover::after {
 			width: 100%;
 		}
 

@@ -15,29 +15,34 @@
 	// TODO: headshots for the hover photo (add an img field and swap the initials block for it)
 	const practitioners = [
 		{
-			name: "Clare Kearney",
-			role: "Owner / Yoga Instructor / Registered Massage Therapist",
-			bio: "Clare is registered with the College of Massage Therapists of British Columbia. Full bio coming soon: this placeholder stands in for her background, training and approach to care."
-		},
-		{
-			name: "Danielle Hachey",
-			role: "Owner / Yoga Instructor",
-			bio: "Danielle is a long-time yoga instructor. Full bio coming soon: this placeholder stands in for her background, training and approach to teaching."
-		},
-		{
 			name: "Nadine Klawitter",
 			role: "Registered Massage Therapist",
 			bio: "Nadine has been a registered massage therapist for many years. Full bio coming soon: this placeholder stands in for her background, training and approach to care."
 		},
 		{
-			name: "Jineya Naiker",
+			name: "Clare Kearney",
+			role: "Owner / Yoga Instructor / Registered Massage Therapist",
+			bio: "Clare is registered with the College of Massage Therapists of British Columbia. Full bio coming soon: this placeholder stands in for her background, training and approach to care."
+		},
+		{
+			name: "Michelle Coish",
+			role: "Osteopathic Manual Practitioner / Lactation Consultant",
+			bio: "Starting her career as a maternity and pediatric practitioner, Michelle now offers osteopathic care and lactation support. Full bio coming soon: this placeholder stands in for her background and approach."
+		},
+		{
+			name: "Danielle Hachey",
+			role: "Owner / Yoga Teacher Trainer",
+			bio: "Danielle is a long-time yoga instructor. Full bio coming soon: this placeholder stands in for her background, training and approach to teaching."
+		},
+		{
+			name: "Jineya Naicker",
 			role: "Canadian Certified Counsellor",
 			bio: "With over 17 years of work experience in the field of mental health, Jineya brings depth and care to her counselling practice. Full bio coming soon: this placeholder stands in for her background and approach."
 		},
 		{
-			name: "Michelle Coish",
-			role: "Osteopath / Lactation Consultant",
-			bio: "Starting her career as a maternity and pediatric practitioner, Michelle now offers osteopathic care and lactation support. Full bio coming soon: this placeholder stands in for her background and approach."
+			name: "Keith Robine",
+			role: "Registered Clinical Counsellor",
+			bio: "Keith is a registered clinical counsellor. Full bio coming soon: this placeholder stands in for his background, training and approach to care."
 		}
 	];
 

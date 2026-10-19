@@ -27,10 +27,12 @@
 
 	// Headshots to come; until then each shows a placeholder circle
 	const practitioners: { name: string; role: string; img?: string }[] = [
-		{ name: "Clare Kearney", role: "Yoga Instructor / Registered Massage Therapist" },
-		{ name: "Danielle Hachey", role: "Yoga Instructor" },
 		{ name: "Nadine Klawitter", role: "Registered Massage Therapist" },
-		{ name: "Jineya Naiker", role: "Canadian Certified Counsellor" }
+		{ name: "Clare Kearney", role: "Registered Massage Therapist" },
+		{ name: "Michelle Coish", role: "Osteopathic Manual Practitioner" },
+		{ name: "Danielle Hachey", role: "Yoga Teacher Trainer" },
+		{ name: "Jineya Naicker", role: "Canadian Certified Counsellor" },
+		{ name: "Keith Robine", role: "Registered Clinical Counsellor" }
 	];
 </script>
 
@@ -373,6 +375,11 @@
 			grid-template-columns: repeat(3, minmax(0, 1fr));
 		}
 
+		/* Two full rows of three */
+		ul.people-list {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+
 		div.people-intro {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 			gap: var(--spacing-xl);
@@ -423,10 +430,6 @@
 
 		li.value-card + li.value-card {
 			border-left: var(--border-width) solid var(--color-text);
-		}
-
-		ul.people-list {
-			grid-template-columns: repeat(4, minmax(0, 1fr));
 		}
 
 		span.value-icon {

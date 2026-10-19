@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
-	import { announce } from "$lib/utils/globalStates.svelte";
+	import { toast } from "$lib/utils/toast.svelte";
 	import { logout } from "./actions";
 
 	// Unstyled: the parent passes a class and styles it with :global() or its own selector
@@ -13,7 +13,8 @@
 		// Finish signing out before navigating
 		const result = await logout();
 		pending = false;
-		announce(result.ok ? "Logged out." : result.message);
+		if (result.ok) toast.success("You're logged out.");
+		else toast.error(result.message);
 		if (result.ok && redirectTo) await goto(redirectTo);
 	}
 </script>

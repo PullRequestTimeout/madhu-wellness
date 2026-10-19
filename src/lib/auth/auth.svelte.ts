@@ -2,6 +2,7 @@ import { browser } from "$app/environment";
 import type { User } from "firebase/auth";
 import { firebaseConfigured } from "$lib/firebase/config";
 import { loadAuth } from "$lib/firebase/load";
+import { toast } from "$lib/utils/toast.svelte";
 import { isAdminUid } from "./config";
 
 type AuthState = {
@@ -65,6 +66,7 @@ export function initAuth(): () => void {
 			// Offline or blocked: carry on signed out rather than leaving admin UI waiting forever
 			console.error(err);
 			authStore.ready = true;
+			toast.error("Couldn't restore your admin session. Check your connection, then refresh the page.");
 		});
 	} else {
 		authStore.ready = true;

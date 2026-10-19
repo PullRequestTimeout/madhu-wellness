@@ -4,12 +4,13 @@
 	import Footer from "$lib/components/Footer.svelte";
 	import ContactPanel from "$lib/components/ContactPanel.svelte";
 	import AdminLoginPanel from "$lib/components/AdminLoginPanel.svelte";
+	import Toaster from "$lib/components/Toaster.svelte";
 	import { afterNavigate, onNavigate, replaceState } from "$app/navigation";
 	import { page } from "$app/state";
 	import { initAuth, waitForAuth } from "$lib/auth/auth.svelte";
 	import { isAdminUid } from "$lib/auth/config";
 	import { firebaseConfigured } from "$lib/firebase/config";
-	import { uiStore, openLogin } from "$lib/utils/globalStates.svelte";
+	import { openLogin } from "$lib/utils/globalStates.svelte";
 
 	let { children } = $props();
 
@@ -50,5 +51,5 @@
 <!-- Global modals / CTAs shared by every page go here -->
 <ContactPanel />
 <AdminLoginPanel />
-<!-- Announces changes with no visible message of their own, such as signing in or out -->
-<p class="visually-hidden" role="status">{uiStore.announcement}</p>
+<!-- Feedback raised anywhere with toast() from $lib/utils/toast.svelte -->
+<Toaster />

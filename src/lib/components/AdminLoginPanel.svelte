@@ -6,7 +6,8 @@
 	import XIcon from "phosphor-svelte/lib/XIcon";
 	import PrimaryButton from "$lib/components/PrimaryButton.svelte";
 	import { login, resetPassword } from "$lib/auth/actions";
-	import { uiStore, closeLogin, announce } from "$lib/utils/globalStates.svelte";
+	import { uiStore, closeLogin } from "$lib/utils/globalStates.svelte";
+	import { toast } from "$lib/utils/toast.svelte";
 	import { modal, canRefocus } from "$lib/utils/modal";
 
 	let mode = $state<"login" | "reset">("login");
@@ -51,7 +52,8 @@
 		if (canRefocus(wasOpener) && wasOpener !== document.body) wasOpener.focus();
 		if (signedIn) {
 			signedIn = false;
-			announce("Signed in as admin.");
+			// Raised once the dialog has closed, as the page behind a modal is inert and would hide it
+			toast.success("You're signed in as an admin.");
 		}
 	}
 

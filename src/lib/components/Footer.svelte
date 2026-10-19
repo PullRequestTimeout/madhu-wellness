@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { navLinks } from "$lib/data/navLinks";
-	import { openContact, openLogin, announce } from "$lib/utils/globalStates.svelte";
+	import { openContact, openLogin } from "$lib/utils/globalStates.svelte";
+	import { toast } from "$lib/utils/toast.svelte";
 	import { authStore } from "$lib/auth/auth.svelte";
 	import { logout } from "$lib/auth/actions";
 	import { firebaseConfigured } from "$lib/firebase/config";
@@ -14,7 +15,8 @@
 		loggingOut = true;
 		const result = await logout();
 		loggingOut = false;
-		announce(result.ok ? "Logged out." : result.message);
+		if (result.ok) toast.success("You're logged out.");
+		else toast.error(result.message);
 	}
 </script>
 

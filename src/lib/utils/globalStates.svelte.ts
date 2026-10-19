@@ -1,5 +1,5 @@
 // Global UI state shared across components (runes, no stores)
-export const uiStore = $state({ modalOpen: false, contactOpen: false, loginOpen: false, announcement: "" });
+export const uiStore = $state({ modalOpen: false, contactOpen: false, loginOpen: false });
 
 export function openContact() {
 	uiStore.contactOpen = true;
@@ -23,11 +23,4 @@ export function openModal() {
 
 export function closeModal() {
 	uiStore.modalOpen = false;
-}
-
-/** Read out by the layout's status region, for changes that have no visible message of their own (e.g. signing in) */
-export function announce(message: string) {
-	// Cleared first, so repeating the same message is still announced
-	uiStore.announcement = "";
-	setTimeout(() => (uiStore.announcement = message), 50);
 }

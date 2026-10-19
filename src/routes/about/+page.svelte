@@ -2,7 +2,6 @@
 	import HandshakeIcon from "phosphor-svelte/lib/HandshakeIcon";
 	import HandHeartIcon from "phosphor-svelte/lib/HandHeartIcon";
 	import UsersThreeIcon from "phosphor-svelte/lib/UsersThreeIcon";
-	import PlantIcon from "phosphor-svelte/lib/PlantIcon";
 	import SeoHead from "$lib/components/SeoHead.svelte";
 	import PageHero from "$lib/components/PageHero.svelte";
 	import PrimaryButton from "$lib/components/PrimaryButton.svelte";
@@ -12,10 +11,18 @@
 	import { openContact } from "$lib/utils/globalStates.svelte";
 
 	const values = [
-		{ title: "Connection", text: "Creating meaningful relationships within our space and the wider community.", icon: HandshakeIcon },
-		{ title: "Care", text: "Approaching our work with thoughtfulness, compassion and respect.", icon: HandHeartIcon },
-		{ title: "Inclusivity", text: "Welcoming people from different backgrounds, experiences and walks of life.", icon: UsersThreeIcon },
-		{ title: "Growth", text: "Supporting learning, personal development and new possibilities.", icon: PlantIcon }
+		{
+			title: "Community",
+			text: "Sustaining meaningful relationships, with over 10 years supporting local non-profits and organizations, and a commitment to social and environmental responsibility.",
+			icon: HandshakeIcon
+		},
+		{
+			title: "Collaborative Care",
+			text: "A collective of health professionals, registered clinicians and certified instructors.",
+			icon: HandHeartIcon
+		},
+		// TODO: the client is still writing this one
+		{ title: "Inclusivity", text: "Welcoming people from different backgrounds, experiences and walks of life.", icon: UsersThreeIcon }
 	];
 
 	// Headshots to come; until then each shows a placeholder circle
@@ -44,8 +51,8 @@
 				</h2>
 			</div>
 			<p class="body-large">
-				Madhu Collective is built on a shared belief in the importance of connection, care and creating space for people to feel supported. These
-				values shape how we work, how we welcome others and how we contribute to our community.
+				Madhu Collective is built on a shared belief in the importance of connection, collaborative care and creating spaces for people to feel
+				supported. These values shape how we work, how we welcome others and how we contribute to our community.
 			</p>
 		</div>
 		<ul class="value-cards group-stagger-fade" use:isIntersecting>
@@ -361,14 +368,11 @@
 		margin-top: calc(var(--spacing-l) - var(--spacing-m));
 	}
 
-	@media screen and (min-width: 640px) {
-		/* Off the usual breakpoints: two value cards fit side by side well before 768px */
-		ul.value-cards {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-		}
-	}
-
 	@media screen and (min-width: 768px) {
+		ul.value-cards {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+
 		div.people-intro {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 			gap: var(--spacing-xl);
@@ -404,9 +408,8 @@
 	}
 
 	@media screen and (min-width: 1024px) {
-		/* Four across, split by rules */
+		/* Split by rules */
 		ul.value-cards {
-			grid-template-columns: repeat(4, minmax(0, 1fr));
 			gap: 0;
 		}
 

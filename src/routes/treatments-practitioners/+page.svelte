@@ -209,7 +209,14 @@
 		>
 			<div class="treatments-stage" style:--active-bg={treatments[activeTreatment].bg}>
 				{#each treatments as treatment, i}
-					<article class="treatment" class:active={activeTreatment === i} style:--treatment-bg={treatment.bg} onfocusin={() => showTreatment(i)}>
+					<!-- As bands, the text and image fade up as each scrolls in; pinned, the crossfade takes over -->
+					<article
+						class="treatment group-stagger-fade"
+						class:active={activeTreatment === i}
+						style:--treatment-bg={treatment.bg}
+						onfocusin={() => showTreatment(i)}
+						use:isIntersecting
+					>
 						<div class="treatment-text">
 							<div class="heading-wrap">
 								<p class="eyebrow" aria-hidden="true">{treatment.eyebrow}</p>
@@ -594,6 +601,12 @@
 
 		div.treatments-track.pinned article.treatment.active {
 			pointer-events: auto;
+		}
+
+		/* Switch off the bands' group-stagger-fade entrance: its transform and per-child delays would fight the crossfade */
+		div.treatments-track.pinned article.treatment > * {
+			transform: none;
+			transition-delay: 0s;
 		}
 
 		div.treatments-track.pinned div.treatment-text,

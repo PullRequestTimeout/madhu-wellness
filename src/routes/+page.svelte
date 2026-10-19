@@ -218,7 +218,7 @@
 		transition-duration: var(--letter-fade);
 	}
 
-	/* Once the tagline has animated in, the rest of the hero fades in */
+	/* Once the tagline has animated in, the rest of the hero fades in (app.html's noscript styles show it without JS) */
 	div.hero-content h1,
 	div.hero-content p.subheading,
 	div.hero-buttons {
@@ -556,7 +556,8 @@
 	/* Cards spread to reveal the testimonial. The cards pin mid-screen for 60% of a viewport's scrolling,
 	   and --progress (0-1, from scrollProgress) drives two overlapping phases: the cards slide out of the
 	   quote's way over the first 75%, and the quote fades up from 35% to 75%, landing with the cards. Scrolling back up rewinds it.
-	   Shared here; the card layout and where each card goes are set per screen size below. */
+	   Shared here; the card layout and where each card goes are set per screen size below. Without JS, app.html's noscript
+	   styles unpin it, so keep their class names in step with these. */
 	@media screen and (prefers-reduced-motion: no-preference) {
 		div.offerings-track {
 			--spread: clamp(0, var(--progress, 0) / 0.75, 1);

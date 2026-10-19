@@ -15,6 +15,46 @@
 		<link rel="preload" href="/assets/fonts/StrongHeartScript.woff2" as="font" type="font/woff2" crossorigin />
 		<link rel="preload" href="/assets/fonts/GeneralSans-Variable.woff2" as="font" type="font/woff2" crossorigin />
 		<link rel="stylesheet" href="%sveltekit.assets%/global.css" />
+		<noscript>
+			<!-- The entrance animations wait for use:isIntersecting to add .show, so without JS show everything outright.
+			     !important beats the components' scoped (higher specificity) styles. The hero content waits on the tagline's .show -->
+			<style>
+				/* The homepage card spread needs scrollProgress (and the measured quote height), so unpin it: the cards, then the
+				   quote below them, as with reduced motion */
+				div.offerings-track {
+					height: auto !important;
+					margin-bottom: 0 !important;
+				}
+
+				div.offerings-stage {
+					position: static !important;
+				}
+
+				div.offerings-stage > * {
+					grid-area: auto !important;
+				}
+
+				a.offering-card {
+					translate: none !important;
+					scale: none !important;
+				}
+
+				figure.testimonial {
+					opacity: 1 !important;
+					transform: none !important;
+				}
+
+				.heading-fade-in span,
+				.scroll-fade-up,
+				.group-stagger-fade > *,
+				section.hero div.hero-content :is(h1, p.subheading, div.hero-buttons) {
+					opacity: 1 !important;
+					filter: none !important;
+					transform: none !important;
+					transition: none !important;
+				}
+			</style>
+		</noscript>
 
 		<!-- Plausible Analytics -->
 		<script defer data-domain="madhucollective.ca" src="/js/script.tagged-events.js"></script>

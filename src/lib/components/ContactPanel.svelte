@@ -7,6 +7,7 @@
 	import PrimaryButton from "$lib/components/PrimaryButton.svelte";
 	import { isIntersecting } from "$lib/utils/isIntersecting";
 	import { uiStore, closeContact } from "$lib/utils/globalStates.svelte";
+	import { modal } from "$lib/utils/modal";
 
 	let status = $state<"idle" | "sending" | "success" | "error">("idle");
 	let statusEl = $state<HTMLParagraphElement>();
@@ -65,32 +66,6 @@
 		duration: duration(),
 		easing: cubicOut
 	});
-
-	// Top layer and inert page behind it come from the native modal dialog.
-	// Grab the opener first, as showModal() moves focus into the dialog.
-	//
-	// It also locks page scroll. Hiding the scrollbar would widen the page and shift it sideways, so the body is
-	// padded by the scrollbar's width to hold it still; the full-screen dialog covers the space the scrollbar leaves.
-	// The lock is released in destroy, which runs once the exit transition has finished, so the scrollbar can't
-	// reappear beside the panel while it's still sliding out.
-	function modal(node: HTMLDialogElement) {
-		opener = document.activeElement as HTMLElement | null;
-
-		const html = document.documentElement;
-		const scrollbarWidth = window.innerWidth - html.clientWidth;
-		const previous = { overflow: html.style.overflow, paddingRight: document.body.style.paddingRight };
-		html.style.overflow = "hidden";
-		document.body.style.paddingRight = `${scrollbarWidth}px`;
-
-		node.showModal();
-
-		return {
-			destroy() {
-				html.style.overflow = previous.overflow;
-				document.body.style.paddingRight = previous.paddingRight;
-			}
-		};
-	}
 
 	// Following a link out of the panel shouldn't leave it open over the new page
 	afterNavigate(closeContact);
@@ -159,7 +134,7 @@
 </script>
 
 {#if uiStore.contactOpen}
-	<dialog class="contact" bind:this={dialog} use:modal aria-labelledby="contact-heading" oncancel={onCancel}>
+	<dialog class="contact" bind:this={dialog} use:modal={(el) => (opener = el)} aria-labelledby="contact-heading" oncancel={onCancel}>
 		<div class="contact-backdrop modal-backdrop" aria-hidden="true" onclick={closeContact} transition:fade={{ duration: duration() }}></div>
 
 		<!-- The sheet flies as one piece; the close button sits outside the scrolling panel so it stays in reach -->

@@ -20,7 +20,7 @@
 
 	// Headshots to come; until then each shows a placeholder circle
 	const practitioners: { name: string; role: string; img?: string }[] = [
-		{ name: "Claire Kearney", role: "Yoga Instructor / Registered Massage Therapist" },
+		{ name: "Clare Kearney", role: "Yoga Instructor / Registered Massage Therapist" },
 		{ name: "Danielle Hachey", role: "Yoga Instructor" },
 		{ name: "Nadine Klawitter", role: "Registered Massage Therapist" },
 		{ name: "Jineya Naiker", role: "Canadian Certified Counsellor" }
@@ -123,8 +123,8 @@
 			{/each}
 		</ul>
 		<div class="people-buttons">
-			<PrimaryButton href="/treatments-practitioners" text="Meet the Practitioners" />
-			<PrimaryButton href="/treatments-practitioners" text="Explore Treatments" primary={false} />
+			<PrimaryButton href="/treatments-practitioners#practitioners" text="Meet the Practitioners" />
+			<PrimaryButton href="/treatments-practitioners#treatments" text="Explore Treatments" primary={false} />
 		</div>
 	</section>
 

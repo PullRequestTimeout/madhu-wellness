@@ -13,3 +13,14 @@ export function loadAuth() {
 	});
 	return authModule;
 }
+
+let dbModule: Promise<typeof import("./dbClient")> | null = null;
+
+export function loadDb() {
+	if (!browser) throw new Error("Firestore is browser-only");
+	dbModule ??= import("./dbClient").catch((err) => {
+		dbModule = null;
+		throw err;
+	});
+	return dbModule;
+}

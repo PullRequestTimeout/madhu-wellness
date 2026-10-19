@@ -5,6 +5,7 @@
 	import ContactPanel from "$lib/components/ContactPanel.svelte";
 	import AdminLoginPanel from "$lib/components/AdminLoginPanel.svelte";
 	import Toaster from "$lib/components/Toaster.svelte";
+	import ConfirmDialog from "$lib/components/ConfirmDialog.svelte";
 	import { afterNavigate, onNavigate, replaceState } from "$app/navigation";
 	import { page } from "$app/state";
 	import { initAuth, waitForAuth } from "$lib/auth/auth.svelte";
@@ -51,5 +52,7 @@
 <!-- Global modals / CTAs shared by every page go here -->
 <ContactPanel />
 <AdminLoginPanel />
+<!-- Branded confirmations raised anywhere with confirmDialog() from $lib/utils/confirm.svelte -->
+<ConfirmDialog />
 <!-- Feedback raised anywhere with toast() from $lib/utils/toast.svelte -->
 <Toaster />

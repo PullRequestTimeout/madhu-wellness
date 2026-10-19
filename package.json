@@ -25,6 +25,9 @@
 		"vite": "^8.0.16"
 	},
 	"dependencies": {
+		"@svar-ui/svelte-calendar": "^2.7.1",
+		"@svar-ui/svelte-core": "^2.6.1",
+		"@svar-ui/svelte-toolbar": "^2.6.1",
 		"firebase": "^12.19.0",
 		"phosphor-svelte": "^3.1.1"
 	}

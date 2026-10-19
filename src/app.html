@@ -53,6 +53,15 @@
 					transform: none !important;
 					transition: none !important;
 				}
+
+				/* The calendar loads with JS, so its placeholder swaps "Loading…" for its no-JS message */
+				p.event-calendar-loading {
+					display: none !important;
+				}
+
+				p.event-calendar-nojs {
+					display: block !important;
+				}
 			</style>
 		</noscript>
 

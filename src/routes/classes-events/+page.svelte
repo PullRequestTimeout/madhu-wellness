@@ -5,6 +5,19 @@
 	import Newsletter from "$lib/components/Newsletter.svelte";
 	import SpanifyText from "$lib/components/SpanifyText.svelte";
 	import { isIntersecting } from "$lib/utils/isIntersecting";
+	import EventCalendar from "$lib/components/EventCalendar.svelte";
+	import LogoutButton from "$lib/auth/LogoutButton.svelte";
+	import { authStore } from "$lib/auth/auth.svelte";
+
+	// Admin UI only once auth has settled, so it never flashes on a hard refresh (and never renders on the server)
+	const isAdmin = $derived(authStore.ready && authStore.isAdmin);
+	// The admin's own read-only/editing switch; off by default so they see the calendar as visitors do
+	let editMode = $state(false);
+
+	// Logging out switches editing off, so it starts off again on the next sign-in
+	$effect(() => {
+		if (!isAdmin) editMode = false;
+	});
 
 	// TODO: real copy for the last three, and booking links for all four once the calendar provider is chosen.
 	// Until then every card points at the calendar below.
@@ -63,12 +76,24 @@
 				Browse upcoming classes, workshops, trainings and community events, with new opportunities to learn, move and connect throughout the year.
 			</p>
 		</div>
-	</section>
 
-	<!-- Placeholder: the design has an empty "CALENDAR" frame here.
-	     TODO: replace div.calendar-embed's contents with the external calendar/booking embed -->
-	<section class="calendar" id="calendar" aria-label="Class and event calendar">
-		<div class="calendar-embed"><p>CALENDAR</p></div>
+		<!-- The month calendar, read-only for visitors. A signed-in admin gets a bar above it to switch on editing -->
+		<!-- A labelled region rather than another heading: the calendar's own month title is its heading -->
+		<div class="calendar scroll-fade-up" id="calendar" role="region" aria-label="Class and event calendar" use:isIntersecting>
+			{#if isAdmin}
+				<div class="calendar-admin-bar">
+					<label class="calendar-edit-toggle">
+						<input type="checkbox" role="switch" bind:checked={editMode} />
+						<span>Edit mode</span>
+					</label>
+					<p class="calendar-admin-hint">
+						{editMode ? "Click a day to add an event, or an event to edit it." : "Switch on to add, move or change events."}
+					</p>
+					<LogoutButton class="calendar-logout" />
+				</div>
+			{/if}
+			<EventCalendar canEdit={isAdmin && editMode} />
+		</div>
 	</section>
 
 	<section class="upcoming bg-tan">
@@ -137,19 +162,111 @@
 		max-width: 819px;
 	}
 
-	/* Calendar placeholder, full bleed */
-	section.calendar {
-		padding: 0;
+	/* Calendar, under the Gather intro. Clear of the sticky nav when the event cards link to it */
+	div.calendar {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-m);
+		scroll-margin-top: calc(var(--header-height) + var(--spacing-m));
 	}
 
-	div.calendar-embed {
-		display: grid;
-		place-items: center;
-		height: calc(var(--vh, 1vh) * 70);
-		min-height: 400px;
-		max-height: 753px;
-		background-color: #d9d9d9;
-		font-size: clamp(48px, 10vw, 144px);
+	/* Ends on no transform at all rather than translateY(0): any transform would become the containing block for the
+	   calendar's fixed-position editor modal and popups, trapping them inside it */
+	div.calendar.scroll-fade-up:global(.show) {
+		transform: none;
+	}
+
+	/* Admin only: the edit switch, a hint and Log out */
+	div.calendar-admin-bar {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--spacing-s) var(--spacing-m);
+		padding: var(--spacing-s) var(--spacing-m);
+		border-radius: 10px;
+		background-color: var(--color-peach);
+		font-size: 16px;
+	}
+
+	label.calendar-edit-toggle {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--spacing-s);
+		min-height: 32px;
+		font-weight: 600;
+		cursor: pointer;
+	}
+
+	/* A pill switch drawn on the native checkbox, so it keeps the checkbox's keyboard and screen reader support */
+	label.calendar-edit-toggle input {
+		position: relative;
+		width: 44px;
+		height: 24px;
+		margin: 0;
+		border-radius: var(--border-radius-pill);
+		border: var(--border-width) solid var(--color-brown-mid);
+		background-color: var(--color-cream);
+		appearance: none;
+		cursor: pointer;
+		transition: background-color 0.2s ease;
+	}
+
+	label.calendar-edit-toggle input::after {
+		content: "";
+		position: absolute;
+		top: 3px;
+		left: 3px;
+		width: 14px;
+		height: 14px;
+		border-radius: 50%;
+		background-color: var(--color-brown-mid);
+		transition: translate 0.2s ease;
+	}
+
+	/* Off: an outlined track with a brown thumb. On: a filled brown track with a white thumb to the right */
+	label.calendar-edit-toggle input:checked {
+		border-color: var(--color-primary);
+		background-color: var(--color-primary);
+	}
+
+	label.calendar-edit-toggle input:checked::after {
+		translate: 20px 0;
+		background-color: var(--color-white);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		label.calendar-edit-toggle input,
+		label.calendar-edit-toggle input::after {
+			transition: none;
+		}
+	}
+
+	/* High-contrast mode drops backgrounds, so the switch keeps an outline and a visible thumb */
+	@media (forced-colors: active) {
+		label.calendar-edit-toggle input {
+			border: 1px solid CanvasText;
+		}
+
+		label.calendar-edit-toggle input::after {
+			background-color: CanvasText;
+		}
+	}
+
+	p.calendar-admin-hint {
+		flex: 1 1 14rem;
+		font-size: 14px;
+	}
+
+	div.calendar-admin-bar :global(button.calendar-logout) {
+		min-height: 32px;
+		padding: 0;
+		border: 0;
+		background: none;
+		color: var(--color-primary);
+		font: inherit;
+		font-weight: 600;
+		text-decoration: underline;
+		text-underline-offset: 3px;
 	}
 
 	/* Upcoming */

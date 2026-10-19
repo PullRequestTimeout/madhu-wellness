@@ -81,10 +81,10 @@
 	});
 
 	const offerings = [
-		{ text: "Yoga Classes", href: "/classes-events", img: "/assets/images/card-yoga.jpg" },
-		{ text: "Restorative Treatments", href: "/treatments-practitioners", img: "/assets/images/card-treatments.jpg" },
+		{ text: "Classes", href: "/classes-events", img: "/assets/images/card-yoga.jpg" },
+		{ text: "Therapeutic Appointments", href: "/treatments-practitioners", img: "/assets/images/card-treatments.jpg" },
 		{ text: "Practitioners", href: "/treatments-practitioners", img: "/assets/images/card-practitioners.webp" },
-		{ text: "Events Schedule", href: "/classes-events", img: "/assets/images/card-events.jpg" }
+		{ text: "Upcoming Events", href: "/classes-events", img: "/assets/images/card-events.jpg" }
 	];
 </script>
 
@@ -140,11 +140,17 @@
 			<div class="offerings-stage">
 				<div class="offering-cards group-stagger-fade" use:isIntersecting>
 					{#each offerings as offering}
+						{@const words = offering.text.split(" ")}
 						<a class="offering-card" href={offering.href}>
 							<img class="card-image" src={offering.img} alt="" loading="lazy" />
+							<!-- The arrow stays on the last word's line, so a wrapped label doesn't push it to the card's edge.
+							     The odd tag breaks keep any whitespace out from between the word and the arrow -->
+
 							<span class="card-label">
-								{offering.text}
-								<img class="card-arrow" src="/assets/svgs/arrow-right.svg" alt="" width="24" height="24" />
+								{words.slice(0, -1).join(" ")}
+								<span class="card-label-end"
+									>{words.at(-1)}<img class="card-arrow" src="/assets/svgs/arrow-right.svg" alt="" width="24" height="24" /></span
+								>
 							</span>
 						</a>
 					{/each}
@@ -367,15 +373,20 @@
 	span.card-label {
 		position: relative;
 		z-index: 1;
-		display: flex;
-		align-items: center;
-		gap: var(--spacing-xs);
 		color: var(--color-white);
 		font-size: 20px;
 		font-weight: 500;
+		text-wrap: balance;
+	}
+
+	span.card-label-end {
+		white-space: nowrap;
 	}
 
 	img.card-arrow {
+		display: inline-block;
+		margin-left: var(--spacing-xs);
+		vertical-align: middle;
 		transition: transform 0.25s ease-out;
 	}
 
@@ -641,6 +652,11 @@
 		/* Half-width cards: the desktop 20px labels crowd the arrow */
 		span.card-label {
 			font-size: var(--font-body-m);
+		}
+
+		/* On narrow phones "Appointments" fills the line, so the arrow drops below it rather than overflowing the padding */
+		span.card-label-end {
+			white-space: normal;
 		}
 
 		/* translate's % is of the card's own (unscaled) width, so (1 - scale) × 50% is what each side pulls in */

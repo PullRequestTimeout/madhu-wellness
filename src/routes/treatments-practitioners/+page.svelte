@@ -500,13 +500,25 @@
 			top: 0;
 			left: 0;
 			display: grid;
-			width: clamp(240px, 22vw, 340px);
+			--photo-width: clamp(240px, 22vw, 340px);
+			width: var(--photo-width);
 			aspect-ratio: 4 / 5;
-			/* Centred on the pointer, as in Relume; it sits beneath the text, so it never hides what's being clicked */
-			translate: calc(var(--pointer-x, 0) * 1px - 50%) calc(var(--pointer-y, 0) * 1px - 50%);
+			/* Just right of the pointer, centred on it vertically */
+			translate: calc(var(--pointer-x, 0) * 1px + var(--spacing-l)) calc(var(--pointer-y, 0) * 1px - 50%);
 			pointer-events: none;
 			opacity: 0;
 			transition: opacity 0.3s ease;
+		}
+
+		/* ...unless it would run off the right edge, when it swaps to the left of the pointer (the swap eases too).
+		   sign() turns "would it overflow?" into 0 or 1, with a --spacing-l margin to clear a classic scrollbar (100vw includes it).
+		   Browsers without sign() keep the photo on the right */
+		@supports (width: calc(sign(1px) * 1px)) {
+			div.practitioner-photos {
+				--photo-flip: max(0, sign(var(--pointer-x, 0) * 1px + var(--spacing-l) + var(--photo-width) + var(--spacing-l) - 100vw));
+				translate: calc(var(--pointer-x, 0) * 1px + var(--spacing-l) - (var(--photo-width) + var(--spacing-l) * 2) * var(--photo-flip))
+					calc(var(--pointer-y, 0) * 1px - 50%);
+			}
 		}
 
 		div.practitioner-photos.visible {

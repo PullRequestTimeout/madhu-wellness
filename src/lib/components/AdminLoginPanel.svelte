@@ -4,6 +4,8 @@
 	import { cubicOut } from "svelte/easing";
 	import { afterNavigate } from "$app/navigation";
 	import XIcon from "phosphor-svelte/lib/XIcon";
+	import EyeIcon from "phosphor-svelte/lib/EyeIcon";
+	import EyeSlashIcon from "phosphor-svelte/lib/EyeSlashIcon";
 	import PrimaryButton from "$lib/components/PrimaryButton.svelte";
 	import { login, resetPassword } from "$lib/auth/actions";
 	import { uiStore, closeLogin } from "$lib/utils/globalStates.svelte";
@@ -13,6 +15,7 @@
 	let mode = $state<"login" | "reset">("login");
 	let email = $state("");
 	let password = $state("");
+	let showPassword = $state(false);
 	let pending = $state(false);
 	let message = $state("");
 	let isError = $state(false);
@@ -41,6 +44,7 @@
 		mode = "login";
 		email = "";
 		password = "";
+		showPassword = false;
 		message = "";
 		isError = false;
 		pending = false;
@@ -109,7 +113,7 @@
 				<p class="admin-login-intro">Enter your email and we'll send you a link to choose a new password.</p>
 			{/if}
 
-			<form class="admin-login-form" aria-busy={pending} onsubmit={submit}>
+			<form class="admin-login-form" onsubmit={submit}>
 				<div class="admin-login-field">
 					<label for="admin-login-email">Email</label>
 					<!-- svelte-ignore a11y_autofocus -->
@@ -130,14 +134,30 @@
 				{#if mode === "login"}
 					<div class="admin-login-field">
 						<label for="admin-login-password">Password</label>
-						<input
-							id="admin-login-password"
-							type="password"
-							autocomplete="current-password"
-							required
-							aria-describedby={message ? "admin-login-message" : undefined}
-							bind:value={password}
-						/>
+						<!-- The toggle sits on the field's underline, so the row carries the line rather than the input -->
+						<div class="admin-login-password">
+							<input
+								id="admin-login-password"
+								type={showPassword ? "text" : "password"}
+								autocomplete="current-password"
+								autocapitalize="off"
+								spellcheck="false"
+								required
+								aria-describedby={message ? "admin-login-message" : undefined}
+								bind:value={password}
+							/>
+							<!-- A fixed name with aria-pressed, so screen readers hear "Show password, toggle button, pressed" -->
+							<button
+								type="button"
+								class="admin-login-reveal"
+								aria-controls="admin-login-password"
+								aria-pressed={showPassword}
+								onclick={() => (showPassword = !showPassword)}
+							>
+								{#if showPassword}<EyeSlashIcon aria-hidden="true" />{:else}<EyeIcon aria-hidden="true" />{/if}
+								<span class="visually-hidden">Show password</span>
+							</button>
+						</div>
 					</div>
 				{/if}
 
@@ -148,7 +168,7 @@
 				</div>
 
 				<div class="admin-login-actions">
-					<PrimaryButton type="submit" text={pending ? "Please wait…" : mode === "login" ? "Log in" : "Send reset link"} />
+					<PrimaryButton type="submit" {pending} text={pending ? "Please wait…" : mode === "login" ? "Log in" : "Send reset link"} />
 					<PrimaryButton primary={false} text={mode === "login" ? "Forgot password?" : "Back to login"} onAction={switchMode} />
 				</div>
 			</form>
@@ -270,6 +290,40 @@
 		background: none;
 		color: inherit;
 		font-size: 16px;
+	}
+
+	/* The password row carries the underline, so the reveal toggle sits on it beside the input */
+	div.admin-login-password {
+		display: flex;
+		align-items: center;
+		border-bottom: var(--border-width) solid var(--color-text);
+	}
+
+	div.admin-login-password input {
+		flex: 1;
+		min-width: 0;
+		border-bottom: 0;
+	}
+
+	/* 32px target over the 32px-tall row; the icon is 1em in currentColor */
+	button.admin-login-reveal {
+		display: grid;
+		flex-shrink: 0;
+		place-items: center;
+		width: 32px;
+		height: 32px;
+		padding: 0;
+		border: 0;
+		border-radius: 50%;
+		background: none;
+		color: var(--color-primary);
+		font-size: 20px;
+	}
+
+	@media (hover: hover) {
+		button.admin-login-reveal:hover {
+			background-color: color-mix(in srgb, var(--color-primary) 12%, transparent);
+		}
 	}
 
 	/* Its messages take part in the form's gap directly, so the wrapper adds no gap while both are empty */

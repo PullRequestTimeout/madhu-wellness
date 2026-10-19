@@ -125,6 +125,17 @@
 		color: inherit;
 	}
 
+	/* Grown to a comfortable tap target (WCAG 2.5.8) without moving the row: the padding is cancelled by the margin,
+	   and the underline below is re-anchored so it still sits where the links' does */
+	div.footer-policies button.footer-admin {
+		padding-block: var(--spacing-xs);
+		margin-block: calc(var(--spacing-xs) * -1);
+	}
+
+	footer div.footer-policies button.footer-admin::after {
+		bottom: 0;
+	}
+
 	/* While logging out */
 	button.footer-admin[aria-disabled="true"] {
 		opacity: 0.6;

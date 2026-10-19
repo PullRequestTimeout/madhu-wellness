@@ -9,10 +9,13 @@
 		// For use on dark backgrounds/images: white pill, or white text link
 		light?: boolean;
 		type?: "button" | "submit" | "reset";
+		// Waiting on the action it started (e.g. a form submitting): dimmed and marked aria-disabled, but still
+		// focusable so focus isn't lost. The handler should ignore repeat presses itself.
+		pending?: boolean;
 		onAction?: (event: MouseEvent) => void;
 	};
 
-	let { href, text = "Button", primary = true, light = false, type = "button", onAction }: PrimaryButtonProps = $props();
+	let { href, text = "Button", primary = true, light = false, type = "button", pending = false, onAction }: PrimaryButtonProps = $props();
 
 	const variant = $derived(`${primary ? "primary" : "secondary"}${light ? " light" : ""}`);
 </script>
@@ -31,7 +34,7 @@
 		{@render content()}
 	</a>
 {:else}
-	<button {type} class={variant} onclick={(e) => onAction?.(e)}>
+	<button {type} class={variant} aria-disabled={pending || undefined} onclick={(e) => onAction?.(e)}>
 		{@render content()}
 	</button>
 {/if}
@@ -127,9 +130,15 @@
 		color: var(--color-white);
 	}
 
+	/* Pending: dimmed, and the hover fill is held back below */
+	button[aria-disabled="true"] {
+		opacity: 0.6;
+		cursor: progress;
+	}
+
 	@media (hover: hover) {
 		a.primary:hover div.circle,
-		button.primary:hover div.circle {
+		button.primary:not([aria-disabled="true"]):hover div.circle {
 			clip-path: circle(150% at calc(100% - 16px) 50%);
 		}
 
@@ -137,7 +146,7 @@
 		   Once the circle has grown, the pill takes the circle colour so no
 		   anti-aliased edge of the old background shows around the border. */
 		a.primary:hover,
-		button.primary:hover {
+		button.primary:not([aria-disabled="true"]):hover {
 			color: var(--color-primary);
 			background-color: var(--color-white);
 			transition:
@@ -146,7 +155,7 @@
 		}
 
 		a.primary.light:hover,
-		button.primary.light:hover {
+		button.primary.light:not([aria-disabled="true"]):hover {
 			color: var(--color-white);
 			background-color: var(--color-primary);
 		}

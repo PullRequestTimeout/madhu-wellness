@@ -84,23 +84,23 @@
 			</p>
 		</div>
 		<div class="space-gallery group-stagger-fade" use:isIntersecting>
+			<img class="space-image" src="/assets/images/space-bolsters.webp" alt="Patterned yoga bolsters lined up along the studio wall" loading="lazy" />
 			<img
 				class="space-image"
-				src="/assets/images/space-meditation.jpg"
-				alt="A person meditating cross-legged on a wooden deck at sunrise"
-				loading="lazy"
-			/>
-			<img class="space-image" src="/assets/images/space-massage.jpg" alt="A practitioner's hands massaging a client's back" loading="lazy" />
-			<img
-				class="space-image"
-				src="/assets/images/space-counselling.jpg"
-				alt="A person seated on a sofa with their hands clasped during a counselling session"
+				src="/assets/images/space-treatment-room.webp"
+				alt="The open door of a treatment room, with a hand-lettered Treatment Room sign and a massage table inside"
 				loading="lazy"
 			/>
 			<img
 				class="space-image"
-				src="/assets/images/space-treatment.jpg"
-				alt="A therapist working on a client's leg during a treatment"
+				src="/assets/images/space-storefront.webp"
+				alt="Madhu's front window, with the collective's honeycomb logo on the glass"
+				loading="lazy"
+			/>
+			<img
+				class="space-image"
+				src="/assets/images/space-no-shoes.webp"
+				alt="A hand-lettered 'No shoes please!' sign above a pile of shoes at the entrance"
 				loading="lazy"
 			/>
 		</div>
@@ -140,7 +140,7 @@
 
 	<section class="rental">
 		<div class="rental-card scroll-fade-up" use:isIntersecting>
-			<img class="rental-image" src="/assets/images/space-rental.jpg" alt="" loading="lazy" />
+			<img class="rental-image" src="/assets/images/space-rental.webp" alt="" loading="lazy" />
 			<div class="rental-text">
 				<div class="heading-wrap">
 					<p class="eyebrow light" aria-hidden="true">Space Rental</p>
@@ -444,7 +444,7 @@
 			padding-inline: var(--spacing-xl);
 		}
 
-		/* Brown fades out to the right, uncovering the class behind the text. It holds at 90% across the text
+		/* Brown fades out to the right, uncovering the room behind the text. It holds at 90% across the text
 		   (capped at 60% of the card) so the white stays readable over the bright wall and windows */
 		div.rental-card::after {
 			background: linear-gradient(

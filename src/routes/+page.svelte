@@ -82,10 +82,11 @@
 	});
 
 	const offerings = [
-		{ text: "Classes", href: "/classes-events", img: "/assets/images/card-yoga.jpg" },
-		{ text: "Therapeutic Appointments", href: "/treatments-practitioners", img: "/assets/images/card-treatments.jpg" },
+		{ text: "Classes", href: "/classes-events", img: "/assets/images/card-classes.webp" },
+		// The treatment room is anchored bottom right, so the practitioner stays in frame and the dark floor sits behind the two-line label
+		{ text: "Therapeutic Appointments", href: "/treatments-practitioners", img: "/assets/images/card-treatments.webp", focus: "70% bottom" },
 		{ text: "Practitioners", href: "/treatments-practitioners", img: "/assets/images/card-practitioners.webp" },
-		{ text: "Upcoming Events", href: "/classes-events", img: "/assets/images/card-events.jpg" }
+		{ text: "Upcoming Events", href: "/classes-events", img: "/assets/images/card-events.webp" }
 	];
 </script>
 
@@ -97,7 +98,7 @@
 
 <main>
 	<section class="hero">
-		<img class="hero-image" src={heroImages["/"]} alt="" width="1024" height="683" fetchpriority="high" />
+		<img class="hero-image" src={heroImages["/"]} alt="" width="2048" height="1410" fetchpriority="high" />
 		<div class="hero-content" style="--letter-fade: {letterFadeMs}ms; --reveal-delay: {heroRevealDelayMs}ms">
 			<hgroup>
 				<h1 class="eyebrow light">Madhu Collective</h1>
@@ -147,7 +148,7 @@
 					{#each offerings as offering}
 						{@const words = offering.text.split(" ")}
 						<a class="offering-card" href={offering.href}>
-							<img class="card-image" src={offering.img} alt="" loading="lazy" />
+							<img class="card-image" src={offering.img} alt="" loading="lazy" style:object-position={offering.focus} />
 							<!-- The arrow stays on the last word's line, so a wrapped label doesn't push it to the card's edge.
 							     The odd tag breaks keep any whitespace out from between the word and the arrow -->
 
@@ -196,8 +197,10 @@
 		min-height: 560px;
 	}
 
+	/* Right of centre, so tall phone crops keep the woman behind the front desk, facing the camera, in frame. Wide screens
+	   crop it top and bottom instead, and anchoring the top keeps the man's head in */
 	img.hero-image {
-		object-position: bottom;
+		object-position: 68% top;
 	}
 
 	section.hero::after {

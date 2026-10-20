@@ -35,7 +35,7 @@
 			text: "An all-levels class out on the grass, open to everyone. Bring a mat, come as you are and move alongside your neighbours.",
 			cta: "See dates",
 			href: "#calendar",
-			img: "/assets/images/event-community-yoga.jpg"
+			img: "/assets/images/event-community-yoga.webp"
 		},
 		{
 			title: "Winter Dance Nights",

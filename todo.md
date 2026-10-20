@@ -11,15 +11,11 @@ There are two parts:
 
 ## Photos and video
 
-Almost every photo on the site is a stock image standing in until we have real photos of Madhu. We'd like real photos for:
+Your photos of the space and the owners now fill the page banners, the homepage main image and cards, The Space, Space rental, and the massage and counselling treatments. A few stock images are still standing in. We'd like real photos for:
 
-- **Homepage main image.** You mentioned a group class in the main studio, or the front desk with the heart. Send through any ideas or favourites.
 - **Homepage video.** This still needs to be filmed. The idea is a walk through the front door and the space into a treatment room.
-- **Page banners** at the top of the About, Practitioners & Treatments and Classes & Events pages.
-- **The four homepage cards**: Classes, Therapeutic Appointments, Practitioners and Upcoming Events.
-- **The Space** (About page): four photos of the rooms and the work that happens in them. Ideally, one each for massage, counselling, osteopathy and private yoga too.
-- **Space rental**: a photo of the main room set up for a gathering.
-- **Classes & events**: one photo each for Yoga Teacher Training, Community Yoga, Dance Nights and Films.
+- **Treatments** (Practitioners & Treatments page): one each for osteopathy and private yoga.
+- **Classes & events**: one photo each for Yoga Teacher Training, Dance Nights and Films.
 - **Headshots** of all six practitioners: Nadine, Clare, Michelle, Danielle, Jineya and Keith.
 - **Previous team members**: photos and names, if you'd like to honour past practitioners on the Practitioners page.
 - **A sharing image**: one landscape photo that shows up when someone shares the site on social media or in a text.

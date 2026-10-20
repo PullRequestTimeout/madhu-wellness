@@ -67,7 +67,7 @@
 			title: "Registered Massage Therapy",
 			text: "Thoughtful, hands-on care to ease tension, support recovery and help you feel more comfortable and at home in your body.",
 			cta: "Book Massage",
-			img: "/assets/images/space-treatment.jpg",
+			img: "/assets/images/treatment-massage.webp",
 			bg: "var(--color-background-peach)"
 		},
 		{
@@ -75,7 +75,7 @@
 			title: "Clinical Counselling",
 			text: "A supportive, compassionate space to explore what you’re experiencing, develop new perspectives and work towards meaningful change.",
 			cta: "Book Counselling",
-			img: "/assets/images/space-counselling.jpg",
+			img: "/assets/images/treatment-counselling.webp",
 			bg: "var(--color-background-tan)"
 		},
 		{

@@ -118,7 +118,9 @@
 />
 
 <main>
-	<PageHero title="Practitioners & Treatments." image={heroImages["/treatments-practitioners"]} />
+	<!-- Anchored bottom left: the treatment table and rug sit in the lower half of the photo, and where phones crop it sideways the
+	     title lands on the dark armchair and rug rather than the white table linen -->
+	<PageHero title="Practitioners & Treatments." image={heroImages["/treatments-practitioners"]} focus="left bottom" />
 
 	<section class="practitioners" id="practitioners" use:followPointer>
 		<div class="practitioners-intro">

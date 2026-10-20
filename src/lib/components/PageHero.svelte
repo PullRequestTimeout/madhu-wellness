@@ -4,7 +4,8 @@
 	import SpanifyText from "$lib/components/SpanifyText.svelte";
 	import { isIntersecting } from "$lib/utils/isIntersecting";
 
-	let { title, image }: { title: string; image: string } = $props();
+	// focus: the photo's object-position, for a photo whose subject sits off-centre (centred by default)
+	let { title, image, focus }: { title: string; image: string; focus?: string } = $props();
 </script>
 
 <svelte:head>
@@ -13,7 +14,7 @@
 </svelte:head>
 
 <section class="hero page-hero">
-	<img class="hero-image" src={image} alt="" fetchpriority="high" />
+	<img class="hero-image" src={image} alt="" fetchpriority="high" style:object-position={focus} />
 	<div class="page-hero-title">
 		<p class="eyebrow light" aria-hidden="true">{title.toLowerCase()}</p>
 		<h1 class="heading-fade-in" use:isIntersecting>

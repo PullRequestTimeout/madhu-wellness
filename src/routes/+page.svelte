@@ -487,12 +487,14 @@
 		pointer-events: none;
 	}
 
-	/* Widens from 80% to full bleed as the section scrolls in (--enter from enterProgress) */
+	/* Widens from 80% to full bleed as the section scrolls in (--enter from enterProgress). Clips its contents, so
+	   nothing wider than the frame (such as the 96px placeholder text on a 320px phone) scrolls the page sideways */
 	div.video-frame {
 		position: relative;
 		display: grid;
 		place-items: center;
 		width: calc(80% + 20% * var(--enter, 1));
+		overflow: hidden;
 		background-color: #d9d9d9;
 		font-size: 96px;
 	}

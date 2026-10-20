@@ -6,6 +6,7 @@
 	import { isIntersecting } from "$lib/utils/isIntersecting";
 	import { scrollProgress } from "$lib/utils/scrollProgress";
 	import { enterProgress } from "$lib/utils/enterProgress";
+	import { heroImages } from "$lib/data/heroImages";
 
 	// Split around the <em> words, each part carrying on the letter stagger from the last
 	const tagline = [
@@ -89,10 +90,14 @@
 </script>
 
 <SeoHead />
+<svelte:head>
+	<!-- Starts the hero photo downloading before the parser reaches it in the (CSS-inlined) body -->
+	<link rel="preload" as="image" href={heroImages["/"]} fetchpriority="high" />
+</svelte:head>
 
 <main>
 	<section class="hero">
-		<img class="hero-image" src="/assets/images/hero-home.webp" alt="" width="1024" height="683" />
+		<img class="hero-image" src={heroImages["/"]} alt="" width="1024" height="683" fetchpriority="high" />
 		<div class="hero-content" style="--letter-fade: {letterFadeMs}ms; --reveal-delay: {heroRevealDelayMs}ms">
 			<hgroup>
 				<h1 class="eyebrow light">Madhu Collective</h1>

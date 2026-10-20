@@ -14,6 +14,8 @@
 	import { isAdminUid } from "$lib/auth/config";
 	import { firebaseConfigured } from "$lib/firebase/config";
 	import { openLogin } from "$lib/utils/globalStates.svelte";
+	import { heroImageFor } from "$lib/data/heroImages";
+	import { preloadImage } from "$lib/utils/preloadImage";
 
 	let { children } = $props();
 
@@ -33,13 +35,27 @@
 			.catch(() => openLogin());
 	});
 
-	// Crossfade between pages using the View Transitions API
-	onNavigate((navigation) => {
-		if (!document.startViewTransition) return;
-		if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+	// Start a link's hero photo downloading on hover, touch or focus, like SvelteKit's own preloading, so the wait below is
+	// usually over before the click. The site's routes have no params, so a link's pathname is its route id
+	function warmHero(event: Event) {
+		const link = (event.target as Element).closest?.("a[href]");
+		if (!(link instanceof HTMLAnchorElement) || link.origin !== location.origin) return;
+		const hero = heroImageFor(link.pathname);
+		if (hero) preloadImage(hero);
+	}
+
+	onNavigate(async (navigation) => {
 		if (navigation.from?.url.pathname === navigation.to?.url.pathname) return;
 
-		return new Promise((resolve) => {
+		// Keep the current page up until the next one's hero photo is decoded (at most 1s), so it never pops in after the page
+		const hero = heroImageFor(navigation.to?.route.id);
+		if (hero) await preloadImage(hero);
+
+		// Crossfade between pages using the View Transitions API
+		if (!document.startViewTransition) return;
+		if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+		return new Promise<void>((resolve) => {
 			document.startViewTransition(async () => {
 				resolve();
 				await navigation.complete;
@@ -47,6 +63,9 @@
 		});
 	});
 </script>
+
+<!-- pointerover also fires when a touch lands, before the click -->
+<svelte:document onpointerover={warmHero} onfocusin={warmHero} />
 
 <Nav />
 {@render children()}

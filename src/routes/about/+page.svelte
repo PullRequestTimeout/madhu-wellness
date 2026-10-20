@@ -4,6 +4,7 @@
 	import UsersThreeIcon from "phosphor-svelte/lib/UsersThreeIcon";
 	import SeoHead from "$lib/components/SeoHead.svelte";
 	import PageHero from "$lib/components/PageHero.svelte";
+	import { heroImages } from "$lib/data/heroImages";
 	import PrimaryButton from "$lib/components/PrimaryButton.svelte";
 	import Newsletter from "$lib/components/Newsletter.svelte";
 	import SpanifyText from "$lib/components/SpanifyText.svelte";
@@ -42,7 +43,7 @@
 />
 
 <main>
-	<PageHero title="About Us." image="/assets/images/hero-about.jpg" />
+	<PageHero title="About Us." image={heroImages["/about"]} />
 
 	<section class="values">
 		<div class="values-intro">

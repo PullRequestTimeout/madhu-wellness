@@ -2,6 +2,7 @@
 	import ArrowRightIcon from "phosphor-svelte/lib/ArrowRightIcon";
 	import SeoHead from "$lib/components/SeoHead.svelte";
 	import PageHero from "$lib/components/PageHero.svelte";
+	import { heroImages } from "$lib/data/heroImages";
 	import Newsletter from "$lib/components/Newsletter.svelte";
 	import SpanifyText from "$lib/components/SpanifyText.svelte";
 	import { isIntersecting } from "$lib/utils/isIntersecting";
@@ -62,7 +63,7 @@
 />
 
 <main>
-	<PageHero title="Classes & Events." image="/assets/images/space-rental.jpg" />
+	<PageHero title="Classes & Events." image={heroImages["/classes-events"]} />
 
 	<section class="gather">
 		<div class="gather-intro">

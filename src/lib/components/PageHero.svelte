@@ -7,8 +7,13 @@
 	let { title, image }: { title: string; image: string } = $props();
 </script>
 
+<svelte:head>
+	<!-- Starts the hero photo downloading before the parser reaches it in the (CSS-inlined) body -->
+	<link rel="preload" as="image" href={image} fetchpriority="high" />
+</svelte:head>
+
 <section class="hero page-hero">
-	<img class="hero-image" src={image} alt="" />
+	<img class="hero-image" src={image} alt="" fetchpriority="high" />
 	<div class="page-hero-title">
 		<p class="eyebrow light" aria-hidden="true">{title.toLowerCase()}</p>
 		<h1 class="heading-fade-in" use:isIntersecting>

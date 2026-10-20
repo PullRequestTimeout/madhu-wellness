@@ -61,7 +61,8 @@ Then overwrite or create the files in Section 4.
 │   │   │   ├── SeoHead.svelte
 │   │   │   └── SpanifyText.svelte
 │   │   ├── data/               # static content as exported arrays/objects (camelCase .js/.ts)
-│   │   │   └── faqs.ts
+│   │   │   ├── faqs.ts
+│   │   │   └── heroImages.ts   # each route's hero photo, preloaded before navigating to it
 │   │   ├── styles/
 │   │   │   └── global.css      # fonts, reset, tokens, globals, utilities, hero, animations; inlined into <head>
 │   │   └── utils/              # camelCase .ts: Svelte actions + shared runes state
@@ -185,6 +186,7 @@ Then overwrite or create the files in Section 4.
 
 - `src/lib/styles/global.css` is imported by `+layout.svelte` and holds the fonts, the reset, tokens, globals, utilities, hero styles and all the entrance and scroll animations.
 - `kit.inlineStyleThreshold: Infinity` inlines it and every component's scoped styles into a `<style>` in the SSR `<head>`, so first paint never waits on a stylesheet request. Don't link CSS from `app.html` or `static/`.
+- Hero photos: list each route's in `src/lib/data/heroImages.ts`. The hero `<img>` gets `fetchpriority="high"` and a matching `<link rel="preload" as="image">` in `<svelte:head>`, and the layout's `onNavigate` awaits `preloadImage()` so a client-side navigation only swaps pages once the next hero is decoded (capped at 1s). It also starts that download when a link is hovered, touched or focused.
 - Component styles stay scoped inside each `.svelte` file.
 
 ### 3.5 Formatting

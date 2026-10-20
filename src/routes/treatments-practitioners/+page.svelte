@@ -3,6 +3,7 @@
 	import CaretDownIcon from "phosphor-svelte/lib/CaretDownIcon";
 	import SeoHead from "$lib/components/SeoHead.svelte";
 	import PageHero from "$lib/components/PageHero.svelte";
+	import { heroImages } from "$lib/data/heroImages";
 	import Newsletter from "$lib/components/Newsletter.svelte";
 	import PrimaryButton from "$lib/components/PrimaryButton.svelte";
 	import SpanifyText from "$lib/components/SpanifyText.svelte";
@@ -117,7 +118,7 @@
 />
 
 <main>
-	<PageHero title="Practitioners & Treatments." image="/assets/images/hero-treatments-practitioners.jpg" />
+	<PageHero title="Practitioners & Treatments." image={heroImages["/treatments-practitioners"]} />
 
 	<section class="practitioners" id="practitioners" use:followPointer>
 		<div class="practitioners-intro">

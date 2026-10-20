@@ -499,6 +499,15 @@ div.hero-text p.subheading {
 	transform: translateY(0);
 }
 
+/* .show too, so no zero transform is left to trap a position: fixed descendant */
+@media (prefers-reduced-motion: reduce) {
+	.scroll-fade-up,
+	.scroll-fade-up.show {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+}
 
 /* Children fade up one after another */
 .group-stagger-fade > * {

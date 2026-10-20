@@ -465,13 +465,4 @@
 			font-size: 24px;
 		}
 	}
-
-	@media (prefers-reduced-motion: reduce) {
-		/* scroll-fade-up's fallback isn't global, so show the card outright */
-		div.rental-card {
-			opacity: 1;
-			transform: none;
-			transition: none;
-		}
-	}
 </style>

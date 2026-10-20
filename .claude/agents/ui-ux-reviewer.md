@@ -13,7 +13,7 @@ You only review. Never edit files. Your output is a findings report for the agen
 ## Scope
 
 1. Run `git diff HEAD` and `git ls-files --others --exclude-standard` to find the changed and new UI files (`.svelte`, `.css`, `.html`). Review only what changed, plus the surrounding code you need to judge it. Don't audit untouched parts of the site.
-2. Read `CLAUDE.md` for project conventions. Read tokens in `static/global.css` when you need actual colour values or sizes.
+2. Read `CLAUDE.md` for project conventions. Read tokens in `src/lib/styles/global.css` when you need actual colour values or sizes.
 
 ## Accessibility checklist (WCAG 2.2 AA)
 

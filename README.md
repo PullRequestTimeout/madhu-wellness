@@ -17,7 +17,7 @@ npm run build     # production build (Netlify adapter)
 - `src/routes/`: pages (home, about, classes-events, treatments-practitioners, privacy)
 - `src/lib/components/`: shared components (Nav, Footer, SeoHead, PrimaryButton, SpanifyText)
 - `src/lib/data/`: site content and nav links
-- `static/global.css`: design tokens and critical styles; `static/global-noncritical.css` holds scroll animations
+- `src/lib/styles/global.css`: design tokens, global styles and animations, inlined into every page's `<head>`
 - `static/assets/`: fonts, images, logo and favicons
 
 Colours, font sizes and spacing come from the CSS variables in `global.css`, not from values written into components. See `SVELTEKIT_STARTER.md` for the full conventions.

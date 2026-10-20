@@ -1,4 +1,6 @@
 <script lang="ts">
+	// Critical CSS, inlined into every page's <head> by kit.inlineStyleThreshold
+	import "$lib/styles/global.css";
 	import { onMount } from "svelte";
 	import Nav from "$lib/components/Nav.svelte";
 	import Footer from "$lib/components/Footer.svelte";

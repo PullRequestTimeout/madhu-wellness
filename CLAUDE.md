@@ -19,8 +19,8 @@ After making UI changes (any `.svelte`, `.css` or `.html` file), run the `ui-ux-
 
 - `SVELTEKIT_STARTER.md` is the full conventions spec this project was built from. It covers naming, page anatomy, CSS rules and tokens. Follow it.
 - The SvelteKit config, including the Netlify adapter and forced runes mode, is in `vite.config.ts`. There is no `svelte.config.js`.
-- `static/global.css` holds the critical CSS: fonts (Strong Heart Script for headings, General Sans for body), the reset, design tokens, utilities, hero styles and above-the-fold animations.
-- `static/global-noncritical.css` holds the scroll animations and is linked at the end of `<body>`.
+- `src/lib/styles/global.css` holds the global CSS: fonts (Strong Heart Script for headings, General Sans for body), the reset, design tokens, utilities, hero styles, and the entrance and scroll animations. `+layout.svelte` imports it.
+- All CSS is inlined: `inlineStyleThreshold: Infinity` puts global.css and every component's styles in a `<style>` in the SSR `<head>`. Don't link stylesheets from `app.html` or `static/`, and don't write `%sveltekit.head%` inside an `app.html` comment, because it gets replaced there too.
 - `src/lib/utils/` holds the Svelte actions and the shared runes state.
 - `design/figma/` is a local-only (gitignored) offline copy of the Figma design. Its `README.md` indexes what's there. Read it before calling the Figma MCP, because the Starter plan has a low call limit. Save any new Figma responses there too.
 - The SVAR MCP server (`svar-mcp` in `.mcp.json`) is the source of truth for `@svar-ui/svelte-calendar` APIs. Query it before writing or changing calendar code.

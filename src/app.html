@@ -11,10 +11,9 @@
 		<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png" />
 		<link rel="manifest" href="/assets/favicon/site.webmanifest" />
 
-		<!-- Preload fonts, then load critical CSS -->
+		<!-- Preload fonts. All CSS (src/lib/styles/global.css and the components') is inlined into the head by SvelteKit -->
 		<link rel="preload" href="/assets/fonts/StrongHeartScript.woff2" as="font" type="font/woff2" crossorigin />
 		<link rel="preload" href="/assets/fonts/GeneralSans-Variable.woff2" as="font" type="font/woff2" crossorigin />
-		<link rel="stylesheet" href="%sveltekit.assets%/global.css" />
 		<noscript>
 			<!-- The entrance animations wait for use:isIntersecting to add .show, so without JS show everything outright.
 			     !important beats the components' scoped (higher specificity) styles. The hero content waits on the tagline's .show -->
@@ -77,6 +76,5 @@
 
 	<body data-sveltekit-preload-data="hover">
 		<div style="display: contents">%sveltekit.body%</div>
-		<link rel="stylesheet" href="%sveltekit.assets%/global-noncritical.css" />
 	</body>
 </html>

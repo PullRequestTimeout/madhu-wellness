@@ -3,7 +3,7 @@
 > **For the agent reading this:** Use this file to scaffold a new marketing-style website with SvelteKit (Svelte 5 runes) and TypeScript.
 > Follow the steps in order. Create every file listed in **Section 4** exactly as shown. Swap each `{{PLACEHOLDER}}` for a real value.
 > If you don't know a value, ask the user before you start. Don't add extra libraries (Tailwind, UI kits, CSS-in-JS and so on) unless the user asks for them.
-> Styling uses plain CSS: global tokens and utilities in `static/global.css`, and scoped `<style>` blocks inside components.
+> Styling uses plain CSS: global tokens and utilities in `src/lib/styles/global.css`, and scoped `<style>` blocks inside components.
 
 ## 0. Placeholders to collect from the user
 
@@ -52,7 +52,7 @@ Then overwrite or create the files in Section 4.
 ├── vite.config.ts
 ├── src/
 │   ├── app.d.ts                # global types + custom element event typings
-│   ├── app.html                # fonts preload, global CSS, --vh fix, analytics
+│   ├── app.html                # fonts preload, --vh fix, analytics
 │   ├── lib/
 │   │   ├── components/         # PascalCase .svelte files, one component per file
 │   │   │   ├── Nav.svelte
@@ -62,19 +62,19 @@ Then overwrite or create the files in Section 4.
 │   │   │   └── SpanifyText.svelte
 │   │   ├── data/               # static content as exported arrays/objects (camelCase .js/.ts)
 │   │   │   └── faqs.ts
+│   │   ├── styles/
+│   │   │   └── global.css      # fonts, reset, tokens, globals, utilities, hero, animations; inlined into <head>
 │   │   └── utils/              # camelCase .ts: Svelte actions + shared runes state
 │   │       ├── clickOutside.ts
 │   │       ├── isIntersecting.ts
 │   │       └── globalStates.svelte.ts
 │   └── routes/
-│       ├── +layout.svelte      # Nav + {@render children()} + Footer (+ global modals)
+│       ├── +layout.svelte      # global.css import, Nav + {@render children()} + Footer (+ global modals)
 │       ├── +page.svelte        # Home
 │       ├── about/+page.svelte
 │       ├── contact/+page.svelte
 │       └── privacy/+page.svelte
 └── static/
-    ├── global.css              # CRITICAL CSS: fonts, reset, tokens, globals, utilities, hero, above-fold animations
-    ├── global-noncritical.css  # NON-CRITICAL CSS: scroll animations, loaded at end of <body>
     ├── robots.txt
     └── assets/
         ├── favicon/            # favicon.ico, favicon.svg, favicon-96x96.png, apple-touch-icon.png, site.webmanifest, web-app-manifest-*.png
@@ -181,10 +181,10 @@ Then overwrite or create the files in Section 4.
 - Wrap hover effects in `@media (hover: hover)`.
 - Component-specific runtime values go in inline CSS variables, for example `style="--top: {y}px"`. The CSS then reads them as `var(--top)`.
 
-### 3.4 Critical vs non-critical CSS
+### 3.4 Inlined CSS (no FOUC)
 
-- `static/global.css` is loaded in `<head>` and holds everything needed for first paint: fonts, the reset, tokens, globals, utilities, hero styles and above-the-fold animations.
-- `static/global-noncritical.css` is linked at the **end of `<body>`** and holds below-the-fold scroll animations.
+- `src/lib/styles/global.css` is imported by `+layout.svelte` and holds the fonts, the reset, tokens, globals, utilities, hero styles and all the entrance and scroll animations.
+- `kit.inlineStyleThreshold: Infinity` inlines it and every component's scoped styles into a `<style>` in the SSR `<head>`, so first paint never waits on a stylesheet request. Don't link CSS from `app.html` or `static/`.
 - Component styles stay scoped inside each `.svelte` file.
 
 ### 3.5 Formatting
@@ -268,7 +268,9 @@ import adapter from "@sveltejs/adapter-netlify";
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	kit: {
-		adapter: adapter({ edge: false, split: false })
+		adapter: adapter({ edge: false, split: false }),
+		// Inline every stylesheet into the SSR <head>, so first paint never waits on a CSS request
+		inlineStyleThreshold: Infinity
 	}
 };
 
@@ -337,9 +339,8 @@ export default defineConfig({
 		<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png" />
 		<link rel="manifest" href="/assets/favicon/site.webmanifest" />
 
-		<!-- Preload fonts, then load critical CSS -->
+		<!-- Preload fonts. All CSS is inlined into the head by SvelteKit -->
 		<link rel="preload" href="/assets/fonts/{{HEADING_FONT}}.woff2" as="font" type="font/woff2" crossorigin />
-		<link rel="stylesheet" href="%sveltekit.assets%/global.css" />
 
 		<!-- Plausible Analytics (optional; delete if unused) -->
 		<script defer data-domain="{{DOMAIN}}" src="/js/script.tagged-events.js"></script>
@@ -353,7 +354,6 @@ export default defineConfig({
 
 	<body data-sveltekit-preload-data="hover">
 		<div style="display: contents">%sveltekit.body%</div>
-		<link rel="stylesheet" href="%sveltekit.assets%/global-noncritical.css" />
 	</body>
 </html>
 ```
@@ -383,7 +383,7 @@ declare global {
 export {};
 ```
 
-### `static/global.css`
+### `src/lib/styles/global.css`
 
 ```css
 /* Font Imports ---------------------------------------- */
@@ -712,7 +712,7 @@ div.hero-text p.subheading {
 }
 ```
 
-### `static/global-noncritical.css`
+### `src/lib/styles/global.css` (continued: scroll animations, at the end of the same file)
 
 ```css
 /* Scroll Animations (pair with use:isIntersecting) */
@@ -1064,6 +1064,7 @@ Build it this way:
 
 ```svelte
 <script lang="ts">
+	import "$lib/styles/global.css";
 	import "material-icons/iconfont/filled.css";
 	import Nav from "$lib/components/Nav.svelte";
 	import Footer from "$lib/components/Footer.svelte";

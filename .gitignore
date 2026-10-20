@@ -33,3 +33,6 @@ vite.config.ts.timestamp-*
 
 # Local spec for agents, not committed
 /AUTH.md
+
+# Full-size originals of the client photos (the site uses the WebP copies in static/assets/images)
+/design/photos/

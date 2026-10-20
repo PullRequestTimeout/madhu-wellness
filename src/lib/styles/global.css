@@ -363,6 +363,9 @@ footer {
 	position: absolute;
 	width: 1px;
 	height: 1px;
+	/* Pulls the 1px box back inside its spot, so a region left at the end of the page (the Toaster's) doesn't add a pale
+	   sliver of scroll below the footer */
+	margin: -1px;
 	overflow: hidden;
 	clip-path: inset(50%);
 	white-space: nowrap;

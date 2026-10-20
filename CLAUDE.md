@@ -26,6 +26,17 @@ After making UI changes (any `.svelte`, `.css` or `.html` file), run the `ui-ux-
 - `design/figma/` is a local-only (gitignored) offline copy of the Figma design. Its `README.md` indexes what's there. Read it before calling the Figma MCP, because the Starter plan has a low call limit. Save any new Figma responses there too.
 - The SVAR MCP server (`svar-mcp` in `.mcp.json`) is the source of truth for `@svar-ui/svelte-calendar` APIs. Query it before writing or changing calendar code.
 
+## Photos
+
+- Site photos are the client's own, saved as WebP in `static/assets/images/` and named for their role: `hero-<page>`, `card-*`, `space-*`, `treatment-*`, `event-*`. A replacement takes the old file's name, so paths don't change. `todo.md` lists the slots still on stock images.
+- Convert new photos to WebP at about quality 75. Use at most 2048px wide for heroes and full-width cards, 800px for the homepage cards and 1000–1400px for gallery tiles and treatment or event images. Aim for under about 350KB. Detailed foliage compresses badly, so narrow it rather than dropping the quality further.
+  - No image tool is installed. Install `sharp` in a scratch folder rather than adding it to the project.
+- Keep the full-size originals in `design/photos/` (gitignored). Never ship them from `static/`.
+- Crops are tuned per photo, so recheck them at 390px and 1440px whenever a photo changes. Phones crop heroes from the sides, and wide screens crop them top and bottom.
+  - Anchor with `object-position`: `PageHero`'s `focus` prop, the homepage's `img.hero-image` rule, or a homepage offering's `focus` field.
+- White text over a photo must meet 4.5:1, or 3:1 for large text, at both widths. `--color-overlay-hero` is only a flat 35% tint. Measure the pixels behind the text rather than judging by eye.
+- Hero, card, treatment and event photos are decorative (`alt=""`). The About page's Space gallery photos get descriptive alt text.
+
 ## Conventions worth knowing up front
 
 - Icons come from `phosphor-svelte`. Import each one from its own path, for example `import XIcon from "phosphor-svelte/lib/XIcon"`. Icons are `1em` in `currentColor`, so size and colour them with `font-size` and `color` on a wrapper. Decorative icons need `aria-hidden="true"`, because Phosphor renders `role="img"`.

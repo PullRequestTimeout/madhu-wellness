@@ -26,11 +26,11 @@
 		{ title: "Inclusivity", text: "Welcoming people from different backgrounds, experiences and walks of life.", icon: UsersThreeIcon }
 	];
 
-	// Headshots to come; until then each shows a placeholder circle
+	// Those without a headshot yet show a placeholder circle
 	const practitioners: { name: string; role: string; img?: string }[] = [
-		{ name: "Nadine Klawitter", role: "Registered Massage Therapist" },
-		{ name: "Clare Kearney", role: "Registered Massage Therapist" },
-		{ name: "Michelle Coish", role: "Osteopathic Manual Practitioner" },
+		{ name: "Nadine Klawitter", role: "Registered Massage Therapist", img: "/assets/images/practitioner-nadine.webp" },
+		{ name: "Clare Kearney", role: "Registered Massage Therapist", img: "/assets/images/practitioner-clare.webp" },
+		{ name: "Michelle Coish", role: "Osteopathic Manual Practitioner", img: "/assets/images/practitioner-michelle.webp" },
 		{ name: "Danielle Hachey", role: "Yoga Teacher Trainer" },
 		{ name: "Jineya Naicker", role: "Canadian Certified Counsellor" },
 		{ name: "Keith Robine", role: "Registered Clinical Counsellor" }

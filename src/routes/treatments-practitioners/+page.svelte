@@ -14,21 +14,24 @@
 	import { contact } from "$lib/data/contact";
 
 	// TODO: real bios. Each one starts with the design's teaser; the rest is placeholder.
-	// TODO: headshots for the hover photo (add an img field and swap the initials block for it)
-	const practitioners = [
+	// TODO: headshots for the rest (they show their initials until then)
+	const practitioners: { name: string; role: string; bio: string; img?: string }[] = [
 		{
 			name: "Nadine Klawitter",
 			role: "Registered Massage Therapist",
+			img: "/assets/images/practitioner-nadine.webp",
 			bio: "Nadine has been a registered massage therapist for many years. Full bio coming soon: this placeholder stands in for her background, training and approach to care."
 		},
 		{
 			name: "Clare Kearney",
 			role: "Owner / Yoga Instructor / Registered Massage Therapist",
+			img: "/assets/images/practitioner-clare.webp",
 			bio: "Clare is registered with the College of Massage Therapists of British Columbia. Full bio coming soon: this placeholder stands in for her background, training and approach to care."
 		},
 		{
 			name: "Michelle Coish",
 			role: "Osteopathic Manual Practitioner / Lactation Consultant",
+			img: "/assets/images/practitioner-michelle.webp",
 			bio: "Starting her career as a maternity and pediatric practitioner, Michelle now offers osteopathic care and lactation support. Full bio coming soon: this placeholder stands in for her background and approach."
 		},
 		{
@@ -169,7 +172,11 @@
 		     text. Outside the list on purpose, since the stagger's transform would trap position: fixed -->
 		<div class="practitioner-photos" class:visible={hovered !== null} aria-hidden="true">
 			{#each practitioners as person, i}
-				<span class="practitioner-photo" class:active={hovered === i}>{initials(person.name)}</span>
+				{#if person.img}
+					<img class="practitioner-photo" class:active={hovered === i} src={person.img} alt="" loading="lazy" />
+				{:else}
+					<span class="practitioner-photo" class:active={hovered === i}>{initials(person.name)}</span>
+				{/if}
 			{/each}
 		</div>
 	</section>
@@ -534,7 +541,8 @@
 			display: grid;
 			--photo-width: clamp(240px, 22vw, 340px);
 			width: var(--photo-width);
-			aspect-ratio: 4 / 5;
+			/* Square, like the headshots */
+			aspect-ratio: 1;
 			/* Just right of the pointer, centred on it vertically */
 			translate: calc(var(--pointer-x, 0) * 1px + var(--spacing-l)) calc(var(--pointer-y, 0) * 1px - 50%);
 			pointer-events: none;
@@ -557,20 +565,30 @@
 			opacity: 1;
 		}
 
-		span.practitioner-photo {
+		.practitioner-photo {
 			grid-area: 1 / 1;
-			display: grid;
-			place-items: center;
+			width: 100%;
+			height: 100%;
 			border-radius: 10px;
-			background-color: var(--color-tan);
 			box-shadow: var(--shadow);
-			color: var(--color-text);
-			font-size: 64px;
-			font-weight: 600;
 			opacity: 0;
 		}
 
-		span.practitioner-photo.active {
+		img.practitioner-photo {
+			object-fit: cover;
+		}
+
+		/* Initials stand in until the headshot arrives */
+		span.practitioner-photo {
+			display: grid;
+			place-items: center;
+			background-color: var(--color-tan);
+			color: var(--color-text);
+			font-size: 64px;
+			font-weight: 600;
+		}
+
+		.practitioner-photo.active {
 			opacity: 1;
 		}
 	}
@@ -582,14 +600,14 @@
 				opacity 0.3s ease;
 		}
 
-		span.practitioner-photo {
+		.practitioner-photo {
 			scale: 0.9;
 			transition:
 				opacity 0.3s ease,
 				scale 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 		}
 
-		span.practitioner-photo.active {
+		.practitioner-photo.active {
 			scale: 1;
 		}
 	}

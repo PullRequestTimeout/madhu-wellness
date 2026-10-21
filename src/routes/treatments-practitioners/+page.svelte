@@ -11,6 +11,7 @@
 	import { followPointer } from "$lib/utils/followPointer";
 	import { slideOpen } from "$lib/utils/slideOpen";
 	import { scrollProgress } from "$lib/utils/scrollProgress";
+	import { contact } from "$lib/data/contact";
 
 	// TODO: real bios. Each one starts with the design's teaser; the rest is placeholder.
 	// TODO: headshots for the hover photo (add an img field and swap the initials block for it)
@@ -58,8 +59,7 @@
 	// Whose photo follows the pointer
 	let hovered = $state<number | null>(null);
 
-	// TODO: point each CTA at its booking page once booking is set up. Until then they go where the nav's Book Now does.
-	const bookingHref = "/classes-events";
+	const { bookingHref } = contact;
 
 	const treatments = [
 		{

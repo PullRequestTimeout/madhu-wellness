@@ -7,6 +7,7 @@
 	import { isIntersecting } from "$lib/utils/isIntersecting";
 	import { navLinks } from "$lib/data/navLinks";
 	import { openContact } from "$lib/utils/globalStates.svelte";
+	import { contact } from "$lib/data/contact";
 
 	let showMobileMenu = $state(false);
 	let scrollY = $state(0);
@@ -81,7 +82,7 @@
 				</button>
 				<hr />
 				<div class="nav-cta">
-					<PrimaryButton href="/classes-events" text="Book Now" onAction={() => (showMobileMenu = false)} />
+					<PrimaryButton href={contact.bookingHref} text="Book Now" onAction={() => (showMobileMenu = false)} />
 				</div>
 			</div>
 		</nav>
@@ -103,7 +104,7 @@
 		{/each}
 		<button class="nav-contact" aria-haspopup="dialog" onclick={openContact}>Contact</button>
 	</nav>
-	<PrimaryButton href="/classes-events" text="Book Now" light={!scrolled} />
+	<PrimaryButton href={contact.bookingHref} text="Book Now" light={!scrolled} />
 </header>
 
 <style>

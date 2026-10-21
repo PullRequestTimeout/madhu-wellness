@@ -7,6 +7,7 @@
 	import { scrollProgress } from "$lib/utils/scrollProgress";
 	import { enterProgress } from "$lib/utils/enterProgress";
 	import { heroImages } from "$lib/data/heroImages";
+	import { contact } from "$lib/data/contact";
 
 	// Split around the <em> words, each part carrying on the letter stagger from the last
 	const tagline = [
@@ -114,7 +115,7 @@
 			</hgroup>
 			<p class="subheading">Find your flow in downtown Rossland.</p>
 			<div class="hero-buttons">
-				<PrimaryButton href="/treatments-practitioners" text="Book An Appointment" light />
+				<PrimaryButton href={contact.bookingHref} text="Book An Appointment" light />
 				<PrimaryButton href="/classes-events" text="Explore Classes" primary={false} light />
 			</div>
 		</div>

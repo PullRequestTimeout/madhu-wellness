@@ -163,12 +163,19 @@
 		max-width: 819px;
 	}
 
-	/* Calendar, under the Gather intro. Clear of the sticky nav when the event cards link to it */
+	/* Calendar, under the Gather intro. Links to #calendar clear the fixed header through html's scroll-padding-top */
 	div.calendar {
 		display: flex;
 		flex-direction: column;
 		gap: var(--spacing-m);
-		scroll-margin-top: calc(var(--header-height) + var(--spacing-m));
+	}
+
+	/* Arriving from another page, the jump happens before the fade-up, while the calendar still sits 2rem low.
+	   This adds the 2rem back so it settles clear of the header too */
+	@media (prefers-reduced-motion: no-preference) {
+		div.calendar.scroll-fade-up:not(:global(.show)) {
+			scroll-margin-top: 2rem;
+		}
 	}
 
 	/* Ends on no transform at all rather than translateY(0): any transform would become the containing block for the

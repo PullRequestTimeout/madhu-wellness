@@ -18,6 +18,8 @@
 	let { href, text = "Button", primary = true, light = false, type = "button", pending = false, onAction }: PrimaryButtonProps = $props();
 
 	const variant = $derived(`${primary ? "primary" : "secondary"}${light ? " light" : ""}`);
+	// Off-site links (such as booking) open in a new tab, like the site's other external links
+	const external = $derived(href?.startsWith("http") ?? false);
 </script>
 
 {#snippet content()}
@@ -26,11 +28,19 @@
 			<span class="arrow"><ArrowRightIcon weight="bold" aria-hidden="true" /></span>
 		</div>
 	{/if}
-	<span class="label">{text}</span>
+	<span class="label"
+		>{text}{#if external}<span class="visually-hidden">{" "}(opens in a new tab)</span>{/if}</span
+	>
 {/snippet}
 
 {#if href}
-	<a {href} class={variant} onclick={(e) => onAction?.(e)}>
+	<a
+		{href}
+		class={variant}
+		target={external ? "_blank" : undefined}
+		rel={external ? "noopener noreferrer" : undefined}
+		onclick={(e) => onAction?.(e)}
+	>
 		{@render content()}
 	</a>
 {:else}

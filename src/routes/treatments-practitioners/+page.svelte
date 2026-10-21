@@ -60,6 +60,8 @@
 	let hovered = $state<number | null>(null);
 
 	const { bookingHref } = contact;
+	// Each treatment opens its own service on Jane
+	const janeService = (slug: string) => `${bookingHref}#/${slug}`;
 
 	const treatments = [
 		{
@@ -67,6 +69,7 @@
 			title: "Registered Massage Therapy",
 			text: "Thoughtful, hands-on care to ease tension, support recovery and help you feel more comfortable and at home in your body.",
 			cta: "Book Massage",
+			href: janeService("registered-massage-therapy"),
 			img: "/assets/images/treatment-massage.webp",
 			bg: "var(--color-background-peach)"
 		},
@@ -75,6 +78,7 @@
 			title: "Clinical Counselling",
 			text: "A supportive, compassionate space to explore what you’re experiencing, develop new perspectives and work towards meaningful change.",
 			cta: "Book Counselling",
+			href: janeService("clinical-counselling"),
 			img: "/assets/images/treatment-counselling.webp",
 			bg: "var(--color-background-tan)"
 		},
@@ -83,6 +87,7 @@
 			title: "Osteopathic Manual Therapy",
 			text: "A whole-body approach that works with the body’s structure and function to support mobility, ease discomfort and encourage natural balance.",
 			cta: "Book Osteopathy",
+			href: janeService("osteopathy"),
 			img: "/assets/images/space-massage.jpg",
 			bg: "var(--color-background-peach)"
 		},
@@ -91,6 +96,7 @@
 			title: "Private Therapeutic Yoga",
 			text: "One-on-one yoga sessions tailored to your body, needs and goals, creating space to build strength, mobility, awareness and ease.",
 			cta: "Book Yoga",
+			href: janeService("private-therapeutic-yoga"),
 			img: "/assets/images/space-meditation.jpg",
 			bg: "var(--color-background-tan)"
 		}
@@ -231,7 +237,7 @@
 								<h2 class="treatment-title">{treatment.title}</h2>
 							</div>
 							<p class="body-large">{treatment.text}</p>
-							<PrimaryButton href={bookingHref} text={treatment.cta} />
+							<PrimaryButton href={treatment.href} text={treatment.cta} />
 						</div>
 						<img class="treatment-image" src={treatment.img} alt="" loading="lazy" />
 					</article>

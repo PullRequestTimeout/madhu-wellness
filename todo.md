@@ -113,7 +113,7 @@ Your photos of the space and the owners now fill the page banners, the homepage 
   - **Do:** add a 1200×630 JPG under 300 KB. If `crop`, crop it from `hero-home.webp`.
   - **Also:** make the `og:image` URL absolute (`https://madhucollective.ca/...`), since some scrapers need that.
 - [x] **7. FAQs.** Needs `FAQS`. If `no`, delete `src/lib/data/faqs.ts`. If `yes`, build an accessible accordion section (reuse `slideOpen`, as the practitioner bios do) on the page Jacob picks.
-- [x] **8. Booking links.** `contact.bookingHref` (Jane) now drives the nav's "Book Now", the homepage's "Book An Appointment" and the treatment CTAs. The event cards still point at `#calendar`, where each event carries its own booking link. Jane deep links per treatment (for example `#/discipline/…`) could replace the single link once the client confirms them.
+- [x] **8. Booking links.** `contact.bookingHref` (Jane) now drives the nav's "Book Now", the homepage's "Book An Appointment" and the Treatments page intro button, and each treatment CTA opens its own Jane service (`#/<service>`). The event cards still point at `#calendar`, where each event carries its own booking link.
 - [ ] **9. Admin allowlist.** **Blocked** on `ADMIN_UIDS`. Update `PUBLIC_ADMIN_UIDS` in `.env` and `isAdmin()` in `firestore.rules`, and delete the stale TODO comment there. Remind Jacob to set the Netlify env var and run `firebase deploy --only firestore:rules`.
 - [ ] **10. Real photos.** **Blocked** on the client's photos.
   - **Do:** when files land, convert each to WebP at most 2048px wide and replace the stock image of the same role. Update the paths and write real `alt` text, or `alt=""` where the image is decorative.

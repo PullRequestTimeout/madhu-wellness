@@ -8,6 +8,7 @@
 	import { isIntersecting } from "$lib/utils/isIntersecting";
 	import { uiStore, closeContact } from "$lib/utils/globalStates.svelte";
 	import { modal } from "$lib/utils/modal";
+	import { contact } from "$lib/data/contact";
 
 	let status = $state<"idle" | "sending" | "success" | "error">("idle");
 	let statusEl = $state<HTMLParagraphElement>();
@@ -156,7 +157,7 @@
 							Thanks for reaching out. We'll be in touch soon.
 						{:else if status === "error"}
 							Sorry, your message didn't send. Please try again, or email us at
-							<a href="mailto:hello@madhucollective.ca">hello@madhucollective.ca</a>.
+							<a href="mailto:{contact.email}">{contact.email}</a>.
 						{:else if summary}
 							<span class="contact-summary">{summary}</span>
 						{/if}
@@ -261,22 +262,22 @@
 					<hr />
 					<div class="contact-info-row">
 						<ul aria-labelledby="contact-location">
-							<!-- TODO: add the studio phone number, then restore: <li><a href="tel:+1...">Phone</a></li> -->
-							<li><a href="mailto:hello@madhucollective.ca">Email</a></li>
+							<li><a href={contact.phoneHref}>Phone</a></li>
+							<li><a href="mailto:{contact.email}">Email</a></li>
 							<li>
-								<a href="https://maps.google.com/?q=Rossland,+BC" target="_blank" rel="noopener noreferrer"
+								<a href={contact.mapsHref} target="_blank" rel="noopener noreferrer"
 									>Directions<span class="visually-hidden"> (opens in a new tab)</span></a
 								>
 							</li>
 						</ul>
 						<ul aria-labelledby="contact-socials">
 							<li>
-								<a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer"
+								<a href={contact.instagramHref} target="_blank" rel="noopener noreferrer"
 									>Instagram<span class="visually-hidden"> (opens in a new tab)</span></a
 								>
 							</li>
 							<li>
-								<a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer"
+								<a href={contact.facebookHref} target="_blank" rel="noopener noreferrer"
 									>Facebook<span class="visually-hidden"> (opens in a new tab)</span></a
 								>
 							</li>

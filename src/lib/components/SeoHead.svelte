@@ -6,8 +6,10 @@
 		title = "Madhu Wellness Collective",
 		description = "Madhu Wellness Collective brings together classes, events, holistic treatments and trusted practitioners in one welcoming space."
 	}: { title?: string; description?: string } = $props();
-	const image = "/assets/images/og-image.jpg";
-	const url = $derived(page.url.toString());
+	// Absolute, since some link-preview scrapers don't resolve relative URLs
+	const image = "https://madhucollective.ca/assets/images/og-image.jpg";
+	// The production URL without query or hash, so the canonical is the same on every host and in SSR and the client
+	const url = $derived(`https://madhucollective.ca${page.url.pathname}`);
 </script>
 
 <svelte:head>

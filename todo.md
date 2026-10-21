@@ -63,34 +63,34 @@ Your photos of the space and the owners now fill the page banners, the homepage 
 
 ## Inputs
 
-| Key                | What                                                                                     | Value  |
-| ------------------ | ---------------------------------------------------------------------------------------- | ------ |
-| `ADDRESS`          | Studio street address, for the map links                                                 | ?      |
-| `PHONE`            | Studio phone number, or "none"                                                           | ?      |
-| `INSTAGRAM_URL`    | Instagram profile URL                                                                    | ?      |
-| `FACEBOOK_URL`     | Facebook page URL                                                                        | ?      |
-| `MAILCHIMP_ACTION` | Mailchimp embedded-form action URL (`https://….list-manage.com/subscribe/post?u=…&id=…`) | ?      |
-| `LEGAL_NAME`       | Business legal name, for the privacy policy                                              | ?      |
-| `PRIVACY_EMAIL`    | Contact address for privacy requests (default `hello@madhucollective.ca`)                | ?      |
-| `COOKIE_BANNER`    | Build a consent banner: `yes`, `no` (just a cookies section) or `later`                  | ?      |
-| `FAQS`             | Build an FAQ section (`yes`, plus the questions) or delete the placeholder (`no`)        | ?      |
-| `OG_IMAGE`         | Social share image: a file path, or `crop` to make an interim one from the home hero     | ?      |
-| `BOOKING_URLS`     | Booking link for each treatment, the nav "Book Now" and each event card                  | client |
-| `ADMIN_UIDS`       | Firebase UIDs of every calendar admin                                                    | client |
+| Key                | What                                                                                     | Value                                      |
+| ------------------ | ---------------------------------------------------------------------------------------- | ------------------------------------------ |
+| `ADDRESS`          | Studio street address, for the map links                                                 | 2070 Washington St, Rossland, BC V0G 1Y0   |
+| `PHONE`            | Studio phone number, or "none"                                                           | (250) 362-0021                             |
+| `INSTAGRAM_URL`    | Instagram profile URL                                                                    | https://www.instagram.com/madhucollective/ |
+| `FACEBOOK_URL`     | Facebook page URL                                                                        | https://www.facebook.com/madhucollective/  |
+| `MAILCHIMP_ACTION` | Mailchimp embedded-form action URL (`https://….list-manage.com/subscribe/post?u=…&id=…`) | client                                     |
+| `LEGAL_NAME`       | Business legal name, for the privacy policy                                              | Madhu Wellness Collective                  |
+| `PRIVACY_EMAIL`    | Contact address for privacy requests (default `hello@madhucollective.ca`)                | madhucollective01@gmail.com                |
+| `COOKIE_BANNER`    | Build a consent banner: `yes`, `no` (just a cookies section) or `later`                  | no                                         |
+| `FAQS`             | Build an FAQ section (`yes`, plus the questions) or delete the placeholder (`no`)        | no                                         |
+| `OG_IMAGE`         | Social share image: a file path, or `crop` to make an interim one from the home hero     | crop                                       |
+| `BOOKING_URLS`     | Booking link for each treatment, the nav "Book Now" and each event card                  | client                                     |
+| `ADMIN_UIDS`       | Firebase UIDs of every calendar admin                                                    | client                                     |
 
 ## Tasks
 
-- [ ] **1. Contact and social links.** Needs `ADDRESS`, `PHONE`, `INSTAGRAM_URL` and `FACEBOOK_URL`.
+- [x] **1. Contact and social links.** Needs `ADDRESS`, `PHONE`, `INSTAGRAM_URL` and `FACEBOOK_URL`.
   - **Where:** the footer and contact panel hard-code the Location, Instagram and Facebook links, and the Phone link is commented out (TODO in `ContactPanel.svelte`).
   - **Do:** move all four into one shared module (e.g. `src/lib/data/contact.ts`) and use it in both components.
   - **Address:** point the map links at a Google Maps search for the full address.
   - **Phone:** restore the Phone link as `tel:`. If `PHONE` is `none`, delete the TODO instead.
-- [ ] **2. Newsletter → Mailchimp.** Needs `MAILCHIMP_ACTION`.
+- [ ] **2. Newsletter → Mailchimp.** **Blocked** on `MAILCHIMP_ACTION` from the client.
   - **Where:** `src/lib/components/Newsletter.svelte` currently calls `preventDefault()` and sends nothing.
   - **Submit:** to Mailchimp's `post-json` JSONP endpoint, the action URL with `/post?` changed to `/post-json?` and `&c=<callback>` added, so the visitor stays on the page.
   - **Honeypot:** include Mailchimp's `b_<u>_<id>` field.
   - **Feedback:** disable the button while sending. Show success and errors inline and announce them through a live region; there's no modal, so a toast is also fine. Map Mailchimp's "already subscribed" message to a friendly line.
-- [ ] **3. Privacy policy.** Needs `LEGAL_NAME` and `PRIVACY_EMAIL`, and task 2 should be done first.
+- [x] **3. Privacy policy.** Needs `LEGAL_NAME` and `PRIVACY_EMAIL`, and task 2 should be done first. (Done as a draft that already names Mailchimp; see Manual for the review.)
   - **Where:** `/privacy`, replacing the placeholder date and text.
   - **Sections:**
     - who we are
@@ -103,16 +103,16 @@ Your photos of the space and the owners now fill the page banners, the homepage 
     - contact
   - **Framing:** BC PIPA. Note that the site doesn't collect health information, and that clinical records are handled separately by each practitioner.
   - **Review:** mark it clearly for Jacob and the client to review; it's not legal advice.
-- [ ] **4. Cookies.** Needs `COOKIE_BANNER`, and task 3 should be done first.
+- [x] **4. Cookies.** Needs `COOKIE_BANNER`, and task 3 should be done first.
   - **Always:** make sure the footer's `/privacy#cookies` link lands on the cookies section. That section says ordinary visitors get no cookies: Plausible is cookieless, and Firebase only loads for admins.
   - **If `yes`:** add a small, non-modal consent bar to the root layout. It needs Accept and Decline buttons that can be reached by keyboard and form a labelled region. Store the choice in `localStorage`, wrapped in try/catch. Only load third-party scripts that set cookies after consent.
   - **If `later`:** do the section only, and leave this task open.
-- [ ] **5. Sitemap.** Generate `sitemap.xml` for `/`, `/about`, `/treatments-practitioners`, `/classes-events` and `/privacy`, either as a prerendered `src/routes/sitemap.xml/+server.ts` or as a static file. Add `Sitemap: https://madhucollective.ca/sitemap.xml` to `static/robots.txt`.
-- [ ] **6. Social share image.** Needs `OG_IMAGE`.
+- [x] **5. Sitemap.** Generate `sitemap.xml` for `/`, `/about`, `/treatments-practitioners`, `/classes-events` and `/privacy`, either as a prerendered `src/routes/sitemap.xml/+server.ts` or as a static file. Add `Sitemap: https://madhucollective.ca/sitemap.xml` to `static/robots.txt`.
+- [x] **6. Social share image.** (Interim crop; swap in the client's photo when it arrives.) Needs `OG_IMAGE`.
   - **Where:** `SeoHead.svelte` points at `/assets/images/og-image.jpg`, which doesn't exist.
   - **Do:** add a 1200×630 JPG under 300 KB. If `crop`, crop it from `hero-home.webp`.
   - **Also:** make the `og:image` URL absolute (`https://madhucollective.ca/...`), since some scrapers need that.
-- [ ] **7. FAQs.** Needs `FAQS`. If `no`, delete `src/lib/data/faqs.ts`. If `yes`, build an accessible accordion section (reuse `slideOpen`, as the practitioner bios do) on the page Jacob picks.
+- [x] **7. FAQs.** Needs `FAQS`. If `no`, delete `src/lib/data/faqs.ts`. If `yes`, build an accessible accordion section (reuse `slideOpen`, as the practitioner bios do) on the page Jacob picks.
 - [ ] **8. Booking links.** **Blocked** on `BOOKING_URLS`. Replace `bookingHref` in `treatments-practitioners/+page.svelte`, the event card `href`s in `classes-events/+page.svelte`, and the nav's "Book Now" (`Nav.svelte`). Remove the related TODOs.
 - [ ] **9. Admin allowlist.** **Blocked** on `ADMIN_UIDS`. Update `PUBLIC_ADMIN_UIDS` in `.env` and `isAdmin()` in `firestore.rules`, and delete the stale TODO comment there. Remind Jacob to set the Netlify env var and run `firebase deploy --only firestore:rules`.
 - [ ] **10. Real photos.** **Blocked** on the client's photos.
@@ -127,7 +127,8 @@ Your photos of the space and the owners now fill the page banners, the homepage 
 
 ## Manual (Jacob, in dashboards)
 
-- [ ] **Netlify Forms:** set up email notifications so contact form submissions reach `hello@madhucollective.ca`.
+- [ ] **Privacy policy review:** Jacob and the client review the draft at `/privacy` before launch, especially the 12-month retention for contact messages. It's not legal advice.
+- [ ] **Netlify Forms:** set up email notifications so contact form submissions reach `madhucollective01@gmail.com`.
 - [ ] **Plausible:** add the `madhucollective.ca` site so the proxied script records visits.
 - [ ] **Launch:**
   - point the domain at Netlify

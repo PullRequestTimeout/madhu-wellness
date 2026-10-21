@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { navLinks } from "$lib/data/navLinks";
+	import { contact } from "$lib/data/contact";
 	import { openContact, openLogin } from "$lib/utils/globalStates.svelte";
 	import { toast } from "$lib/utils/toast.svelte";
 	import { authStore } from "$lib/auth/auth.svelte";
@@ -36,9 +37,9 @@
 			<div class="footer-link-column">
 				<!-- Opens the contact form, like the nav's Contact -->
 				<button class="footer-contact" aria-haspopup="dialog" onclick={openContact}>Contact</button>
-				<a href="https://maps.google.com/?q=Rossland,+BC" target="_blank" rel="noopener noreferrer">Location</a>
-				<a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a>
-				<a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">Facebook</a>
+				<a href={contact.mapsHref} target="_blank" rel="noopener noreferrer">Location</a>
+				<a href={contact.instagramHref} target="_blank" rel="noopener noreferrer">Instagram</a>
+				<a href={contact.facebookHref} target="_blank" rel="noopener noreferrer">Facebook</a>
 			</div>
 		</div>
 	</div>

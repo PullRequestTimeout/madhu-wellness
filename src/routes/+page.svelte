@@ -707,17 +707,19 @@
 		}
 
 		/* Each card keeps its column and moves by its own --y (in viewport heights, since it's pinned mid-screen):
-		   the inner pair go furthest, past the quote and partly off-screen, and the outer pair a little either side of it */
+		   the inner pair go furthest, past the quote and partly off-screen, and the outer pair a little either side of it.
+		   The inner pair clear the quote's measured height (it shares the cards' centre) plus a gap in viewport heights,
+		   so the space around it scales with the screen instead of closing up on short ones */
 		a.offering-card:nth-child(1) {
 			--y: calc(var(--vh, 1vh) * -27);
 		}
 
 		a.offering-card:nth-child(2) {
-			--y: calc(var(--vh, 1vh) * 44);
+			--y: calc(var(--card-height) / 2 + var(--quote-height, 0px) / 2 + var(--vh, 1vh) * 11.5);
 		}
 
 		a.offering-card:nth-child(3) {
-			--y: calc(var(--vh, 1vh) * -49);
+			--y: calc((var(--card-height) / 2 + var(--quote-height, 0px) / 2 + var(--vh, 1vh) * 16.5) * -1);
 		}
 
 		a.offering-card:nth-child(4) {

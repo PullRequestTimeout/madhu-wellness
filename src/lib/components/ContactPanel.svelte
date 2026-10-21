@@ -613,14 +613,19 @@
 			width: 72%;
 		}
 
+		/* The design's 96px top and bottom, shrinking to --spacing-xl on short windows so the ~600px of content fits
+		   without scrolling where it can. Live dvh rather than --vh, which is measured once and goes stale when a
+		   desktop window is resized (there are no collapsing browser bars at this width). */
 		div.contact-panel {
-			padding: 96px var(--spacing-xl);
+			--panel-padding-block: clamp(var(--spacing-xl), calc((100dvh - 600px) / 2), 96px);
+			padding: var(--panel-padding-block) var(--spacing-xl);
 		}
 
-		/* Script sits up and to the left of the heading, as in the design */
+		/* Script sits up and to the left of the heading, as in the design. Its top tracks the padding so it stays
+		   10px below the panel's top edge (the design's -86px at 96px padding) rather than being clipped */
 		div.contact-heading .eyebrow {
 			left: -56px;
-			top: -86px;
+			top: calc(10px - var(--panel-padding-block));
 		}
 	}
 

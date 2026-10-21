@@ -523,15 +523,14 @@
 	}
 
 	/* The follow photo: hover-and-mouse screens only. The tracked pointer sets the position, and the translate
-	   transition makes the photo ease after it. The text keeps to the left half of the screen and the photo to the
-	   right half, so the photo never passes behind the text */
+	   transition makes the photo ease after it. The text keeps to the left half of the screen, and the photo fades to
+	   half opacity while it's over that half, so the text stays legible */
 	@media screen and (min-width: 1024px) and (hover: hover) and (pointer: fine) {
 		li.practitioner > * {
 			max-width: calc(50vw - var(--padding-inline));
 		}
 
 		div.practitioner-photos {
-			--photo-min-x: calc(50vw + var(--spacing-l));
 			position: fixed;
 			z-index: 0; /* Under the list (z-index 1) and the header */
 			top: 0;
@@ -541,8 +540,9 @@
 			width: var(--photo-width);
 			/* Square, like the headshots */
 			aspect-ratio: 1;
-			/* Just right of the pointer (but no further left than the right half), centred on it vertically */
-			translate: max(var(--photo-min-x), var(--pointer-x, 0) * 1px + var(--spacing-l)) calc(var(--pointer-y, 0) * 1px - 50%);
+			/* Just right of the pointer, centred on it vertically */
+			--photo-x: calc(var(--pointer-x, 0) * 1px + var(--spacing-l));
+			translate: var(--photo-x) calc(var(--pointer-y, 0) * 1px - 50%);
 			pointer-events: none;
 			opacity: 0;
 			transition: opacity 0.3s ease;
@@ -550,20 +550,19 @@
 
 		/* ...unless it would run off the right edge, when it swaps to the left of the pointer (the swap eases too).
 		   sign() turns "would it overflow?" into 0 or 1, with a --spacing-l margin to clear a classic scrollbar (100vw includes it).
-		   Browsers without sign() keep the photo on the right */
+		   Browsers without sign() keep the photo on the right, and at full opacity */
 		@supports (width: calc(sign(1px) * 1px)) {
 			div.practitioner-photos {
 				--photo-flip: max(0, sign(var(--pointer-x, 0) * 1px + var(--spacing-l) + var(--photo-width) + var(--spacing-l) - 100vw));
-				translate: max(
-						var(--photo-min-x),
-						var(--pointer-x, 0) * 1px + var(--spacing-l) - (var(--photo-width) + var(--spacing-l) * 2) * var(--photo-flip)
-					)
-					calc(var(--pointer-y, 0) * 1px - 50%);
+				--photo-x: calc(var(--pointer-x, 0) * 1px + var(--spacing-l) - (var(--photo-width) + var(--spacing-l) * 2) * var(--photo-flip));
+				/* 1 once the photo's left edge is in the left half (where the text is), else 0 */
+				--photo-dim: max(0, sign(50vw - var(--photo-x)));
 			}
 		}
 
+		/* The existing opacity transition eases between full and half */
 		div.practitioner-photos.visible {
-			opacity: 1;
+			opacity: calc(1 - 0.5 * var(--photo-dim, 0));
 		}
 
 		.practitioner-photo {

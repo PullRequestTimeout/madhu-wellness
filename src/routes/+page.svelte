@@ -94,6 +94,8 @@
 <svelte:head>
 	<!-- Starts the hero photo downloading before the parser reaches it in the (CSS-inlined) body -->
 	<link rel="preload" as="image" href={heroImages["/"]} fetchpriority="high" />
+	<!-- Only the homepage tagline uses it, so it's preloaded here rather than in app.html -->
+	<link rel="preload" href="/assets/fonts/GeneralSans-SemiboldItalic.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
 </svelte:head>
 
 <main>
@@ -189,6 +191,10 @@
 		font-family: var(--font-body);
 		font-weight: 600;
 		text-wrap: wrap;
+	}
+
+	p.tagline em {
+		font-family: var(--font-body-italic);
 	}
 
 	/* Hero */

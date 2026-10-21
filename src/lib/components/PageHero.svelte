@@ -4,8 +4,9 @@
 	import SpanifyText from "$lib/components/SpanifyText.svelte";
 	import { isIntersecting } from "$lib/utils/isIntersecting";
 
-	// focus: the photo's object-position, for a photo whose subject sits off-centre (centred by default)
-	let { title, image, focus }: { title: string; image: string; focus?: string } = $props();
+	// focus: the photo's object-position, for a photo whose subject sits off-centre (centred by default).
+	// mobileFocus overrides it below 1024px, where the taller hero crops the photo from the sides instead.
+	let { title, image, focus, mobileFocus }: { title: string; image: string; focus?: string; mobileFocus?: string } = $props();
 </script>
 
 <svelte:head>
@@ -14,7 +15,7 @@
 </svelte:head>
 
 <section class="hero page-hero">
-	<img class="hero-image" src={image} alt="" fetchpriority="high" style:object-position={focus} />
+	<img class="hero-image" src={image} alt="" fetchpriority="high" style:--focus={focus} style:--focus-mobile={mobileFocus} />
 	<div class="page-hero-title">
 		<p class="eyebrow light" aria-hidden="true">{title.toLowerCase()}</p>
 		<h1 class="heading-fade-in" use:isIntersecting>
@@ -36,6 +37,10 @@
 		position: absolute;
 		inset: 0;
 		background-color: var(--color-overlay-hero);
+	}
+
+	img.hero-image {
+		object-position: var(--focus-mobile, var(--focus, center));
 	}
 
 	div.page-hero-title {
@@ -65,6 +70,10 @@
 		section.page-hero {
 			height: calc(var(--vh, 1vh) * 75);
 			padding-bottom: 82px; /* Level with the homepage hero's content */
+		}
+
+		img.hero-image {
+			object-position: var(--focus, center);
 		}
 	}
 </style>

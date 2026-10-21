@@ -120,7 +120,7 @@
 <main>
 	<!-- Anchored bottom left: the treatment table and rug sit in the lower half of the photo, and where phones crop it sideways the
 	     title lands on the dark armchair and rug rather than the white table linen -->
-	<PageHero title="Practitioners & Treatments." image={heroImages["/treatments-practitioners"]} focus="left bottom" />
+	<PageHero title="Practitioners & Treatments." image={heroImages["/treatments-practitioners"]} focus="left bottom" mobileFocus="right bottom" />
 
 	<section class="practitioners" id="practitioners" use:followPointer>
 		<div class="practitioners-intro">
@@ -393,14 +393,16 @@
 		font-weight: 600;
 	}
 
+	/* The nine sit in an even 3 × 3 grid until there's room for one row (from 1024px) */
 	ul.collective-people {
-		display: flex;
-		flex-wrap: wrap;
-		gap: var(--spacing-m);
+		--person-size: 72px;
+		display: grid;
+		grid-template-columns: repeat(3, var(--person-size));
+		gap: var(--spacing-l);
 	}
 
 	li.collective-person {
-		width: 72px;
+		width: 100%;
 		aspect-ratio: 1;
 		border-radius: 50%;
 		background-color: var(--color-cream);
@@ -485,8 +487,8 @@
 			padding: var(--spacing-xl);
 		}
 
-		li.collective-person {
-			width: 100px;
+		ul.collective-people {
+			--person-size: 100px;
 		}
 
 		article.treatment {
@@ -496,6 +498,15 @@
 
 		img.treatment-image {
 			aspect-ratio: 640 / 471;
+		}
+	}
+
+	/* One row spread across the card. The circles shrink a little below 100px where the card is narrower */
+	@media screen and (min-width: 1024px) {
+		ul.collective-people {
+			grid-template-columns: repeat(9, minmax(0, var(--person-size)));
+			justify-content: space-between;
+			gap: var(--spacing-m);
 		}
 	}
 

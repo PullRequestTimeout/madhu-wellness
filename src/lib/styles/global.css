@@ -20,6 +20,19 @@
 	font-display: swap;
 }
 
+/* The homepage hero tagline's emphasised words. A family of its own, so the browser stops faking the slant there without
+   this one weight taking over other italic text (the footer credit), and so it only downloads where it's used.
+   block rather than swap: the tagline fades in from invisible anyway, so waiting for the font avoids a visible swap */
+@font-face {
+	font-family: "General Sans Italic";
+	font-weight: 600;
+	font-style: italic;
+	src:
+		url("/assets/fonts/GeneralSans-SemiboldItalic.woff2") format("woff2"),
+		url("/assets/fonts/GeneralSans-SemiboldItalic.woff") format("woff");
+	font-display: block;
+}
+
 /* Reset ----------------------------------------------- */
 
 *,
@@ -88,6 +101,7 @@ button {
 	--font-body:
 		"General Sans", -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, Adwaita Sans, Cantarell, Ubuntu, roboto, noto,
 		helvetica, arial, sans-serif;
+	--font-body-italic: "General Sans Italic", var(--font-body);
 
 	/* Font sizes */
 	--font-body-s: 12px;

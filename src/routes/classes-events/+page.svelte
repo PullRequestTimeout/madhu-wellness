@@ -281,14 +281,20 @@
 		gap: var(--spacing-m);
 	}
 
+	/* The cards' width, for their min-height below */
+	div.event-cards {
+		container-type: inline-size;
+	}
+
 	a.event-card {
 		position: relative;
 		display: flex;
 		align-items: flex-end;
-		/* Landscape, but on phones (where the details always show) it grows to fit them rather than clipping:
-		   clip (unlike hidden) rounds the corners without stopping an aspect-ratio box growing to its content */
-		aspect-ratio: 3 / 2;
-		min-width: 0; /* So that growth only ever adds height; the ratio would otherwise widen the card too */
+		/* At least landscape (3:2 of the full-width card), growing to fit the details that always show on phones.
+		   A min-height rather than aspect-ratio: WebKit (every iOS browser) won't grow an aspect-ratio box past its
+		   ratio when overflow is clipped, so the bottom-aligned text was cut off at the top */
+		min-height: calc(100cqi * 2 / 3);
+		min-width: 0;
 		padding: var(--spacing-l);
 		border-radius: 10px;
 		box-shadow: var(--shadow);
@@ -404,7 +410,6 @@
 
 		/* The row sets the size from here, and a narrowing card may shrink below its content */
 		a.event-card {
-			aspect-ratio: auto;
 			min-height: 0;
 		}
 	}

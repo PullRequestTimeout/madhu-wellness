@@ -310,8 +310,7 @@
 		font-weight: 600;
 	}
 
-	/* Collapsed (slideOpen's class), the bio is one clamped line; open, it shows in full. The toggle keeps one place
-	   either way, under the bio on phones and beside it from 768px, so only the bio's height moves as slideOpen slides it */
+	/* Collapsed (slideOpen's class), the bio is one clamped line; open, it shows in full. The toggle sits under it */
 	div.practitioner-bio {
 		display: flex;
 		flex-direction: column;
@@ -489,13 +488,6 @@
 	}
 
 	@media screen and (min-width: 768px) {
-		/* The bio shrinks to leave the toggle room, so it's the same width collapsed or open */
-		div.practitioner-bio {
-			flex-direction: row;
-			align-items: baseline;
-			gap: var(--spacing-m);
-		}
-
 		div.collective-card {
 			padding: var(--spacing-xl);
 		}
@@ -531,9 +523,15 @@
 	}
 
 	/* The follow photo: hover-and-mouse screens only. The tracked pointer sets the position, and the translate
-	   transition makes the photo ease after it */
+	   transition makes the photo ease after it. The text keeps to the left half of the screen and the photo to the
+	   right half, so the photo never passes behind the text */
 	@media screen and (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+		li.practitioner > * {
+			max-width: calc(50vw - var(--padding-inline));
+		}
+
 		div.practitioner-photos {
+			--photo-min-x: calc(50vw + var(--spacing-l));
 			position: fixed;
 			z-index: 0; /* Under the list (z-index 1) and the header */
 			top: 0;
@@ -543,8 +541,8 @@
 			width: var(--photo-width);
 			/* Square, like the headshots */
 			aspect-ratio: 1;
-			/* Just right of the pointer, centred on it vertically */
-			translate: calc(var(--pointer-x, 0) * 1px + var(--spacing-l)) calc(var(--pointer-y, 0) * 1px - 50%);
+			/* Just right of the pointer (but no further left than the right half), centred on it vertically */
+			translate: max(var(--photo-min-x), var(--pointer-x, 0) * 1px + var(--spacing-l)) calc(var(--pointer-y, 0) * 1px - 50%);
 			pointer-events: none;
 			opacity: 0;
 			transition: opacity 0.3s ease;
@@ -556,7 +554,10 @@
 		@supports (width: calc(sign(1px) * 1px)) {
 			div.practitioner-photos {
 				--photo-flip: max(0, sign(var(--pointer-x, 0) * 1px + var(--spacing-l) + var(--photo-width) + var(--spacing-l) - 100vw));
-				translate: calc(var(--pointer-x, 0) * 1px + var(--spacing-l) - (var(--photo-width) + var(--spacing-l) * 2) * var(--photo-flip))
+				translate: max(
+						var(--photo-min-x),
+						var(--pointer-x, 0) * 1px + var(--spacing-l) - (var(--photo-width) + var(--spacing-l) * 2) * var(--photo-flip)
+					)
 					calc(var(--pointer-y, 0) * 1px - 50%);
 			}
 		}

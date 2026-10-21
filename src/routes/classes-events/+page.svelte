@@ -97,7 +97,7 @@
 		</div>
 	</section>
 
-	<section class="upcoming bg-tan">
+	<section class="upcoming bg-tan" id="upcoming">
 		<div class="upcoming-intro">
 			<div class="heading-wrap">
 				<p class="eyebrow" aria-hidden="true">Upcoming</p>

@@ -82,11 +82,12 @@
 	});
 
 	const offerings = [
-		{ text: "Classes", href: "/classes-events", img: "/assets/images/card-classes.webp" },
-		// The treatment room is anchored bottom right, so the practitioner stays in frame and the dark floor sits behind the two-line label
-		{ text: "Therapeutic Appointments", href: "/treatments-practitioners", img: "/assets/images/card-treatments.webp", focus: "70% bottom" },
-		{ text: "Practitioners", href: "/treatments-practitioners", img: "/assets/images/card-practitioners.webp" },
-		{ text: "Upcoming Events", href: "/classes-events", img: "/assets/images/card-events.webp" }
+		// Each card deep-links to its own section, so the two pairs sharing a page don't land in the same place
+		{ text: "Classes", href: "/classes-events#calendar", img: "/assets/images/card-classes.webp" },
+		// The treatment room is anchored bottom right, so the practitioner stays in frame and the dark floor sits behind the label
+		{ text: "Treatments", href: "/treatments-practitioners#treatments", img: "/assets/images/card-treatments.webp", focus: "70% bottom" },
+		{ text: "Our Team", href: "/treatments-practitioners#practitioners", img: "/assets/images/card-practitioners.webp" },
+		{ text: "Events", href: "/classes-events#upcoming", img: "/assets/images/card-events.webp" }
 	];
 </script>
 
@@ -670,7 +671,7 @@
 			font-size: var(--font-body-m);
 		}
 
-		/* On narrow phones "Appointments" fills the line, so the arrow drops below it rather than overflowing the padding */
+		/* If a label ever fills the line on a narrow phone, the arrow drops below it rather than overflowing the padding */
 		span.card-label-end {
 			white-space: normal;
 		}

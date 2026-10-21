@@ -13,7 +13,7 @@ npm run build    # production build via adapter-netlify
 
 There are no tests. Check visual and animation work in a browser. The Playwright MCP server is configured in `.mcp.json` for that.
 
-The `ui-ux-reviewer` subagent reviews uncommitted UI changes for UX and WCAG 2.2 AA. Don't run it automatically. After substantive UI work, ask the user whether they want a review. When it runs, fix what it finds, or tell the user about any findings you've left unfixed.
+The global `ui-ux-reviewer` subagent reviews uncommitted UI changes for UX and WCAG 2.2 AA. For it, the brand is a high-end, calm and warm wellness studio. Script headings must never be used for long or small text. Don't run it automatically. After substantive UI work, ask the user whether they want a review. When it runs, fix what it finds, or tell the user about any findings you've left unfixed.
 
 ## Where things live
 

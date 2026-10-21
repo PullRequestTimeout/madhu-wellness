@@ -171,7 +171,6 @@
 							growth. A special community with a rich past and a bright future. I’ll never fall out of love with this place.
 						</p>
 					</blockquote>
-					<figcaption>— <span class="testimonial-author">Joe</span></figcaption>
 				</figure>
 			</div>
 		</div>
@@ -413,10 +412,6 @@
 	}
 
 	figure.testimonial {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: var(--spacing-l);
 		max-width: 800px;
 		margin-inline: auto;
 		text-align: center;
@@ -457,19 +452,6 @@
 		right: 0;
 		bottom: 0;
 		transform: translateY(35%);
-	}
-
-	figcaption {
-		color: var(--color-brown);
-		font-family: var(--font-heading);
-		font-size: 32px;
-		line-height: 1;
-	}
-
-	/* The name is set twice the size of the dash before it */
-	span.testimonial-author {
-		font-family: var(--font-heading); /* Restated, as the global body-font rule matches every non-heading element */
-		font-size: 2em;
 	}
 
 	/* Video placeholder. Opaque and stacked above the offerings, so the lowered cards slide under it once they unpin */

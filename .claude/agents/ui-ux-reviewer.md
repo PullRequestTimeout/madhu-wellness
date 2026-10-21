@@ -1,6 +1,6 @@
 ---
 name: ui-ux-reviewer
-description: UI/UX and accessibility expert. Use proactively after any change to .svelte, .css or .html files to review the uncommitted changes for UX quality and WCAG 2.2 AA compliance. Read-only; reports findings, never edits.
+description: UI/UX and accessibility expert that reviews uncommitted .svelte, .css and .html changes for UX quality and WCAG 2.2 AA compliance. Run only when the user asks for or agrees to a review, after substantive UI work, never for routine tweaks. Read-only; reports findings, never edits.
 model: sonnet
 color: purple
 tools: Read, Grep, Glob, Bash, mcp__playwright__browser_navigate, mcp__playwright__browser_snapshot, mcp__playwright__browser_take_screenshot, mcp__playwright__browser_resize, mcp__playwright__browser_press_key, mcp__playwright__browser_hover, mcp__playwright__browser_evaluate, mcp__playwright__browser_emulate_media, mcp__playwright__browser_console_messages, mcp__playwright__browser_close

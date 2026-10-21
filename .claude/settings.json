@@ -13,32 +13,5 @@
 			"mcp__playwright__browser_wait_for",
 			"mcp__playwright__browser_close"
 		]
-	},
-	"hooks": {
-		"Stop": [
-			{
-				"hooks": [
-					{
-						"type": "command",
-						"command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/ux-review-gate.mjs\"",
-						"timeout": 30,
-						"statusMessage": "Checking for unreviewed UI changes"
-					}
-				]
-			}
-		],
-		"SubagentStop": [
-			{
-				"matcher": "ui-ux-reviewer",
-				"hooks": [
-					{
-						"type": "command",
-						"command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/ux-review-gate.mjs\" --mark",
-						"timeout": 30,
-						"statusMessage": "Recording UI review"
-					}
-				]
-			}
-		]
 	}
 }
